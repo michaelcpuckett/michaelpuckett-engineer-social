@@ -2,12 +2,12 @@
   "name": "michaelpuckett-engineer-social",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
   "author": "",
   "license": "MIT",
   "scripts": {
-    "tsc": "tsc --project tsconfig.json",
-    "build": "ts-node ./src/index.tsx"
+    "build": "tsc --project tsconfig.json",
+    "serve": "ts-node ./src/index.tsx"
   },
   "dependencies": {
     "activitypub-core-delivery": "^0.0.60",
