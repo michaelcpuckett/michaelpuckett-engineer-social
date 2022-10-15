@@ -14,7 +14,6 @@
     "activitypub-core-delivery": "^0.0.60",
     "activitypub-core-express-middleware": "^0.0.60",
     "activitypub-core-firebase-authentication": "^0.0.60",
-    "activitypub-core-jsx-components": "^0.0.60",
     "activitypub-core-mongodb": "^0.0.60",
     "activitypub-core-types": "^0.0.60",
     "activitypub-core-utilities": "^0.0.60",
