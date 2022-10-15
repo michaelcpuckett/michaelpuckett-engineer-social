@@ -19,6 +19,8 @@ export function LoginPage({}) {
           <h1>
             Private Login
           </h1>
+          <SignUpForm />
+
           <LoginForm />
         </main>
       </body>
