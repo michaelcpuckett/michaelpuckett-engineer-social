@@ -1,0 +1,30 @@
+{
+  "name": "michaelpuckett-engineer-social",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "serve": "ts-node ./src/index.tsx"
+  },
+  "dependencies": {
+    "activitypub-core-delivery": "^0.0.60",
+    "activitypub-core-express-middleware": "^0.0.60",
+    "activitypub-core-firebase-authentication": "^0.0.60",
+    "activitypub-core-jsx-components": "^0.0.60",
+    "activitypub-core-mongodb": "^0.0.60",
+    "activitypub-core-types": "^0.0.60",
+    "activitypub-core-utilities": "^0.0.60",
+    "dotenv": "^16.0.3",
+    "firebase-admin": "^11.1.0",
+    "react": "^16.14.0",
+    "react-server": "^0.8.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.6",
+    "ts-node": "^10.9.1"
+  }
+}
