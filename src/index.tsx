@@ -5,7 +5,7 @@ import express from 'express';
 import { activityPub } from 'activitypub-core-express-middleware';
 import { LoginPage } from './LoginPage';
 import { DashboardPage } from './DashboardPage';
-import { EntityPage } from 'activitypub-core-jsx-components';
+import { EntityPage } from './EntityPage';
 import { renderToString } from 'react-dom/server';
 import { MongoDatabaseService } from 'activitypub-core-mongodb';
 import { FirebaseAuthentication } from 'activitypub-core-firebase-authentication';
@@ -36,20 +36,21 @@ const serviceAccount: ServiceAccount = JSON.parse(decodeURIComponent(envServiceA
       {
         renderIndex: async () => {
           return `
-        <!doctype html>
-        ${renderToString(<LoginPage />)}`;
+            <!doctype html>
+            ${renderToString(<LoginPage />)}`;
         },
         renderEntity: async ({ entity, actor }) => {
           return `
-        <!doctype html>
-        ${renderToString(<EntityPage entity={entity} actor={actor} />)}
-      `;
+            <!doctype html>
+            ${renderToString(<EntityPage entity={entity} actor={actor} />)}
+         `;
         },
         renderHome: async ({ actor }) => {
           return `
-        <!doctype html>
-        ${renderToString(<DashboardPage actor={actor} />)}
-      `;
+            <!doctype html>
+            ${renderToString(<DashboardPage actor={actor} />
+          )}
+        `;
         },
       },
       {
