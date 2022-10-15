@@ -6,8 +6,8 @@
   "author": "",
   "license": "MIT",
   "scripts": {
-    "build": "tsc --project tsconfig.json",
-    "serve": "ts-node ./src/index.tsx"
+    "tsc": "tsc --project tsconfig.json",
+    "build": "ts-node ./src/index.tsx"
   },
   "dependencies": {
     "activitypub-core-delivery": "^0.0.60",
