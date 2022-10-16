@@ -16,6 +16,7 @@ export function DashboardPage({ actor }: { actor: AP.Actor }) {
           <Nav actor={actor} />
           <div className="container">
             <div>
+              <FollowForm actor={actor} />
               <CreateNoteForm actor={actor} />
               <OutboxFeed actor={actor} />
             </div>
@@ -25,6 +26,29 @@ export function DashboardPage({ actor }: { actor: AP.Actor }) {
       </body>
     </html>
   </>;
+}
+
+function FollowForm({ actor }: { actor: AP.Actor }) {
+  return (
+    <div className="card">
+      <h2>
+        Follow a User
+      </h2>
+      <form noValidate id="FollowForm" action={getId(actor.outbox).toString()}>
+        <input type="hidden" name="actor" value={getId(actor).toString()} />
+        <label>
+          <span>
+            User's @id
+          </span>
+          <input type="text" name="object" />
+        </label>
+        <button type="submit">
+          Follow
+        </button>
+      </form>
+      <script type="module" src="/FollowForm.js"></script>
+    </div>
+  );
 }
 
 function BoxLink({ collection, children }: { collection?: URL | AP.EitherCollection, children: string | ReactElement }) {
