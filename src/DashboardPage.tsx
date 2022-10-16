@@ -8,6 +8,7 @@ export function DashboardPage({ actor }: { actor: AP.Actor }) {
       <head>
         <title>ActivityPub Dashboard</title>
         <link rel="stylesheet" href="DashboardPage.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body>
         <main>

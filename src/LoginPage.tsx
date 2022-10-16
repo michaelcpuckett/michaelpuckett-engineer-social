@@ -5,8 +5,9 @@ export function LoginPage({}) {
     <html lang="en">
       <head>
         <title>Private Login</title>
-        <Styles />
+        <link rel="stylesheet" href="/LoginPage.css" />
         <meta name="robots" content="noindex" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body>
         <aside>
@@ -19,8 +20,6 @@ export function LoginPage({}) {
           <h1>
             Private Login
           </h1>
-          <SignUpForm />
-
           <LoginForm />
         </main>
       </body>
@@ -47,87 +46,6 @@ function LoginForm({ }) {
       <script type="module" src="/LoginForm.js"></script>
     </>
   )
-}
-
-function Styles({ }) {
-  return (
-    <style>
-      {`
-        * {
-          box-sizing: border-box;
-        }
-        :root {
-          color-scheme: dark light;
-          min-height: 100%;
-        }
-        body {
-          font-family: system-ui, sans-serif;
-          margin: 0;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          min-height: 100%;
-        }
-        main {
-          display: grid;
-          align-items: center;
-          justify-content: center;
-          padding: 20px;
-        }
-        h1 {
-          font-weight: normal;
-          text-align: center;
-        }
-        h2 {
-          font-weight: normal;
-        }
-        form {
-          display: flex;
-          gap: 20px;
-          flex-direction: column;
-          width: 320px;
-          border: 1px solid;
-          border-radius: 6px;
-          padding: 20px;
-        }
-        label {
-          display: flex;
-          gap: 12px;
-          width: 100%;
-          flex-direction: column;
-        }
-        label span {
-          display: flex;
-          width: 100px;
-        }
-        input {
-          width: 100%;
-          border: 1px solid;
-          box-shadow: 0;
-          border-radius: 6px;
-          padding: 6px;
-          font: inherit;
-          line-height: inherit;
-          text-align: center;
-        }
-        button {
-          appearance: none;
-          border-radius: 6px;
-          padding: 12px 6px;
-          background: Canvas;
-          border: 1px solid;
-          font: inherit;
-          line-height: inherit;
-        }
-        aside {
-          text-align: center;
-          padding: 20px;
-          display: inline-flex;
-        }
-      `}
-    </style>
-  );
 }
 
 function SignUpForm({ }) {
