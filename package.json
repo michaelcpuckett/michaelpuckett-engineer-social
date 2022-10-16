@@ -12,12 +12,12 @@
     "format": "prettier --config .prettierrc \"**/*.ts\" --write"
   },
   "dependencies": {
-    "activitypub-core-delivery": "^0.0.73",
-    "activitypub-core-express-middleware": "^0.0.73",
-    "activitypub-core-firebase-authentication": "^0.0.73",
-    "activitypub-core-mongodb": "^0.0.73",
-    "activitypub-core-types": "^0.0.73",
-    "activitypub-core-utilities": "^0.0.73",
+    "activitypub-core-delivery": "^0.0.74",
+    "activitypub-core-express-middleware": "^0.0.74",
+    "activitypub-core-firebase-authentication": "^0.0.74",
+    "activitypub-core-mongodb": "^0.0.74",
+    "activitypub-core-types": "^0.0.74",
+    "activitypub-core-utilities": "^0.0.74",
     "dotenv": "^16.0.3",
     "firebase-admin": "^11.1.0",
     "react": "^16.14.0",
