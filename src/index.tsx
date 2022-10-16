@@ -27,7 +27,7 @@ const serviceAccount: ServiceAccount = JSON.parse(decodeURIComponent(envServiceA
   const authenticationService = new FirebaseAuthentication(serviceAccount, 'pickpuck-com');
   const databaseService = await new MongoDatabaseService().connect({
     mongoClientUrl: process.env.AP_MONGO_CLIENT_URL ?? 'mongodb://localhost:27017',
-    dbName: 'puckett-social',
+    dbName: 'puckett-contact',
   });
   const deliveryService = new DeliveryService(databaseService);
 
