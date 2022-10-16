@@ -1,5 +1,6 @@
 {
-  "name": "michaelpuckett-engineer-social",
+  "name": "puckett-contact",
+  "private": true,
   "version": "1.0.0",
   "description": "",
   "main": "lib/index.js",
@@ -11,12 +12,12 @@
     "format": "prettier --config .prettierrc \"**/*.ts\" --write"
   },
   "dependencies": {
-    "activitypub-core-delivery": "^0.0.60",
-    "activitypub-core-express-middleware": "^0.0.60",
-    "activitypub-core-firebase-authentication": "^0.0.60",
-    "activitypub-core-mongodb": "^0.0.60",
-    "activitypub-core-types": "^0.0.60",
-    "activitypub-core-utilities": "^0.0.60",
+    "activitypub-core-delivery": "^0.0.61",
+    "activitypub-core-express-middleware": "^0.0.61",
+    "activitypub-core-firebase-authentication": "^0.0.61",
+    "activitypub-core-mongodb": "^0.0.61",
+    "activitypub-core-types": "^0.0.61",
+    "activitypub-core-utilities": "^0.0.61",
     "dotenv": "^16.0.3",
     "firebase-admin": "^11.1.0",
     "react": "^16.14.0",
