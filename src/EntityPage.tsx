@@ -22,32 +22,38 @@ export function EntityPage({ entity, actor: user }: { entity: AP.Entity; actor?:
 
 function Entity({ headingLevel, entity, user }: { entity: AP.Entity; user?: AP.Actor; headingLevel: number; }) {
   for (const type of Object.values(AP.ActivityTypes)) {
-    if (entity.type === type) {
-      return <ActivityEntity headingLevel={headingLevel} activity={entity} user={user} />
+    if (entity.type === type || (
+      Array.isArray(entity.type) &&
+      entity.type.includes(type)
+    )) {
+      return <ActivityEntity headingLevel={headingLevel} activity={entity as AP.Activity} user={user} />
     }
   }
 
   for (const type of Object.values(AP.ActorTypes)) {
-    if (entity.type === type) {
-      return <ActorEntity headingLevel={headingLevel} actor={entity} user={user} />
+    if (entity.type === type || (
+      Array.isArray(entity.type) &&
+      entity.type.includes(type)
+    )) {
+      return <ActorEntity headingLevel={headingLevel} actor={entity as AP.Actor} user={user} />
     }
   }
 
-  if (entity.type === AP.CollectionTypes.COLLECTION) {
-    return <CollectionEntity headingLevel={headingLevel} collection={entity} user={user} />
+  if (entity.type === AP.CollectionTypes.COLLECTION || (Array.isArray(entity.type) && entity.type.includes(AP.CollectionTypes.COLLECTION))) {
+    return <CollectionEntity headingLevel={headingLevel} collection={entity as AP.Collection} user={user} />
   }
 
-  if (entity.type === AP.CollectionTypes.ORDERED_COLLECTION) {
-    return <OrderedCollectionEntity headingLevel={headingLevel} collection={entity} user={user} />
+  if (entity.type === AP.CollectionTypes.ORDERED_COLLECTION || (Array.isArray(entity.type) && entity.type.includes(AP.CollectionTypes.ORDERED_COLLECTION))) {
+    return <OrderedCollectionEntity headingLevel={headingLevel} collection={entity as AP.OrderedCollection} user={user} />
   }
 
-  if (entity.type === AP.ExtendedObjectTypes.NOTE) {
-    return <NoteEntity headingLevel={headingLevel} note={entity} user={user} />
+  if (entity.type === AP.ExtendedObjectTypes.NOTE || (Array.isArray(entity.type) && entity.type.includes(AP.ExtendedObjectTypes.NOTE))) {
+    return <NoteEntity headingLevel={headingLevel} note={entity as AP.Note} user={user} />
   }
 
   for (const type of Object.values(AP.ExtendedObjectTypes)) {
-    if (entity.type === type) {
-      return <ExtendedObjectEntity headingLevel={headingLevel} extendedObject={entity} user={user} />
+    if (entity.type === type || (Array.isArray(entity.type) && entity.type.includes(type))) {
+      return <ExtendedObjectEntity headingLevel={headingLevel} extendedObject={entity as AP.ExtendedObject} user={user} />
     }
   }
 
