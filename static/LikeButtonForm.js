@@ -14,11 +14,11 @@ const forms = [...window.document.querySelectorAll('.LikeButtonForm')];
         formElement.value,
       ]));
 
-      const to = JSON.parse(body.to);
+      const to = body.to ? JSON.parse(body.to) : [];
       const toArray = Array.isArray(to) ? to : [to];
-      const cc = JSON.parse(body.cc);
+      const cc = body.cc ? JSON.parse(body.cc) : [];
       const ccArray = Array.isArray(cc) ? cc : [cc];
-      const audience = JSON.parse(body.audience);
+      const audience = body.audience ? JSON.parse(body.audience) : [];
       const audienceArray = Array.isArray(audience) ? audience : [audience];
 
       const likeActivity = {
