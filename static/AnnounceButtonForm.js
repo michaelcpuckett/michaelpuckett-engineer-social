@@ -44,7 +44,7 @@ const forms = [...window.document.querySelectorAll('.AnnounceButtonForm')];
         headers: {
           'Accept': 'application/activity+json',
         },
-        body: JSON.stringify(likeActivity),
+        body: JSON.stringify(announceActivity),
       })
       .then(response => {
         if (response.status === 201 && response.headers.get('Location')) {
