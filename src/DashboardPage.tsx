@@ -147,6 +147,7 @@ function InboxFeed({ actor }: { actor: AP.Actor }) {
                   {item.object.content}
                 </a>
                 <LikeButton object={item.object} actor={actor} />
+                <AnnounceButton object={item.object} actor={actor} />
               </li>
             )
           }
@@ -204,5 +205,27 @@ function LikeButton({ object, actor }: { object: AP.Entity; actor: AP.Actor; }) 
       </button>
     </form>
     <script type="module" src="/LikeButtonForm.js"></script>
+  </>
+}
+
+function AnnounceButton({ object, actor }: { object: AP.Entity; actor: AP.Actor; }) {
+  return <>
+    <form action={getId(actor.outbox).toString()} className="AnnounceButtonForm">
+      <input type="hidden" name="actorId" value={getId(actor.id).toString()} />
+      <input type="hidden" name="objectId" value={getId(object.id).toString()} />
+      {'to' in object ? (
+        <input type="hidden" name="objectTo" value={JSON.stringify(object.to)} />
+      ) : null}
+      {'cc' in object ? (
+        <input type="hidden" name="objectCC" value={JSON.stringify(object.cc)} />
+      ) : null}
+      {'audience' in object ? (
+        <input type="hidden" name="objectAudience" value={JSON.stringify(object.audience)} />
+      ) : null}
+      <button type="submit">
+        Announce
+      </button>
+    </form>
+    <script type="module" src="/AnnounceButtonForm.js"></script>
   </>
 }
