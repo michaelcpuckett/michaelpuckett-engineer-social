@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { AP } from 'activitypub-core-types';
-import { getId } from 'activitypub-core-utilities';
+import { getId, getTypedEntity } from 'activitypub-core-utilities';
 
 export function EntityPage({ entity, actor: user }: { entity: AP.Entity; actor?: AP.Actor; }) {
   return <>
@@ -21,39 +21,42 @@ export function EntityPage({ entity, actor: user }: { entity: AP.Entity; actor?:
 };
 
 function Entity({ headingLevel, entity, user }: { entity: AP.Entity; user?: AP.Actor; headingLevel: number; }) {
+  const typedEntity = getTypedEntity(entity as { [key: string]: unknown });
+  const entityType: string|string[] = typedEntity.type;
+
   for (const type of Object.values(AP.ActivityTypes)) {
-    if (entity.type === type || (
-      Array.isArray(entity.type) &&
-      entity.type.includes(type)
+    if (entityType === type || (
+      Array.isArray(entityType) &&
+      entityType.includes(type)
     )) {
-      return <ActivityEntity headingLevel={headingLevel} activity={entity as AP.Activity} user={user} />
+      return <ActivityEntity headingLevel={headingLevel} activity={typedEntity as AP.Activity} user={user} />
     }
   }
 
   for (const type of Object.values(AP.ActorTypes)) {
-    if (entity.type === type || (
-      Array.isArray(entity.type) &&
-      entity.type.includes(type)
+    if (entityType === type || (
+      Array.isArray(entityType) &&
+      entityType.includes(type)
     )) {
-      return <ActorEntity headingLevel={headingLevel} actor={entity as AP.Actor} user={user} />
+      return <ActorEntity headingLevel={headingLevel} actor={typedEntity as AP.Actor} user={user} />
     }
   }
 
-  if (entity.type === AP.CollectionTypes.COLLECTION || (Array.isArray(entity.type) && entity.type.includes(AP.CollectionTypes.COLLECTION))) {
-    return <CollectionEntity headingLevel={headingLevel} collection={entity as AP.Collection} user={user} />
+  if (entityType === AP.CollectionTypes.COLLECTION || (Array.isArray(entityType) && entityType.includes(AP.CollectionTypes.COLLECTION))) {
+    return <CollectionEntity headingLevel={headingLevel} collection={typedEntity as AP.Collection} user={user} />
   }
 
-  if (entity.type === AP.CollectionTypes.ORDERED_COLLECTION || (Array.isArray(entity.type) && entity.type.includes(AP.CollectionTypes.ORDERED_COLLECTION))) {
-    return <OrderedCollectionEntity headingLevel={headingLevel} collection={entity as AP.OrderedCollection} user={user} />
+  if (entityType === AP.CollectionTypes.ORDERED_COLLECTION || (Array.isArray(entityType) && entityType.includes(AP.CollectionTypes.ORDERED_COLLECTION))) {
+    return <OrderedCollectionEntity headingLevel={headingLevel} collection={typedEntity as AP.OrderedCollection} user={user} />
   }
 
-  if (entity.type === AP.ExtendedObjectTypes.NOTE || (Array.isArray(entity.type) && entity.type.includes(AP.ExtendedObjectTypes.NOTE))) {
-    return <NoteEntity headingLevel={headingLevel} note={entity as AP.Note} user={user} />
+  if (entityType === AP.ExtendedObjectTypes.NOTE || (Array.isArray(entityType) && entityType.includes(AP.ExtendedObjectTypes.NOTE))) {
+    return <NoteEntity headingLevel={headingLevel} note={typedEntity as AP.Note} user={user} />
   }
 
   for (const type of Object.values(AP.ExtendedObjectTypes)) {
-    if (entity.type === type || (Array.isArray(entity.type) && entity.type.includes(type))) {
-      return <ExtendedObjectEntity headingLevel={headingLevel} extendedObject={entity as AP.ExtendedObject} user={user} />
+    if (entityType === type || (Array.isArray(entityType) && entityType.includes(type))) {
+      return <ExtendedObjectEntity headingLevel={headingLevel} extendedObject={typedEntity as AP.ExtendedObject} user={user} />
     }
   }
 

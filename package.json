@@ -8,8 +8,9 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc --project tsconfig.json",
-    "serve": "ts-node ./src/index.tsx",
-    "format": "prettier --config .prettierrc \"**/*.ts\" --write"
+    "dev": "ts-node ./src/index.tsx",
+    "format": "prettier --config .prettierrc \"**/*.ts\" --write",
+    "serve": "node ./lib/index.js"
   },
   "dependencies": {
     "activitypub-core-delivery": "^0.0.102",
