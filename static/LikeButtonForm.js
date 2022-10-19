@@ -33,7 +33,9 @@ const forms = [...window.document.querySelectorAll('.LikeButtonForm')];
           `${body.actorId}/followers`,
           ...ccArray,
         ],
-        audience: audienceArray,
+        audience: [
+          ...audienceArray
+        ],
         object: body.objectId,
       };
 
