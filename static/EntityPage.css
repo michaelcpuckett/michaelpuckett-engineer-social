@@ -75,3 +75,8 @@
     margin: 0;
     padding: 0;
   }
+
+  .feed {
+    display: flex;
+    gap: 12px;
+  }

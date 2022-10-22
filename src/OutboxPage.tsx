@@ -12,11 +12,13 @@ export function OutboxPage({ headingLevel, collection, user }: { collection: AP.
       <span role="heading" aria-level={headingLevel}>
         Michael Puckett's Blog
       </span>
-      {collection.orderedItems.map(item => {
-        return (
-          <blog-post data-id={getId(item).toString()}></blog-post>
-        );
-      })}
+      <div className="feed">
+        {collection.orderedItems.map(item => {
+          return (
+            <blog-post data-id={getId(item).toString()}></blog-post>
+          );
+        })}
+      </div>
       <template id="BlogPost-template">
         <div className="BlogPost">
           <span role="heading" aria-level={headingLevel + 1}>
