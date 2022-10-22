@@ -28,7 +28,7 @@ class BlogPost extends HTMLElement {
           if (object.summary) {
             const contentSlot = window.document.createElement('p');
             contentSlot.setAttribute('slot', 'summary');
-            contentSlot.innerHTML = object.content;
+            contentSlot.innerHTML = object.summary;
             this.append(contentSlot);
           }
 
@@ -42,7 +42,7 @@ class BlogPost extends HTMLElement {
           if (object.published) {
             const contentSlot = window.document.createElement('p');
             contentSlot.setAttribute('slot', 'published');
-            contentSlot.innerHTML = object.content;
+            contentSlot.innerHTML = object.published;
             this.append(contentSlot);
           }
         })
