@@ -148,6 +148,7 @@ function InboxFeed({ actor }: { actor: AP.Actor }) {
                 </a>
                 <LikeButton object={item.object} actor={actor} />
                 <AnnounceButton object={item.object} actor={actor} />
+                <ReplyForm object={item.object} actor={actor} />
               </li>
             )
           }
@@ -227,5 +228,27 @@ function AnnounceButton({ object, actor }: { object: AP.Entity; actor: AP.Actor;
       </button>
     </form>
     <script type="module" src="/AnnounceButtonForm.js"></script>
+  </>
+}
+
+function ReplyForm({ object, actor }: { object: AP.Entity; actor: AP.Actor; }) {
+  return <>
+    <details>
+      <summary>
+        Reply
+      </summary>
+      <form className="ReplyForm" noValidate action={getId(actor.outbox).toString()}>
+        <input type="hidden" name="actorId" value={getId(actor).toString()} />
+        <input type="hidden" name="inReplyTo" value={getId(object).toString()} />
+        <label>
+          <span>Reply</span>
+          <textarea name="content"></textarea>
+        </label>
+        <button type="submit">
+          Send Reply
+        </button>
+      </form>
+      <script type="module" src="/ReplyForm.js"></script>
+    </details>
   </>
 }
