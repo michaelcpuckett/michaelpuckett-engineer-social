@@ -46,8 +46,11 @@ class BlogPost extends HTMLElement {
         }
 
         if (this.actorId) {
-          const likeButton = this.shadowRoot.querySelector('.LikeButton');
-
+          const likeButton = window.document.createElement('button');
+          likeButton.setAttribute('type', 'button');
+          likeButton.setAttribute('slot', 'likeButton');
+          likeButton.textContent = 'Like';
+          this.append(likeButton);
           likeButton.addEventListener('click', () => {
             const likeActivity = {
               '@context': 'https://www.w3.org/ns/activitystreams#',
