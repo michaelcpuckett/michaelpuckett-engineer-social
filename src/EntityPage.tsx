@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 import { AP } from 'activitypub-core-types';
 import { getId, getTypedEntity } from 'activitypub-core-utilities';
+import { OutboxPage } from './OutboxPage';
 
 export function EntityPage({ entity, actor: user }: { entity: AP.Entity; actor?: AP.Actor; }) {
   return <>
@@ -47,6 +48,9 @@ function Entity({ headingLevel, entity, user }: { entity: AP.Entity; user?: AP.A
   }
 
   if (entityType === AP.CollectionTypes.ORDERED_COLLECTION || (Array.isArray(entityType) && entityType.includes(AP.CollectionTypes.ORDERED_COLLECTION))) {
+    if (typedEntity.name === 'Outbox') {
+      return <OutboxPage headingLevel={headingLevel} collection={typedEntity as AP.OrderedCollection} user={user} />
+    }
     return <OrderedCollectionEntity headingLevel={headingLevel} collection={typedEntity as AP.OrderedCollection} user={user} />
   }
 
