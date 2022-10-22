@@ -17,38 +17,32 @@ class BlogPost extends HTMLElement {
         'Accept': 'application/activity+json'
       }
     }).then(res => res.json()).then(activity => {
-      if (activity && 'object' in activity && activity.object && activity.type === 'Create') {
-        const objectId = activity.object;
+      if (activity && 'object' in activity && activity.object && activity.type === 'Create' && 'content' in activity.object) {
+        const object = activity.object;
 
-        fetch(objectId, {
-          headers: {
-            'Accept': 'application/activity+json'
+        if (object.content && !object.inReplyTo) {
+          this.classList.add('card');
+          {
+            const contentSlot = window.document.createElement('p');
+            contentSlot.setAttribute('slot', 'content');
+            contentSlot.innerHTML = object.content;
+            this.append(contentSlot);
           }
-        }).then(res => res.json()).then(object => {
-          if (object.content && !object.inReplyTo) {
-            this.classList.add('card');
-            {
-              const contentSlot = window.document.createElement('p');
-              contentSlot.setAttribute('slot', 'content');
-              contentSlot.innerHTML = object.content;
-              this.append(contentSlot);
-            }
 
-            if (object.summary) {
-              const contentSlot = window.document.createElement('p');
-              contentSlot.setAttribute('slot', 'summary');
-              contentSlot.innerHTML = object.summary;
-              this.append(contentSlot);
-            }
-
-            if (object.published) {
-              const contentSlot = window.document.createElement('p');
-              contentSlot.setAttribute('slot', 'published');
-              contentSlot.innerHTML = object.published;
-              this.append(contentSlot);
-            }
+          if (object.summary) {
+            const contentSlot = window.document.createElement('p');
+            contentSlot.setAttribute('slot', 'summary');
+            contentSlot.innerHTML = object.summary;
+            this.append(contentSlot);
           }
-        });
+
+          if (object.published) {
+            const contentSlot = window.document.createElement('p');
+            contentSlot.setAttribute('slot', 'published');
+            contentSlot.innerHTML = object.published;
+            this.append(contentSlot);
+          }
+        }
       }
     });
   }
