@@ -5,7 +5,7 @@ class BlogPost extends HTMLElement {
 
   connectedCallback() {
     this.id = this.getAttribute('data-id');
-    this.actorId = this.getAttribute('data-actor-id');
+    this.userId = this.getAttribute('data-user-id');
     this.attachShadow({ mode: 'open' });
     const templateElement = window.document.querySelector('#BlogPost-template')
     this.shadowRoot.append(templateElement.content.cloneNode(true));
@@ -45,7 +45,7 @@ class BlogPost extends HTMLElement {
           }
         }
 
-        if (this.actorId) {
+        if (this.userId) {
           const likeButton = window.document.createElement('button');
           likeButton.setAttribute('type', 'button');
           likeButton.setAttribute('slot', 'likeButton');
@@ -55,15 +55,15 @@ class BlogPost extends HTMLElement {
             const likeActivity = {
               '@context': 'https://www.w3.org/ns/activitystreams#',
               type: 'Like',
-              actor: this.actorId,
+              actor: this.userId,
               to: [
                 'https://www.w3.org/ns/activitystreams#Public',
-                `${this.actorId}/followers`,
+                `${this.userId}/followers`,
               ],
               object: this.id,
             };
 
-            fetch(`${this.actorId}/outbox`, {
+            fetch(`${this.userId}/outbox`, {
               method: 'POST',
               headers: {
                 'Accept': 'application/activity+json',
