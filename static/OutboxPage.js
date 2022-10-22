@@ -27,7 +27,9 @@ class BlogPost extends HTMLElement {
         }).then(res => res.json()).then(object => {
           const contentSlot = window.document.createElement('p');
           contentSlot.setAttribute('slot', 'content');
-          contentSlot.innerHTML = object.content;
+          if (object.content) {
+            contentSlot.innerHTML = object.content;
+          }
           this.append(contentSlot);
         })
       }

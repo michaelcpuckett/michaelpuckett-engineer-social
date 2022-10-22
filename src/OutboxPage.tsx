@@ -14,9 +14,7 @@ export function OutboxPage({ headingLevel, collection, user }: { collection: AP.
       </span>
       {collection.orderedItems.map(item => {
         return (
-          <blog-post data-id={getId(item).toString()}>
-            Loading...
-          </blog-post>
+          <blog-post data-id={getId(item).toString()}></blog-post>
         );
       })}
       <template id="BlogPost-template">
