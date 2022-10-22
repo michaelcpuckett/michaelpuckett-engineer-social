@@ -21,7 +21,7 @@ const forms = [...window.document.querySelectorAll('.ReplyForm')];
         inReplyTo: body.inReplyTo,
         to: [
           'https://www.w3.org/ns/activitystreams#Public',
-          `${body.actor}/followers`,
+          `${body.actorId}/followers`,
         ],
         object: {
           type: 'Note',
