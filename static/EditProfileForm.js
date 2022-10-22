@@ -28,8 +28,8 @@ formElement?.addEventListener('submit', (event) => {
       } : null,
       ...body.icon ? {
         icon: {
-          type: 'Link',
-          href: body.icon,
+          type: 'Image',
+          url: body.icon,
           mediaType: 'image/png',
         },
       } : null,
