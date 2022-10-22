@@ -17,7 +17,7 @@ class BlogPost extends HTMLElement {
         'Accept': 'application/activity+json'
       }
     }).then(res => res.json()).then(activity => {
-      if (activity && 'object' in activity && activity.object) {
+      if (activity && 'object' in activity && activity.object && activity.type === 'Create') {
         const objectId = activity.object;
 
         fetch(objectId, {
@@ -25,12 +25,26 @@ class BlogPost extends HTMLElement {
             'Accept': 'application/activity+json'
           }
         }).then(res => res.json()).then(object => {
-          const contentSlot = window.document.createElement('p');
-          contentSlot.setAttribute('slot', 'content');
-          if (object.content) {
+          if (object.summary) {
+            const contentSlot = window.document.createElement('p');
+            contentSlot.setAttribute('slot', 'summary');
             contentSlot.innerHTML = object.content;
+            this.append(contentSlot);
           }
-          this.append(contentSlot);
+
+          if (object.content) {
+            const contentSlot = window.document.createElement('p');
+            contentSlot.setAttribute('slot', 'content');
+            contentSlot.innerHTML = object.content;
+            this.append(contentSlot);
+          }
+
+          if (object.published) {
+            const contentSlot = window.document.createElement('p');
+            contentSlot.setAttribute('slot', 'published');
+            contentSlot.innerHTML = object.content;
+            this.append(contentSlot);
+          }
         })
       }
     });

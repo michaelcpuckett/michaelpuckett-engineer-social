@@ -19,7 +19,11 @@ export function OutboxPage({ headingLevel, collection, user }: { collection: AP.
       })}
       <template id="BlogPost-template">
         <div className="BlogPost">
+          <span role="heading" aria-level={headingLevel + 1}>
+            <slot name="summary"></slot>
+          </span>
           <slot name="content"></slot>
+          <slot name="published"></slot>
         </div>
       </template>
       <script src="/OutboxPage.js" type="module"></script>
