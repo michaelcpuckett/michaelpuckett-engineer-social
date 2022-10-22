@@ -18,7 +18,6 @@ const forms = [...window.document.querySelectorAll('.ReplyForm')];
         '@context': 'https://www.w3.org/ns/activitystreams#',
         type: 'Create',
         actor: body.actorId,
-        inReplyTo: body.inReplyTo,
         to: [
           'https://www.w3.org/ns/activitystreams#Public',
           `${body.actorId}/followers`,
@@ -26,6 +25,7 @@ const forms = [...window.document.querySelectorAll('.ReplyForm')];
         object: {
           type: 'Note',
           content: body.content,
+          inReplyTo: body.inReplyTo,
         },
       };
 
