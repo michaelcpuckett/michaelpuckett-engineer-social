@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import { AP } from 'activitypub-core-types';
-import { getId, getTypedEntity } from 'activitypub-core-utilities';
+import { getId, isTypeOf, isType } from 'activitypub-core-utilities';
 import { OutboxPage } from './OutboxPage';
 
 export function EntityPage({ entity, actor: user }: { entity: AP.Entity; actor?: AP.Actor; }) {
@@ -22,50 +22,36 @@ export function EntityPage({ entity, actor: user }: { entity: AP.Entity; actor?:
 };
 
 function Entity({ headingLevel, entity, user }: { entity: AP.Entity; user?: AP.Actor; headingLevel: number; }) {
-  const typedEntity = getTypedEntity(entity as { [key: string]: unknown });
-  const entityType: string|string[] = typedEntity.type;
-
-  if (entityType === AP.ExtendedObjectTypes.ARTICLE) {
-    return <ArticleEntity article={typedEntity as AP.Article} />;
+  if (isType(entity, AP.ExtendedObjectTypes.ARTICLE)) {
+    return <ArticleEntity article={entity as AP.Article} />;
   }
 
-  for (const type of Object.values(AP.ActivityTypes)) {
-    if (entityType === type || (
-      Array.isArray(entityType) &&
-      entityType.includes(type)
-    )) {
-      return <ActivityEntity headingLevel={headingLevel} activity={typedEntity as AP.Activity} user={user} />
+  if (isType(entity, AP.ExtendedObjectTypes.NOTE)) {
+    return <NoteEntity headingLevel={headingLevel} note={entity as AP.Note} user={user} />
+  }
+
+  if (isTypeOf(entity, AP.ActivityTypes)) {
+    return <ActivityEntity headingLevel={headingLevel} activity={entity as AP.Activity} user={user} />;
+  }
+
+  if (isTypeOf(entity, AP.ActorTypes)) {
+    return <ActorEntity headingLevel={headingLevel} actor={entity as AP.Actor} user={user} />;
+  }
+
+  if (isType(entity, AP.CollectionTypes.COLLECTION)) {
+    return <CollectionEntity headingLevel={headingLevel} collection={entity as AP.Collection} user={user} />;
+  }
+
+  if (isType(entity, AP.CollectionTypes.ORDERED_COLLECTION)) {
+    if (entity.name === 'Outbox') {
+      return <OutboxPage headingLevel={headingLevel} collection={entity as AP.OrderedCollection} user={user} />;
     }
+
+    return <OrderedCollectionEntity headingLevel={headingLevel} collection={entity as AP.OrderedCollection} user={user} />;
   }
 
-  for (const type of Object.values(AP.ActorTypes)) {
-    if (entityType === type || (
-      Array.isArray(entityType) &&
-      entityType.includes(type)
-    )) {
-      return <ActorEntity headingLevel={headingLevel} actor={typedEntity as AP.Actor} user={user} />
-    }
-  }
-
-  if (entityType === AP.CollectionTypes.COLLECTION || (Array.isArray(entityType) && entityType.includes(AP.CollectionTypes.COLLECTION))) {
-    return <CollectionEntity headingLevel={headingLevel} collection={typedEntity as AP.Collection} user={user} />
-  }
-
-  if (entityType === AP.CollectionTypes.ORDERED_COLLECTION || (Array.isArray(entityType) && entityType.includes(AP.CollectionTypes.ORDERED_COLLECTION))) {
-    if (typedEntity.name === 'Outbox') {
-      return <OutboxPage headingLevel={headingLevel} collection={typedEntity as AP.OrderedCollection} user={user} />
-    }
-    return <OrderedCollectionEntity headingLevel={headingLevel} collection={typedEntity as AP.OrderedCollection} user={user} />
-  }
-
-  if (entityType === AP.ExtendedObjectTypes.NOTE || (Array.isArray(entityType) && entityType.includes(AP.ExtendedObjectTypes.NOTE))) {
-    return <NoteEntity headingLevel={headingLevel} note={typedEntity as AP.Note} user={user} />
-  }
-
-  for (const type of Object.values(AP.ExtendedObjectTypes)) {
-    if (entityType === type || (Array.isArray(entityType) && entityType.includes(type))) {
-      return <ExtendedObjectEntity headingLevel={headingLevel} extendedObject={typedEntity as AP.ExtendedObject} user={user} />
-    }
+  if (isTypeOf(entity, AP.ExtendedObjectTypes)) {
+    return <ExtendedObjectEntity headingLevel={headingLevel} extendedObject={entity as AP.ExtendedObject} user={user} />;
   }
 
   return <></>;
