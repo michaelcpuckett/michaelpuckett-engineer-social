@@ -41,6 +41,7 @@ export function DashboardPage({ actor }: { actor: AP.Actor }) {
             <div>
               <FollowForm actor={actor} />
               <CreateNoteForm actor={actor} />
+              <CreateArticleForm actor={actor} />
               <OutboxFeed actor={actor} />
             </div>
             <InboxFeed actor={actor} />
@@ -133,12 +134,12 @@ function Nav({ actor }: { actor: AP.Actor }) {
 function CreateNoteForm({ actor }: { actor: AP.Actor }) {
   return (
     <div className="feed">
-      <h2>Post</h2>
+      <h2>Post a Status</h2>
       <form
         id="CreateNoteForm"
         action={getId(actor.outbox).toString()}
         noValidate>
-        <input type="hidden" name="actor" value={getId(actor).toString()} />
+        <input type="hidden" name="actorId" value={getId(actor).toString()} />
         <label>
           <span>
             What's on your mind?
@@ -146,10 +147,36 @@ function CreateNoteForm({ actor }: { actor: AP.Actor }) {
           <textarea name="content"></textarea>
         </label>
         <button type="submit">
-          Post
+          Post Status
         </button>
       </form>
       <script type="module" src="/CreateNoteForm.js"></script>
+    </div>
+  );
+}
+
+function CreateArticleForm({ actor }: { actor: AP.Actor }) {
+  return (
+    <div className="feed">
+      <h2>Post a Blog</h2>
+      <form
+        id="CreateArticleForm"
+        action={getId(actor.outbox).toString()}
+        noValidate>
+        <input type="hidden" name="actorId" value={getId(actor).toString()} />
+        <label>
+          <span>Summary</span>
+          <textarea name="summary"></textarea>
+        </label>
+        <label>
+          <span>Content</span>
+          <textarea name="content"></textarea>
+        </label>
+        <button type="submit">
+          Post Blog
+        </button>
+      </form>
+      <script type="module" src="/CreateArticleForm.js"></script>
     </div>
   );
 }

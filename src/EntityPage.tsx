@@ -25,6 +25,10 @@ function Entity({ headingLevel, entity, user }: { entity: AP.Entity; user?: AP.A
   const typedEntity = getTypedEntity(entity as { [key: string]: unknown });
   const entityType: string|string[] = typedEntity.type;
 
+  if (entityType === AP.ExtendedObjectTypes.ARTICLE) {
+    return <ArticleEntity article={typedEntity as AP.Article} />;
+  }
+
   for (const type of Object.values(AP.ActivityTypes)) {
     if (entityType === type || (
       Array.isArray(entityType) &&
@@ -181,4 +185,15 @@ function ActivityEntity({ headingLevel, activity, user }: { activity: AP.Activit
       </div>
     </div>
   );
+}
+
+function ArticleEntity({ article }: { article: AP.Article }) {
+  return <>
+    <h1>
+      {article.summary}
+    </h1>
+    <p>{article.published}</p>
+    <p>{article.attributedTo}</p>
+    {article.content}
+  </>
 }

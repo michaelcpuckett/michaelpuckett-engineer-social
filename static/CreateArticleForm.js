@@ -1,4 +1,4 @@
-const formElement = window.document.querySelector('#CreateNoteForm');
+const formElement = window.document.querySelector('#CreateArticleForm');
 formElement?.addEventListener('submit', (event) => {
   event.preventDefault();
   let formElements = [];
@@ -13,7 +13,7 @@ formElement?.addEventListener('submit', (event) => {
     formElement.value,
   ]));
 
-  const createNoteActivity = {
+  const activity = {
     '@context': 'https://www.w3.org/ns/activitystreams#',
     type: 'Create',
     actor: body.actorId,
@@ -22,7 +22,8 @@ formElement?.addEventListener('submit', (event) => {
       `${body.actorId}/followers`,
     ],
     object: {
-      type: 'Note',
+      type: 'Article',
+      summary: body.summary,
       content: body.content,
     },
   };
@@ -32,7 +33,7 @@ formElement?.addEventListener('submit', (event) => {
     headers: {
       'Accept': 'application/activity+json',
     },
-    body: JSON.stringify(createNoteActivity),
+    body: JSON.stringify(activity),
   })
   .then(response => {
     if (response.status === 201 && response.headers.get('Location')) {
