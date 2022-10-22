@@ -3,6 +3,7 @@ dotenv.config()
 import React from 'react';
 import express from 'express';
 import { activityPub } from 'activitypub-core-express-middleware';
+import { IndexPage } from './IndexPage';
 import { LoginPage } from './LoginPage';
 import { DashboardPage } from './DashboardPage';
 import { EntityPage } from './EntityPage';
@@ -11,6 +12,7 @@ import { MongoDatabaseService } from 'activitypub-core-mongodb';
 import { FirebaseAuthentication } from 'activitypub-core-firebase-authentication';
 import { DeliveryService } from 'activitypub-core-delivery';
 import { ServiceAccount } from 'firebase-admin';
+import {ServerResponse, IncomingMessage } from 'http';
 
 const envServiceAccount = process.env.AP_SERVICE_ACCOUNT;
 
@@ -34,7 +36,7 @@ const serviceAccount: ServiceAccount = JSON.parse(decodeURIComponent(envServiceA
   app.use(
     activityPub(
       {
-        renderIndex: async () => {
+        renderLogin: async () => {
           return `
             <!doctype html>
             ${renderToString(<LoginPage />)}`;
@@ -60,6 +62,16 @@ const serviceAccount: ServiceAccount = JSON.parse(decodeURIComponent(envServiceA
       },
     ),
   );
+
+  app.get('/', (req: IncomingMessage, res: ServerResponse) => {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/html')
+    res.write(`
+      <!doctype html>
+      ${renderToString(<IndexPage />)}
+    `);
+    res.end();
+  });
 
   app.listen(process.env.PORT ?? 3000, () => {
     console.log('Running...');
