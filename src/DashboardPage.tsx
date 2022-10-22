@@ -17,10 +17,10 @@ export function DashboardPage({ actor }: { actor: AP.Actor }) {
             <summary>
               Edit Profile
             </summary>
-            
+
             <form noValidate action={getId(actor.outbox).toString()} id="EditProfileForm">
               <input type="hidden" name="actorId" value={getId(actor).toString()} />
-              <input type="hidden" name="object" value={getId(actor).toString()} />
+              <input type="hidden" name="objectId" value={getId(actor).toString()} />
               <label>
                 <span>Bio</span>
                 <textarea name="summary" defaultValue={actor.summary ?? ''}></textarea>
