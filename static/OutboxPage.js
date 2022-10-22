@@ -7,7 +7,7 @@ class BlogPost extends HTMLElement {
     this.id = this.getAttribute('id');
     this.attachShadow({ mode: 'open' });
     const templateElement = window.document.querySelector('#BlogPost-template')
-    this.shadowRoot.append(templateElement.cloneNode(true));
+    this.shadowRoot.append(templateElement.content.cloneNode(true));
     this.fetchData();
   }
 

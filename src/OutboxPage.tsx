@@ -19,7 +19,7 @@ export function OutboxPage({ headingLevel, collection, user }: { collection: AP.
           </blog-post>
         );
       })}
-      <template id="#BlogPost-template">
+      <template id="BlogPost-template">
         <div className="BlogPost">
           <slot name="content"></slot>
         </div>
