@@ -5,6 +5,7 @@ class BlogPost extends HTMLElement {
 
   connectedCallback() {
     this.id = this.getAttribute('data-id');
+    this.actorId = this.getAttribute('data-actor-id');
     this.attachShadow({ mode: 'open' });
     const templateElement = window.document.querySelector('#BlogPost-template')
     this.shadowRoot.append(templateElement.content.cloneNode(true));
@@ -42,6 +43,36 @@ class BlogPost extends HTMLElement {
             contentSlot.innerHTML = object.published;
             this.append(contentSlot);
           }
+        }
+
+        if (this.actorId) {
+          const likeButton = this.shadowRoot.querySelector('.LikeButton');
+
+          likeButton.addEventListener('click', () => {
+            const likeActivity = {
+              '@context': 'https://www.w3.org/ns/activitystreams#',
+              type: 'Like',
+              actor: this.actorId,
+              to: [
+                'https://www.w3.org/ns/activitystreams#Public',
+                `${this.actorId}/followers`,
+              ],
+              object: this.id,
+            };
+
+            fetch(`${this.actorId}/outbox`, {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/activity+json',
+              },
+              body: JSON.stringify(likeActivity),
+            })
+            .then(response => {
+              if (response.status === 201 && response.headers.get('Location')) {
+                window.location.reload();
+              }
+            });
+          });
         }
       }
     });

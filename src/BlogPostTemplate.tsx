@@ -9,6 +9,15 @@ export function BlogPostTemplate({ headingLevel }: { headingLevel: number }) {
         </span>
         <slot name="content"></slot>
         <slot name="published"></slot>
+        <button className="LikeButton" type="button">
+          Like
+        </button>
+        <button className="ShareButton" type="button">
+          Share
+        </button>
+        <button className="ReplyButton" type="button">
+          Reply
+        </button>
       </div>
       <style>
         {`
