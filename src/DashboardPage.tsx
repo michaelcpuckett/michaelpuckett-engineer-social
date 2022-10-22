@@ -20,8 +20,17 @@ export function DashboardPage({ actor }: { actor: AP.Actor }) {
             <form noValidate action={getId(actor.outbox).toString()} id="#EditProfileForm">
               <input type="hidden" name="actorId" value={getId(actor).toString()} />
               <input type="hidden" name="object" value={getId(actor).toString()} />
-              <textarea name="summary" defaultValue={actor.summary ?? ''}></textarea>
-              <input type="text" name="icon" />
+              <label>
+                <span>Bio</span>
+                <textarea name="summary" defaultValue={actor.summary ?? ''}></textarea>
+              </label>
+              <label>
+                <span>Icon</span>
+                <input type="text" name="icon" />
+              </label>
+              <button type="submit">
+                Update
+              </button>
             </form>
           </details>
           <Nav actor={actor} />
