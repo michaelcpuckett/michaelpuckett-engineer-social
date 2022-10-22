@@ -13,6 +13,17 @@ export function DashboardPage({ actor }: { actor: AP.Actor }) {
       <body>
         <main>
           <h1>Welcome, {actor.name}.</h1>
+          <details>
+            <summary>
+              Edit Profile
+            </summary>
+            <form noValidate action={getId(actor.outbox).toString()} id="#EditProfileForm">
+              <input type="hidden" name="actorId" value={getId(actor).toString()} />
+              <input type="hidden" name="object" value={getId(actor).toString()} />
+              <textarea name="summary" defaultValue={actor.summary ?? ''}></textarea>
+              <input type="text" name="icon" />
+            </form>
+          </details>
           <Nav actor={actor} />
           <div className="container">
             <div>
