@@ -21,17 +21,19 @@ formElement?.addEventListener('submit', (event) => {
       'https://www.w3.org/ns/activitystreams#Public',
       `${body.actor}/followers`,
     ],
-    object: body.objectId,
-    ...body.summary ? {
-      summary: body.summary,
-    } : null,
-    ...body.icon ? {
-      icon: {
-        type: 'Link',
-        href: body.icon,
-        mediaType: 'image/png',
-      },
-    } : null,
+    object: {
+      id: body.objectId,
+      ...body.summary ? {
+        summary: body.summary,
+      } : null,
+      ...body.icon ? {
+        icon: {
+          type: 'Link',
+          href: body.icon,
+          mediaType: 'image/png',
+        },
+      } : null,
+    },
   };
 
   fetch(formElement.getAttribute('action'), {

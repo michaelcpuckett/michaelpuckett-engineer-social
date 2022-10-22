@@ -27,7 +27,7 @@ export function DashboardPage({ actor }: { actor: AP.Actor }) {
               </label>
               <label>
                 <span>Icon</span>
-                <input type="text" name="icon" />
+                <input type="text" name="icon" defaultValue={'href' in actor.icon ? actor.icon.href.toString() : ''} />
               </label>
               <button type="submit">
                 Update
