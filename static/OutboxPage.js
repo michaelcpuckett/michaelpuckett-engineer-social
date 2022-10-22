@@ -25,27 +25,30 @@ class BlogPost extends HTMLElement {
             'Accept': 'application/activity+json'
           }
         }).then(res => res.json()).then(object => {
-          if (object.summary) {
-            const contentSlot = window.document.createElement('p');
-            contentSlot.setAttribute('slot', 'summary');
-            contentSlot.innerHTML = object.summary;
-            this.append(contentSlot);
-          }
+          if (object.content && !object.inReplyTo) {
+            this.classList.add('card');
+            {
+              const contentSlot = window.document.createElement('p');
+              contentSlot.setAttribute('slot', 'content');
+              contentSlot.innerHTML = object.content;
+              this.append(contentSlot);
+            }
 
-          if (object.content) {
-            const contentSlot = window.document.createElement('p');
-            contentSlot.setAttribute('slot', 'content');
-            contentSlot.innerHTML = object.content;
-            this.append(contentSlot);
-          }
+            if (object.summary) {
+              const contentSlot = window.document.createElement('p');
+              contentSlot.setAttribute('slot', 'summary');
+              contentSlot.innerHTML = object.summary;
+              this.append(contentSlot);
+            }
 
-          if (object.published) {
-            const contentSlot = window.document.createElement('p');
-            contentSlot.setAttribute('slot', 'published');
-            contentSlot.innerHTML = object.published;
-            this.append(contentSlot);
+            if (object.published) {
+              const contentSlot = window.document.createElement('p');
+              contentSlot.setAttribute('slot', 'published');
+              contentSlot.innerHTML = object.published;
+              this.append(contentSlot);
+            }
           }
-        })
+        });
       }
     });
   }

@@ -25,6 +25,15 @@ export function OutboxPage({ headingLevel, collection, user }: { collection: AP.
           <slot name="content"></slot>
           <slot name="published"></slot>
         </div>
+        <style>
+          {`
+            :host(.card) .BlogPost {
+              border: 1px solid;
+              padding: 12px;
+              border-radius: 6px;
+            }
+          `}
+        </style>
       </template>
       <script src="/OutboxPage.js" type="module"></script>
     </main>
