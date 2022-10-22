@@ -32,6 +32,7 @@ export function DashboardPage({ actor }: { actor: AP.Actor }) {
                 Update
               </button>
             </form>
+            <script src="/EditProfileForm.js" type="module"></script>
           </details>
           <Nav actor={actor} />
           <div className="container">
