@@ -178,8 +178,8 @@ function ArticleEntity({ article }: { article: AP.Article }) {
     <h1>
       {article.summary}
     </h1>
-    <p>{article.published}</p>
-    <p>{article.attributedTo}</p>
+    <p>{article.published.toString()}</p>
+    <p>{article.attributedTo.toString()}</p>
     {article.content}
   </>
 }
