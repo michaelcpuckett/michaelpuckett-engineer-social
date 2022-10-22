@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 import { AP } from 'activitypub-core-types';
 import { getId } from 'activitypub-core-utilities';
+import { BlogPostTemplate } from './BlogPostTemplate';
 
 export function OutboxPage({ headingLevel, collection, user }: { collection: AP.OrderedCollection, user?: AP.Actor; headingLevel: number; }) {
   if (!('orderedItems' in collection) || !Array.isArray(collection.orderedItems)) {
@@ -19,33 +20,7 @@ export function OutboxPage({ headingLevel, collection, user }: { collection: AP.
           );
         })}
       </div>
-      <template id="BlogPost-template">
-        <div className="BlogPost">
-          <span role="heading" aria-level={headingLevel + 1}>
-            <slot name="summary"></slot>
-          </span>
-          <slot name="content"></slot>
-          <slot name="published"></slot>
-        </div>
-        <style>
-          {`
-            :host(.card) .BlogPost {
-              border: 1px solid;
-              padding: 12px;
-              border-radius: 6px;
-            }
-          `}
-        </style>
-      </template>
-      <script src="/OutboxPage.js" type="module"></script>
+      <BlogPostTemplate headingLevel={headingLevel + 1} />
     </main>
   );
 }
-
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      'blog-post': Partial<HTMLElement & { children: string|HTMLElement }>;
-    }
-  }
-};

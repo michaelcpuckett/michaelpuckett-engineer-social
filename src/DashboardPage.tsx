@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 import { AP } from 'activitypub-core-types';
 import { getId } from 'activitypub-core-utilities';
+import { BlogPostTemplate } from './BlogPostTemplate';
 
 export function DashboardPage({ actor }: { actor: AP.Actor }) {
   return <>
@@ -27,7 +28,7 @@ export function DashboardPage({ actor }: { actor: AP.Actor }) {
               </label>
               <label>
                 <span>Icon</span>
-                <input type="text" name="icon" defaultValue={'href' in actor.icon ? actor.icon.href.toString() : ''} />
+                <input type="text" name="icon" defaultValue={(actor.icon && 'href' in actor.icon && actor.icon.href) ? actor.icon.href.toString() : ''} />
               </label>
               <button type="submit">
                 Update
@@ -44,6 +45,7 @@ export function DashboardPage({ actor }: { actor: AP.Actor }) {
             </div>
             <InboxFeed actor={actor} />
           </div>
+          <BlogPostTemplate headingLevel={2} />
         </main>
       </body>
     </html>
@@ -158,24 +160,7 @@ function InboxFeed({ actor }: { actor: AP.Actor }) {
       <h2>Feed</h2>
       <ul>
         {'orderedItems' in actor.inbox && Array.isArray(actor.inbox.orderedItems) ? actor.inbox.orderedItems.map(item => {
-          if (item instanceof URL) {
-            return <></>;
-          }
-
-          if ('object' in item && item.object && !(item.object instanceof URL) && 'content' in item.object) {
-            return (
-              <li key={getId(item).toString()}>
-                <a href={getId(item).toString() ?? '#'}>
-                  {item.object.content}
-                </a>
-                <LikeButton object={item.object} actor={actor} />
-                <AnnounceButton object={item.object} actor={actor} />
-                <ReplyForm object={item.object} actor={actor} />
-              </li>
-            )
-          }
-
-          return <></>;
+          return <blog-post data-id={getId(item)}></blog-post>
         }) : null}
       </ul>
     </div>
@@ -188,21 +173,7 @@ function OutboxFeed({ actor }: { actor: AP.Actor }) {
       <h2>Recent Posts</h2>
       <ul>
         {'orderedItems' in actor.outbox && Array.isArray(actor.outbox.orderedItems) ? actor.outbox.orderedItems.map(item => {
-          if (item instanceof URL) {
-            return <></>;
-          }
-
-          if ('object' in item && item.object && !(item.object instanceof URL) && 'content' in item.object) {
-            return (
-              <li key={getId(item).toString()}>
-                <a href={getId(item).toString() ?? '#'}>
-                  {item.object.content}
-                </a>
-              </li>
-            )
-          }
-
-          return <></>;
+          return <blog-post data-id={getId(item)}></blog-post>
         }) : null}
       </ul>
     </div>
