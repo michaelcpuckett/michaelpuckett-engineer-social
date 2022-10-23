@@ -13,12 +13,12 @@
     "serve": "node ./lib/index.js"
   },
   "dependencies": {
-    "activitypub-core-delivery": "^0.0.121",
-    "activitypub-core-express-middleware": "^0.0.121",
-    "activitypub-core-firebase-authentication": "^0.0.121",
-    "activitypub-core-mongodb": "^0.0.121",
-    "activitypub-core-types": "^0.0.121",
-    "activitypub-core-utilities": "^0.0.121",
+    "activitypub-core-delivery": "^0.0.122",
+    "activitypub-core-express-middleware": "^0.0.122",
+    "activitypub-core-firebase-authentication": "^0.0.122",
+    "activitypub-core-mongodb": "^0.0.122",
+    "activitypub-core-types": "^0.0.122",
+    "activitypub-core-utilities": "^0.0.122",
     "dotenv": "^16.0.3",
     "firebase-admin": "^11.1.0",
     "react": "^16.14.0",
