@@ -10,9 +10,10 @@ import { EntityPage } from './EntityPage';
 import { renderToString } from 'react-dom/server';
 import { MongoDatabaseService } from 'activitypub-core-mongodb';
 import { FirebaseAuthentication } from 'activitypub-core-firebase-authentication';
+import { FirebaseStorage } from 'activitypub-core-firebase-storage';
 import { DeliveryService } from 'activitypub-core-delivery';
 import { ServiceAccount } from 'firebase-admin';
-import {ServerResponse, IncomingMessage } from 'http';
+import { ServerResponse, IncomingMessage } from 'http';
 
 const envServiceAccount = process.env.AP_SERVICE_ACCOUNT;
 
@@ -32,6 +33,7 @@ const serviceAccount: ServiceAccount = JSON.parse(decodeURIComponent(envServiceA
     dbName: 'puckett-contact',
   });
   const deliveryService = new DeliveryService(databaseService);
+  const storageService = new FirebaseStorage(serviceAccount, 'pickpuck-com', 'gs://pickpuck-com.appspot.com/');
 
   app.use(
     activityPub(
@@ -59,6 +61,7 @@ const serviceAccount: ServiceAccount = JSON.parse(decodeURIComponent(envServiceA
         authenticationService,
         databaseService,
         deliveryService,
+        storageService,
       },
     ),
   );
