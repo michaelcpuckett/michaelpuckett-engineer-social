@@ -42,6 +42,7 @@ export function DashboardPage({ actor }: { actor: AP.Actor }) {
               <FollowForm actor={actor} />
               <CreateNoteForm actor={actor} />
               <CreateArticleForm actor={actor} />
+              <UploadMediaForm actor={actor} />
               <OutboxFeed actor={actor} />
             </div>
             <InboxFeed actor={actor} />
@@ -270,5 +271,20 @@ function ReplyForm({ object, actor }: { object: AP.Entity; actor: AP.Actor; }) {
       </form>
       <script type="module" src="/ReplyForm.js"></script>
     </details>
+  </>
+}
+
+function UploadMediaForm({ actor }: { actor: AP.Actor }) {
+  return <>
+    <form action={actor.endpoints.uploadMedia.toString()} id="UploadMediaForm">
+      <input type="file" name="file" />
+      <input type="hidden" name="object" value={JSON.stringify({
+        "type": "Image",
+      })} />
+      <button type="submit">
+        Upload
+      </button>
+    </form>
+    <script type="module" src="/UploadMediaForm.js"></script>
   </>
 }
