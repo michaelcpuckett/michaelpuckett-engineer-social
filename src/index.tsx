@@ -33,7 +33,7 @@ const serviceAccount: ServiceAccount = JSON.parse(decodeURIComponent(envServiceA
     dbName: 'puckett-contact',
   });
   const deliveryService = new DeliveryService(databaseService);
-  const storageService = new FirebaseStorage(serviceAccount, 'pickpuck-com', 'gs://pickpuck-com.appspot.com/');
+  const storageService = new FirebaseStorage(serviceAccount, 'pickpuck-com', 'gs://pickpuck-com.appspot.com/', 'pickpuck-com');
 
   app.use(
     activityPub(
