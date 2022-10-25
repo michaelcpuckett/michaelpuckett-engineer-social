@@ -20,7 +20,7 @@ formElement?.addEventListener('submit', (event) => {
 
   fetch(formElement.getAttribute('action'), {
     method: 'POST',
-    body: JSON.stringify(activity),
+    body: formData,
   })
     .then(async response => {
       console.log(await response.text())
