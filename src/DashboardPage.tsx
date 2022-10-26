@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 import { AP } from 'activitypub-core-types';
 import { getId } from 'activitypub-core-utilities';
 import { BlogPostTemplate } from './BlogPostTemplate';
+import { ImageSelectorTemplate } from './ImageSelectorTemplate';
 
 export function DashboardPage({ actor }: { actor: AP.Actor }) {
   return <>
@@ -48,6 +49,7 @@ export function DashboardPage({ actor }: { actor: AP.Actor }) {
             <InboxFeed actor={actor} />
           </div>
           <BlogPostTemplate headingLevel={2} />
+          <ImageSelectorTemplate />
         </main>
       </body>
     </html>
@@ -146,6 +148,14 @@ function CreateNoteForm({ actor }: { actor: AP.Actor }) {
             What's on your mind?
           </span>
           <textarea name="content"></textarea>
+        </label>
+        <label>
+          <span>
+            Image
+          </span>
+          <image-selector data-user-id={getId(actor).toString()}>
+            <input type="hidden" name="attachment" slot="input" />
+          </image-selector>
         </label>
         <button type="submit">
           Post Status

@@ -71,9 +71,17 @@ function ExtendedObjectEntity({ headingLevel, extendedObject, user }: { extended
 function ActorEntity({ headingLevel, actor, user }: { actor: AP.Actor; user?: AP.Actor; headingLevel: number; } ) {
   return (
     <div className="card">
+      {actor.icon && 'url' in actor.icon && actor.icon.url ? (
+        <img src={actor.icon.url.toString()} />
+      ) : null}
       <div role="heading" aria-level={headingLevel}>
         @{actor.preferredUsername}
       </div>
+      {actor.summary ? (
+        <p>
+          {actor.summary}  
+        </p>
+      ) : null}
     </div>
   );
 }
