@@ -9,6 +9,7 @@ class ImageSelector extends HTMLElement {
     const templateElement = window.document.querySelector('#ImageSelector-template')
     this.shadowRoot.append(templateElement.content.cloneNode(true));
     this.shadowRoot.querySelector('details').addEventListener('toggle', () => {
+      console.log('toggle');
       this.fetchData();
     }, {
       once: true,
