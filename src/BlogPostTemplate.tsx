@@ -7,6 +7,7 @@ export function BlogPostTemplate({ headingLevel }: { headingLevel: number }) {
         <span role="heading" aria-level={headingLevel + 1}>
           <slot name="summary"></slot>
         </span>
+        <slot name="image"></slot>
         <slot name="content"></slot>
         <slot name="published"></slot>
         <slot name="likeButton"></slot>

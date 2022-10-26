@@ -1,3 +1,5 @@
+const { isType } = require("activitypub-core-utilities");
+
 class BlogPost extends HTMLElement {
   constructor() {
     super();
@@ -42,6 +44,52 @@ class BlogPost extends HTMLElement {
             contentSlot.setAttribute('slot', 'published');
             contentSlot.innerHTML = object.published;
             this.append(contentSlot);
+          }
+        }
+
+        if (this.userId) {
+          const likeButton = window.document.createElement('button');
+          likeButton.setAttribute('type', 'button');
+          likeButton.setAttribute('slot', 'likeButton');
+          likeButton.textContent = 'Like';
+          this.append(likeButton);
+          likeButton.addEventListener('click', () => {
+            const likeActivity = {
+              '@context': 'https://www.w3.org/ns/activitystreams#',
+              type: 'Like',
+              actor: this.userId,
+              to: [
+                'https://www.w3.org/ns/activitystreams#Public',
+                `${this.userId}/followers`,
+              ],
+              object: this.id,
+            };
+
+            fetch(`${this.userId}/outbox`, {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/activity+json',
+              },
+              body: JSON.stringify(likeActivity),
+            })
+            .then(response => {
+              if (response.status === 201 && response.headers.get('Location')) {
+                window.location.reload();
+              }
+            });
+          });
+        }
+      }
+
+      if (activity && 'object' in activity && activity.object && activity.type === 'Create' && isType(activity.object, AP.Image)) {
+        const object = activity.object;
+
+        if (object.content && !object.inReplyTo) {
+          this.classList.add('card');
+          {
+            const imageSlot = window.document.createElement('img');
+            imageSlot.setAttribute('src', 'image');
+            this.append(imageSlot);
           }
         }
 
