@@ -35,8 +35,6 @@ const serviceAccount: ServiceAccount = JSON.parse(decodeURIComponent(envServiceA
   const deliveryService = new DeliveryService(databaseService);
   const storageService = new FtpStorage(JSON.parse(decodeURIComponent(process.env.AP_FTP_CONFIG)));
 
-  console.log(JSON.parse(decodeURIComponent(process.env.AP_FTP_CONFIG)))
-
   app.use(
     activityPub(
       {
