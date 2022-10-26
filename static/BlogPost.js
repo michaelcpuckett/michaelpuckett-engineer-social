@@ -98,6 +98,7 @@ class BlogPost extends HTMLElement {
             const updateActivity = {
               '@context': 'https://www.w3.org/ns/activitystreams#',
               type: 'Update',
+              actor: new URL(this.userId),
               object: {
                 id: new URL(this.userId),
                 icon: activity.object.id.toString(),
