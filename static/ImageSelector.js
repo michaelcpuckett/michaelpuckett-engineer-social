@@ -24,7 +24,7 @@ class ImageSelector extends HTMLElement {
       if (outbox && 'id' in outbox && 'orderedItems' in outbox) {
         const items = await Promise.all(outbox.orderedItems.map(async itemId => {
           try {
-            return fetch(itemId).then(res => res.json());
+            return await fetch(itemId).then(res => res.json());
           } catch {
             return {};
           }
