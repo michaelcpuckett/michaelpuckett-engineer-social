@@ -84,6 +84,7 @@ class BlogPost extends HTMLElement {
         {
           const imageSlot = window.document.createElement('img');
           imageSlot.setAttribute('src', activity.object.url.toString());
+          imageSlot.setAttribute('slot', 'image');
           this.append(imageSlot);
         }
 
