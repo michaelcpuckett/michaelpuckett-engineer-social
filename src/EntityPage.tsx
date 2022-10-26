@@ -61,7 +61,8 @@ function ExtendedObjectEntity({ headingLevel, extendedObject, user }: { extended
   return (
     <div className="card">
       <div role="heading" aria-level={headingLevel}>
-        An {extendedObject.type}.
+        A(n) {extendedObject.type}.
+        {extendedObject.type === 'Image' ? <img src={extendedObject.url.toString() ?? ''} /> : null}
       </div>
     </div>
   )
