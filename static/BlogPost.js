@@ -1,5 +1,3 @@
-const { isType } = require("activitypub-core-utilities");
-
 class BlogPost extends HTMLElement {
   constructor() {
     super();
@@ -81,7 +79,7 @@ class BlogPost extends HTMLElement {
         }
       }
 
-      if (activity && 'object' in activity && activity.object && activity.type === 'Create' && isType(activity.object, AP.Image)) {
+      if (activity && 'object' in activity && activity.object && activity.type === 'Create' && activity.object.type === 'Image') {
         const object = activity.object;
 
         if (object.content && !object.inReplyTo) {
