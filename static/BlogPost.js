@@ -101,7 +101,7 @@ class BlogPost extends HTMLElement {
               actor: new URL(this.userId),
               object: {
                 id: new URL(this.userId),
-                icon: activity.object.id.toString(),
+                icon: activity.object
               },
               to: [
                 'https://www.w3.org/ns/activitystreams#Public',
