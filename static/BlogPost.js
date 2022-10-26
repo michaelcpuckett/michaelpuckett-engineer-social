@@ -80,15 +80,11 @@ class BlogPost extends HTMLElement {
       }
 
       if (activity && 'object' in activity && activity.object && activity.type === 'Create' && activity.object.type === 'Image') {
-        const object = activity.object;
-
-        if (object.content && !object.inReplyTo) {
-          this.classList.add('card');
-          {
-            const imageSlot = window.document.createElement('img');
-            imageSlot.setAttribute('src', 'image');
-            this.append(imageSlot);
-          }
+        this.classList.add('card');
+        {
+          const imageSlot = window.document.createElement('img');
+          imageSlot.setAttribute('src', activity.object.url.toString());
+          this.append(imageSlot);
         }
 
         if (this.userId) {
