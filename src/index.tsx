@@ -33,7 +33,7 @@ const serviceAccount: ServiceAccount = JSON.parse(decodeURIComponent(envServiceA
     dbName: 'puckett-contact',
   });
   const deliveryService = new DeliveryService(databaseService);
-  const storageService = new FtpStorage(JSON.parse(decodeURIComponent(process.env.AP_FTP_CONFIG)));
+  const storageService = new FtpStorage(JSON.parse(decodeURIComponent(process.env.AP_FTP_CONFIG)), '/uploads');
 
   app.use(
     activityPub(
