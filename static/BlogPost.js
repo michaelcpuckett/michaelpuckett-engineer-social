@@ -89,6 +89,41 @@ class BlogPost extends HTMLElement {
         }
 
         if (this.userId) {
+          const profilePicButton = window.document.createElement('button');
+          profilePicButton.setAttribute('type', 'button');
+          profilePicButton.setAttribute('slot', 'profilePicButton');
+          profilePicButton.textContent = 'Make Profile Pic';
+          this.append(profilePicButton);
+          profilePicButton.addEventListener('click', () => {
+            const updateActivity = {
+              '@context': 'https://www.w3.org/ns/activitystreams#',
+              type: 'Update',
+              object: {
+                id: new URL(this.userId),
+                icon: this.object.id.toString(),
+              },
+              to: [
+                'https://www.w3.org/ns/activitystreams#Public',
+                `${this.userId}/followers`,
+              ],
+            }
+            
+            fetch(`${this.userId}/outbox`, {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/activity+json',
+              },
+              body: JSON.stringify(updateActivity),
+            })
+            .then(response => {
+              if (response.status === 201 && response.headers.get('Location')) {
+                window.location.reload();
+              }
+            });
+          });
+        }
+
+        if (this.userId) {
           const likeButton = window.document.createElement('button');
           likeButton.setAttribute('type', 'button');
           likeButton.setAttribute('slot', 'likeButton');

@@ -10,6 +10,7 @@ export function BlogPostTemplate({ headingLevel }: { headingLevel: number }) {
         <slot name="image"></slot>
         <slot name="content"></slot>
         <slot name="published"></slot>
+        <slot name="profilePicButton"></slot>
         <slot name="likeButton"></slot>
       </div>
       <style>

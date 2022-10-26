@@ -9,6 +9,9 @@ body {
   font-family: system-ui, sans-serif;
   margin: 0;
 }
+img {
+  max-width: 100%;
+}
 h1 {
   font-weight: normal;
   text-align: center;

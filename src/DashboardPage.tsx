@@ -201,7 +201,7 @@ function OutboxFeed({ actor }: { actor: AP.Actor }) {
       <h2>Recent Posts</h2>
       <ul>
         {'orderedItems' in actor.outbox && Array.isArray(actor.outbox.orderedItems) ? actor.outbox.orderedItems.map(item => {
-          return <blog-post data-id={getId(item).toString()}></blog-post>
+          return <blog-post data-id={getId(item).toString()} data-user-id={getId(actor).toString()}></blog-post>
         }) : null}
       </ul>
     </div>
