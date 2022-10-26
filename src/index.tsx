@@ -10,7 +10,7 @@ import { EntityPage } from './EntityPage';
 import { renderToString } from 'react-dom/server';
 import { MongoDatabaseService } from 'activitypub-core-mongodb';
 import { FirebaseAuthentication } from 'activitypub-core-firebase-authentication';
-import { FirebaseStorage } from 'activitypub-core-firebase-storage';
+import { FtpStorage } from 'activitypub-core-ftp-storage';
 import { DeliveryService } from 'activitypub-core-delivery';
 import { ServiceAccount } from 'firebase-admin';
 import { ServerResponse, IncomingMessage } from 'http';
@@ -33,7 +33,7 @@ const serviceAccount: ServiceAccount = JSON.parse(decodeURIComponent(envServiceA
     dbName: 'puckett-contact',
   });
   const deliveryService = new DeliveryService(databaseService);
-  const storageService = new FirebaseStorage(serviceAccount, 'pickpuck-com', 'gs://pickpuck-com.appspot.com/', 'pickpuck-com');
+  const storageService = new FtpStorage(JSON.parse(decodeURIComponent(process.env.AP_FTP_CONFIG)));
 
   app.use(
     activityPub(
