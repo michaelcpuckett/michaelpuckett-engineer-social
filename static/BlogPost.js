@@ -100,7 +100,7 @@ class BlogPost extends HTMLElement {
               type: 'Update',
               object: {
                 id: new URL(this.userId),
-                icon: this.object.id.toString(),
+                icon: activity.object.id.toString(),
               },
               to: [
                 'https://www.w3.org/ns/activitystreams#Public',
