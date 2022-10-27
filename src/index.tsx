@@ -14,6 +14,7 @@ import { FtpStorage } from 'activitypub-core-ftp-storage';
 import { DeliveryService } from 'activitypub-core-delivery';
 import { ServiceAccount } from 'firebase-admin';
 import { ServerResponse, IncomingMessage } from 'http';
+import { foafPlugin } from 'activitypub-core-plugin-foaf';
 
 const envServiceAccount = process.env.AP_SERVICE_ACCOUNT;
 
@@ -62,6 +63,36 @@ const serviceAccount: ServiceAccount = JSON.parse(decodeURIComponent(envServiceA
         databaseService,
         deliveryService,
         storageService,
+        plugins: [
+          foafPlugin({
+            newPerson: JSON.parse(JSON.stringify({
+              "type": ["Actor", "foaf:Person"], // TODO
+              "foaf:name": "Michael Puckett",
+              "foaf:basedNear": "Louisville, KY, USA",
+              "foaf:img": "https://michaelpuckett.engineer/avatar.png",
+              "foaf:logo": "https://michaelpuckett.engineer/favicon.svg",
+              "foaf:mbox": "mailto:michael@puckett.contact",
+              "foaf:homepage": "https://michaelpuckett.engineer",
+              "foaf:weblog": "https://puckett.contact/actor/michael",
+              "foaf:nick": "michaelcpuckett",
+              "foaf:holdsAccount": [{
+                "@type": "foaf:OnlineAccount",
+                "foaf:accountServiceHomepage": "https://github.com",
+                "foaf:accountName": "michaelcpuckett",
+              }, {
+                "@type": "foaf:OnlineAccount",
+                "foaf:accountServiceHomepage": "https://linkedin.com",
+                "foaf:accountName": "michaelcpuckett",
+              }],
+              "foaf:currentProject": "https://github.com/michaelcpuckett/activitypub-core",
+              "foaf:interest": [
+                "https://dbpedia.org/resource/Web_accessibility"
+              ],
+              "foaf:workplaceHomepage": "https://google.com",
+              "foaf:schoolHomepage": "https://wku.edu",
+            }))
+          }),
+        ]
       },
     ),
   );
