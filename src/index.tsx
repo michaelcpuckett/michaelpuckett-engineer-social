@@ -69,6 +69,7 @@ const serviceAccount: ServiceAccount = JSON.parse(decodeURIComponent(envServiceA
               "type": ["Actor", "foaf:Person"], // TODO
               "foaf:name": "Michael Puckett",
               "foaf:basedNear": "Louisville, KY, USA",
+              "foaf:birthday": "06-17",
               "foaf:img": "https://michaelpuckett.engineer/avatar.png",
               "foaf:logo": "https://michaelpuckett.engineer/favicon.svg",
               "foaf:mbox": "mailto:michael@puckett.contact",
