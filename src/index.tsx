@@ -2,19 +2,19 @@ import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-d
 dotenv.config()
 import React from 'react';
 import express from 'express';
-import { activityPub } from 'activitypub-core-express-middleware';
 import { IndexPage } from './IndexPage';
 import { LoginPage } from './LoginPage';
 import { DashboardPage } from './DashboardPage';
 import { EntityPage } from './EntityPage';
 import { renderToString } from 'react-dom/server';
-import { MongoDatabaseAdapter } from 'activitypub-core-mongodb';
-import { FirebaseAuthenticationAdapter } from 'activitypub-core-firebase-authentication';
-import { FtpStorageAdapter } from 'activitypub-core-ftp-storage';
+import { activityPub } from 'activitypub-core-server-express';
+import { MongoDatabaseAdapter } from 'activitypub-core-db-mongo';
+import { FirebaseAuthenticationAdapter } from 'activitypub-core-auth-firebase';
+import { FtpStorageAdapter } from 'activitypub-core-storage-ftp';
 import { DeliveryAdapter } from 'activitypub-core-delivery';
+import { FoafPlugin } from 'activitypub-core-plugin-foaf';
 import { ServiceAccount } from 'firebase-admin';
 import { ServerResponse, IncomingMessage } from 'http';
-import { FoafPlugin } from 'activitypub-core-plugin-foaf';
 
 const envServiceAccount = process.env.AP_SERVICE_ACCOUNT;
 
