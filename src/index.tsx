@@ -8,42 +8,46 @@ import { DashboardPage } from './DashboardPage';
 import { EntityPage } from './EntityPage';
 import { renderToString } from 'react-dom/server';
 import { activityPub } from 'activitypub-core-server-express';
-import { MongoDatabaseAdapter } from 'activitypub-core-db-mongo';
-import { FirebaseAuthenticationAdapter } from 'activitypub-core-auth-firebase';
+import { MongoClient } from 'mongodb';
+import { MongoDbAdapter } from 'activitypub-core-db-mongo';
+import { FirebaseAuthAdapter } from 'activitypub-core-auth-firebase';
 import { FtpStorageAdapter } from 'activitypub-core-storage-ftp';
 import { DeliveryAdapter } from 'activitypub-core-delivery';
 import { FoafPlugin } from 'activitypub-core-plugin-foaf';
 import { ServiceAccount } from 'firebase-admin';
 import { ServerResponse, IncomingMessage } from 'http';
 
-const envServiceAccount = process.env.AP_SERVICE_ACCOUNT;
-
-if (!envServiceAccount) {
-  throw new Error('Bad Service Account.');
-}
-
-const firebaseServiceAccount: ServiceAccount = JSON.parse(decodeURIComponent(envServiceAccount));
-
 (async () => {
+  const envServiceAccount = process.env.AP_SERVICE_ACCOUNT;
+
+  if (!envServiceAccount) {
+    throw new Error('Bad Service Account.');
+  }
+
+  const firebaseServiceAccount: ServiceAccount = JSON.parse(decodeURIComponent(envServiceAccount));
+
+  const mongoClient = new MongoClient(process.env.AP_MONGO_CLIENT_URL ?? 'mongodb://localhost:27017', {
+    minPoolSize: 10,
+  });
+  await mongoClient.connect();
+  const mongoDb = mongoClient.db('puckett-contact');
+
   const app = express();
   app.use(express.static('static/'));
 
-  const firebaseAuthenticationAdapter =
-    new FirebaseAuthenticationAdapter(
+  const firebaseAuthAdapter =
+    new FirebaseAuthAdapter(
       firebaseServiceAccount,
       'pickpuck-com'
     );
 
-  const mongoDatabaseAdapter =
-    await new MongoDatabaseAdapter().connect({
-      mongoClientUrl: process.env.AP_MONGO_CLIENT_URL ?? 'mongodb://localhost:27017',
-      dbName: 'puckett-contact',
-    });
+  const mongoDbAdapter =
+    new MongoDbAdapter(mongoDb);
 
   const defaultDeliveryAdapter =
     new DeliveryAdapter({
       adapters: {
-        database: mongoDatabaseAdapter,
+        db: mongoDbAdapter,
       },
     });
 
@@ -93,8 +97,8 @@ const firebaseServiceAccount: ServiceAccount = JSON.parse(decodeURIComponent(env
       },
 
       adapters: {
-        authentication: firebaseAuthenticationAdapter,
-        database: mongoDatabaseAdapter,
+        auth: firebaseAuthAdapter,
+        db: mongoDbAdapter,
         delivery: defaultDeliveryAdapter,
         storage: ftpStorageAdapter,
       },
