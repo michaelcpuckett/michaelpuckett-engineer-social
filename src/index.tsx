@@ -100,7 +100,7 @@ const firebaseServiceAccount: ServiceAccount = JSON.parse(decodeURIComponent(env
       },
 
       plugins: [
-        foafPlugin
+        foafPlugin,
       ]
     }),
   );
