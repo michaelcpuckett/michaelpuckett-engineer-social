@@ -1,4 +1,4 @@
-class BlogPost extends HTMLElement {
+class ActorOutbox extends HTMLElement {
   constructor() {
     super();
   }
@@ -161,4 +161,4 @@ class BlogPost extends HTMLElement {
   }
 }
 
-window.customElements.define('blog-post', BlogPost);
+window.customElements.define('blog-post', ActorOutbox);

@@ -2,9 +2,14 @@ import React, { ReactElement } from 'react';
 import { AP } from 'activitypub-core-types';
 import { getId, isTypeOf, isType } from 'activitypub-core-utilities';
 import { OutboxPage } from './OutboxPage';
+import { ActorEntityPage } from './ActorEntityPage';
 
 export function EntityPage({ entity, actor: user }: { entity: AP.Entity; actor?: AP.Actor; }) {
-  return <>
+  if (isTypeOf(entity, AP.ActorTypes)) {
+    return <ActorEntityPage actor={entity as AP.Actor} user={user} />;
+  }
+
+  return (
     <html lang="en">
       <head>
         <title>ActivityPub - Entity</title>
@@ -18,7 +23,7 @@ export function EntityPage({ entity, actor: user }: { entity: AP.Entity; actor?:
         </main>
       </body>
     </html>
-  </>
+  );
 };
 
 function Entity({ headingLevel, entity, user }: { entity: AP.Entity; user?: AP.Actor; headingLevel: number; }) {
@@ -32,10 +37,6 @@ function Entity({ headingLevel, entity, user }: { entity: AP.Entity; user?: AP.A
 
   if (isTypeOf(entity, AP.ActivityTypes)) {
     return <ActivityEntity headingLevel={headingLevel} activity={entity as AP.Activity} user={user} />;
-  }
-
-  if (isTypeOf(entity, AP.ActorTypes)) {
-    return <ActorEntity headingLevel={headingLevel} actor={entity as AP.Actor} user={user} />;
   }
 
   if (isType(entity, AP.CollectionTypes.COLLECTION)) {
@@ -66,24 +67,6 @@ function ExtendedObjectEntity({ headingLevel, extendedObject, user }: { extended
       </div>
     </div>
   )
-}
-
-function ActorEntity({ headingLevel, actor, user }: { actor: AP.Actor; user?: AP.Actor; headingLevel: number; } ) {
-  return (
-    <div className="card">
-      {actor.icon && 'url' in actor.icon && actor.icon.url ? (
-        <img src={actor.icon.url.toString()} />
-      ) : null}
-      <div role="heading" aria-level={headingLevel}>
-        @{actor.preferredUsername}
-      </div>
-      {actor.summary ? (
-        <p>
-          {actor.summary}  
-        </p>
-      ) : null}
-    </div>
-  );
 }
 
 function NoteEntity({ headingLevel, note, user }: { note: AP.Note; user?: AP.Actor; headingLevel: number; }) {
