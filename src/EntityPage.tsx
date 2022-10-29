@@ -31,10 +31,6 @@ function Entity({ headingLevel, entity, user }: { entity: AP.Entity; user?: AP.A
     return <ArticleEntity article={entity as AP.Article} />;
   }
 
-  if (isType(entity, AP.ExtendedObjectTypes.NOTE)) {
-    return <NoteEntity headingLevel={headingLevel} note={entity as AP.Note} user={user} />
-  }
-
   if (isTypeOf(entity, AP.ActivityTypes)) {
     return <ActivityEntity headingLevel={headingLevel} activity={entity as AP.Activity} user={user} />;
   }
@@ -67,31 +63,6 @@ function ExtendedObjectEntity({ headingLevel, extendedObject, user }: { extended
       </div>
     </div>
   )
-}
-
-function NoteEntity({ headingLevel, note, user }: { note: AP.Note; user?: AP.Actor; headingLevel: number; }) {
-  const rawAttributedTo = note.attributedTo;
-
-  const untypedAttributedTo = rawAttributedTo && !(rawAttributedTo instanceof URL) && !(Array.isArray(rawAttributedTo)) ? rawAttributedTo : null;
-  
-  let attributedTo = null;
-
-  for (const type of Object.values(AP.ActorTypes)) {
-    if (type === untypedAttributedTo.type) {
-      attributedTo = untypedAttributedTo;
-    }
-  }
-
-  return (
-    <div className="card">
-      <div role="heading" aria-level={headingLevel}>
-        A note by
-        <a href={getId(attributedTo).toString() ?? '#'}>
-          @{attributedTo.preferredUsername}
-        </a>
-      </div>
-    </div>
-  );
 }
 
 function CollectionEntity({ headingLevel, collection, user }: { collection: AP.Collection, user?: AP.Actor; headingLevel: number; }) {
@@ -131,38 +102,7 @@ function OrderedCollectionEntity({ headingLevel, collection, user }: { collectio
 }
 
 function ActivityEntity({ headingLevel, activity, user }: { activity: AP.Activity; user?: AP.Actor; headingLevel: number; }) {
-  const activityActor = activity.actor;
-
-  if (activityActor instanceof URL || !('preferredUsername' in activityActor)) {
-    return <></>;
-  }
-
-  const rawActivityObject = 'object' in activity ? activity.object : null;
-  const activityObject = rawActivityObject && !(rawActivityObject instanceof URL) && !(Array.isArray(rawActivityObject)) ? rawActivityObject : null;
-
-  return (
-    <div className="card">
-      <div role="heading" aria-level={headingLevel}>
-        <a href={getId(activityActor).toString() ?? '#'}>
-          @{activityActor.preferredUsername}
-        </a>
-        {' '}
-        performed a(n)
-        {' '}
-        <a href={getId(activity).toString() ?? '#'}>
-          {activity.type} activity
-        </a>
-        {activityObject ? <>
-          {' '}
-          on a(n)
-          {' '}
-          <a href={getId(activityObject).toString() ?? '#'}>
-            {activityObject.type}
-          </a>
-        </> : null}.
-      </div>
-    </div>
-  );
+  return <>An Activity.</>
 }
 
 function ArticleEntity({ article }: { article: AP.Article }) {
