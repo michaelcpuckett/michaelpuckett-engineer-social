@@ -4,6 +4,7 @@ export function OutboxItemTemplate() {
   return <>
     <template id="OutboxItem-template">
       <li className="OutboxItem">
+        <slot name="activityType"></slot>
         <slot></slot>
       </li>
       <style>

@@ -13,6 +13,13 @@ class OutboxItem extends HTMLElement {
 
   async initialize() {
     this.item = await this.fetchData(this.itemId);
+
+    const activityTypeSlot = window.document.createElement('div');
+    activityTypeSlot.setAttribute('slot', 'activityType');
+    activityTypeSlot.textContent = this.item.type;
+
+    this.append(activityTypeSlot);
+
     this.object = this.item.object;
 
     const linkElement = window.document.createElement('a');
