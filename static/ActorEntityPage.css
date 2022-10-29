@@ -30,6 +30,14 @@ body {
   font-size: 1.75em;
 }
 
+img {
+  max-width: 100%;
+}
+
+.profile img {
+  border-radius: 100%;
+}
+
 button {
   border-radius: 6px;
   padding: 12px 6px;
