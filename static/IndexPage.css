@@ -9,6 +9,13 @@ body {
   font-family: system-ui, sans-serif;
   margin: 0;
 }
+@supports (color-scheme: dark light) {
+  @media screen and (prefers-color-scheme: dark) {
+      a:link {color: #9e9eff;}
+      a:visited {color: #d0adf0;}
+      a:active {color: red;}
+  }
+}
 h1 {
   font-weight: normal;
   text-align: center;

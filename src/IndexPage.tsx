@@ -11,7 +11,7 @@ export function IndexPage({ }) {
       </head>
       <body>
         <main>
-          <p>Hi! My name is <a href="https://michaelpuckett.engineer">Michael Puckett</a>.</p>
+          <p>Hi! My name is <a href="/actor/michael">Michael Puckett</a> (<a href="https://michaelpuckett.engineer">resume</a>).</p>
           <p>This server is for my presence on the Fediverse.</p>
           <ul>
             <li>
