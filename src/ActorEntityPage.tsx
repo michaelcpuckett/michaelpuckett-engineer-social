@@ -22,8 +22,7 @@ export function ActorEntityPage({ actor, user }: { actor: AP.Actor; user?: AP.Ac
           </section>
           <aside className="container-item container-item--complementary"></aside>
         </div>
-        <script type="application/ld+json">
-          {JSON.stringify(actor)}
+        <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(actor) }}>
         </script>
       </body>
     </html>
