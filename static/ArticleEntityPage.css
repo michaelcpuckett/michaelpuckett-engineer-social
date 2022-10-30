@@ -5,6 +5,14 @@
   :root {
     color-scheme: dark light;
   }
+
+  @supports (color-scheme: dark light) {
+    @media screen and (prefers-color-scheme: dark) {
+        a:link {color: #9e9eff;}
+        a:visited {color: #d0adf0;}
+        a:active {color: salmon;}
+    }
+  }
   
   html {
     min-height: 100%;

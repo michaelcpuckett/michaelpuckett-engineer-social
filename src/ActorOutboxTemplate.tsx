@@ -4,9 +4,6 @@ export function ActorOutboxTemplate({ headingLevel }: { headingLevel: number }) 
   return <>
     <template id="ActorOutbox-template">
       <div className="ActorOutbox">
-        <span role="heading" aria-level={headingLevel}>
-          Outbox
-        </span>
         <ul>
           <slot></slot>
         </ul>
