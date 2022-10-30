@@ -28,8 +28,44 @@ export function DashboardPage({ actor }: { actor: AP.Actor }) {
                 <textarea name="summary" defaultValue={actor.summary ?? ''}></textarea>
               </label>
               <label>
-                <span>Icon</span>
-                <input type="text" name="icon" defaultValue={(actor.icon && 'href' in actor.icon && actor.icon.href) ? actor.icon.href.toString() : ''} />
+                <span>First Name</span>
+                <input type="text" name="firstName" defaultValue={actor['schema:givenName'] ?? ''} />
+              </label>
+              <label>
+                <span>Last Name</span>
+                <input type="text" name="lastName" defaultValue={actor['schema:familyName'] ?? ''} />
+              </label>
+              <label>
+                <span>Email</span>
+                <input type="text" name="schema:email" defaultValue={actor['schema:email'] ?? ''} />
+              </label>
+              <label>
+                <span>City</span>
+                <input type="text" name="city" />
+              </label>
+              <label>
+                <span>State</span>
+                <input type="text" name="state" />
+              </label>
+              <label>
+                <span>Country</span>
+                <input type="text" name="country" />
+              </label>
+              <label>
+                <span>Job Title</span>
+                <input type="text" name="schema:jobTitle" defaultValue={actor['schema:jobTitle'] ?? ''} />
+              </label>
+              <label>
+                <span>Homepage</span>
+                <input type="text" name="foaf:homepage" defaultValue={actor['foaf:homepage'] ?? ''}/>
+              </label>
+              <label>
+                <span>LinkedIn</span>
+                <input type="text" name="linkedin" />
+              </label>
+              <label>
+                <span>GitHub</span>
+                <input type="text" name="github" />
               </label>
               <button type="submit">
                 Update

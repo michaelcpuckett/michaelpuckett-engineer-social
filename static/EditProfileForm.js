@@ -14,7 +14,11 @@ formElement?.addEventListener('submit', (event) => {
   ]));
 
   const updateActivity = {
-    '@context': 'https://www.w3.org/ns/activitystreams#',
+    '@context': [
+      'https://www.w3.org/ns/activitystreams#',
+      { "foaf": "http://xmlns.com/foaf/0.1/" },
+      { "schema": "https://schema.org/" }
+    ],
     type: 'Update',
     actor: body.actorId,
     to: [
@@ -23,15 +27,57 @@ formElement?.addEventListener('submit', (event) => {
     ],
     object: {
       id: body.objectId,
+      type: ['Person', 'schema:Person', 'foaf:Person'],
       ...body.summary ? {
         summary: body.summary,
+        'schema:description': body.summary,
       } : null,
-      ...body.icon ? {
-        icon: {
-          type: 'Image',
-          url: body.icon,
-          mediaType: 'image/png',
+      ...body.firstName && body.lastName ? {
+        name: `${body.firstName} ${body.lastName}`,
+        'foaf:name': `${body.firstName} ${body.lastName}`,
+        'schema:name': `${body.firstName} ${body.lastName}`,
+        'schema:givenName': body.firstName,
+        'schema:familyName': body.lastName,
+      } : null,
+      ...body['schema:email'] ? {
+        'schema:email': body['schema:email'],
+        'foaf:mbox': body['schema:email'],
+      } : null,
+      ...body.city && body.state && body.country ? {
+        'foaf:based_near': `${body.city}, ${body.state}, ${body.country}`,
+        'location': {
+          'type': 'Place',
+          name: `${body.city}, ${body.state}, ${body.country}`,
         },
+        'schema:address': {
+          '@type': "schema:PostalAddress",
+          'schema:addressLocality': body.city,
+          "schema:addressRegion": body.state,
+          "schema:addressCountry": body.country,
+        }
+      } : null,
+      ...body['schema:jobTitle'] ? {
+        'schema:jobTitle': body['schema:jobTitle'],
+      } : null,
+      ...body['foaf:homepage'] ? {
+        'foaf:homepage': body['foaf:homepage'],
+      } : null,
+      ...body['schema:birthDate'] ? {
+        'schema:birthDate': body['schema:birthDate'],
+      } : null,
+      ...body.linkedin ? {
+        'foaf:member': {
+          '@type': 'foaf:OnlineAccount',
+          'foaf:accountName': body.linkedin,
+          'foaf:accountServiceHomepage': 'https://linkedin.com',
+        }
+      } : null,
+      ...body.github ? {
+        'foaf:member': {
+          '@type': 'foaf:OnlineAccount',
+          'foaf:accountName': body.github,
+          'foaf:accountServiceHomepage': 'https://github.com',
+        }
       } : null,
     },
   };

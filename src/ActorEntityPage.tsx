@@ -47,6 +47,25 @@ function Profile({ actor }: { actor: AP.Actor }) {
         {actor.summary}  
       </p>
     ) : null}
+    <dl>
+      {actor['https://schema.org/jobTitle'] ? <>
+        <dt>
+          Job Title
+        </dt>
+        <dd>
+          <p>{actor['https://schema.org/jobTitle']}</p>
+        </dd>
+      </> : null}
+      
+      {actor['http://xmlns.com/foaf/0.1/based_near'] ? <>
+        <dt>
+          Based Near
+        </dt>
+        <dd>
+          <p>{actor['http://xmlns.com/foaf/0.1/based_near']}</p>
+        </dd>
+      </> : null}
+    </dl>
   </div>;
 }
 
