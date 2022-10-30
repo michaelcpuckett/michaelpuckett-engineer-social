@@ -12,7 +12,6 @@ export function OutboxItemTemplate() {
           li {
             margin: 0;
             padding: 0;
-            border: 1px solid magenta;
             padding: 10px;
           }
         `}

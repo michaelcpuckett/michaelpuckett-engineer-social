@@ -58,7 +58,6 @@ button {
 }
 
 .container-item {
-  border: 1px solid magenta;
   overflow-y: auto;
   padding: 20px;
   height: 100%;
