@@ -43,39 +43,42 @@ class ActorOutbox extends HTMLElement {
             contentSlot.innerHTML = object.published;
             this.append(contentSlot);
           }
-        }
 
-        if (this.userId) {
-          const likeButton = window.document.createElement('button');
-          likeButton.setAttribute('type', 'button');
-          likeButton.setAttribute('slot', 'likeButton');
-          likeButton.textContent = 'Like';
-          this.append(likeButton);
-          likeButton.addEventListener('click', () => {
-            const likeActivity = {
-              '@context': 'https://www.w3.org/ns/activitystreams#',
-              type: 'Like',
-              actor: this.userId,
-              to: [
-                'https://www.w3.org/ns/activitystreams#Public',
-                `${this.userId}/followers`,
-              ],
-              object: this.id,
-            };
+          if (this.userId) {
+            const likeButton = window.document.createElement('button');
+            likeButton.setAttribute('type', 'button');
+            likeButton.setAttribute('slot', 'likeButton');
+            likeButton.textContent = 'Like';
+            this.append(likeButton);
+            likeButton.addEventListener('click', () => {
+              const likeActivity = {
+                '@context': 'https://www.w3.org/ns/activitystreams#',
+                type: 'Like',
+                actor: this.userId,
+                to: [
+                  ...Array.isArray(object.attributedTo) ? object.attributedTo : [object.attributedTo],
+                  ...Array.isArray(object.to) ? object.to : [object.to],
+                  'https://www.w3.org/ns/activitystreams#Public',
+                  `${this.userId}/followers`,
+                ],
+                cc: object.cc ?? [],
+                object: this.id,
+              };
 
-            fetch(`${this.userId}/outbox`, {
-              method: 'POST',
-              headers: {
-                'Accept': 'application/activity+json',
-              },
-              body: JSON.stringify(likeActivity),
-            })
-            .then(response => {
-              if (response.status === 201 && response.headers.get('Location')) {
-                window.location.reload();
-              }
+              fetch(`${this.userId}/outbox`, {
+                method: 'POST',
+                headers: {
+                  'Accept': 'application/activity+json',
+                },
+                body: JSON.stringify(likeActivity),
+              })
+              .then(response => {
+                if (response.status === 201 && response.headers.get('Location')) {
+                  window.location.reload();
+                }
+              });
             });
-          });
+          }
         }
       }
 
