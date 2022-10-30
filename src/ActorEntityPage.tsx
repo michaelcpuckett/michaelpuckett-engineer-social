@@ -17,10 +17,10 @@ export function ActorEntityPage({ actor, user }: { actor: AP.Actor; user?: AP.Ac
           <main className="container-item container-item--profile">
             <Profile actor={actor} />
           </main>
-          <section aria-label="Outbox" className="container-item outbox">
+          <section aria-label="Outbox" className="container-item container-item--outbox">
             <Outbox actor={actor} />
           </section>
-          <aside className="container-item complementary"></aside>
+          <aside className="container-item container-item--complementary"></aside>
         </div>
       </body>
     </html>

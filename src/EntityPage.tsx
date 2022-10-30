@@ -3,10 +3,15 @@ import { AP } from 'activitypub-core-types';
 import { getId, isTypeOf, isType } from 'activitypub-core-utilities';
 import { OutboxPage } from './OutboxPage';
 import { ActorEntityPage } from './ActorEntityPage';
+import { ArticleEntityPage } from './ArticleEntityPage';
 
 export function EntityPage({ entity, actor: user }: { entity: AP.Entity; actor?: AP.Actor; }) {
   if (isTypeOf(entity, AP.ActorTypes)) {
     return <ActorEntityPage actor={entity as AP.Actor} user={user} />;
+  }
+
+  if (isType(entity, AP.ExtendedObjectTypes.ARTICLE)) {
+    return <ArticleEntityPage article={entity as AP.Article} user={user} />;
   }
 
   return (
@@ -27,10 +32,6 @@ export function EntityPage({ entity, actor: user }: { entity: AP.Entity; actor?:
 };
 
 function Entity({ headingLevel, entity, user }: { entity: AP.Entity; user?: AP.Actor; headingLevel: number; }) {
-  if (isType(entity, AP.ExtendedObjectTypes.ARTICLE)) {
-    return <ArticleEntity article={entity as AP.Article} />;
-  }
-
   if (isTypeOf(entity, AP.ActivityTypes)) {
     return <ActivityEntity headingLevel={headingLevel} activity={entity as AP.Activity} user={user} />;
   }
