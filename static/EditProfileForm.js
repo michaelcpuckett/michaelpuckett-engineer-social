@@ -62,9 +62,6 @@ formElement?.addEventListener('submit', (event) => {
       ...body['foaf:homepage'] ? {
         'foaf:homepage': body['foaf:homepage'],
       } : null,
-      ...body['schema:birthDate'] ? {
-        'schema:birthDate': body['schema:birthDate'],
-      } : null,
       ...body.linkedin ? {
         'foaf:member': {
           '@type': 'foaf:OnlineAccount',

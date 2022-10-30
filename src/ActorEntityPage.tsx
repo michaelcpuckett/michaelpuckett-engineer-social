@@ -48,21 +48,22 @@ function Profile({ actor }: { actor: AP.Actor }) {
       </p>
     ) : null}
     <dl>
+      {actor['http://xmlns.com/foaf/0.1/based_near'] ? <>
+        <dt>
+          Location
+        </dt>
+        <dd>
+          {actor['http://xmlns.com/foaf/0.1/based_near']}
+        </dd>
+      </> : null}
+
+      
       {actor['https://schema.org/jobTitle'] ? <>
         <dt>
           Job Title
         </dt>
         <dd>
-          <p>{actor['https://schema.org/jobTitle']}</p>
-        </dd>
-      </> : null}
-      
-      {actor['http://xmlns.com/foaf/0.1/based_near'] ? <>
-        <dt>
-          Based Near
-        </dt>
-        <dd>
-          <p>{actor['http://xmlns.com/foaf/0.1/based_near']}</p>
+          {actor['https://schema.org/jobTitle']}
         </dd>
       </> : null}
     </dl>
