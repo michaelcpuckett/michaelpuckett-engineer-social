@@ -31,6 +31,7 @@ class ActorProfile extends HTMLElement {
     summarySlot.setAttribute('slot', 'summary');
     summarySlot.textContent = this.actor.summary;
 
+    this.append(profilePicSlot);
     this.append(nameSlot);
     this.append(preferredUsernameSlot);
     this.append(summarySlot);
