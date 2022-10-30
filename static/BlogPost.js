@@ -55,14 +55,14 @@ class ActorOutbox extends HTMLElement {
                 '@context': 'https://www.w3.org/ns/activitystreams#',
                 type: 'Like',
                 actor: this.userId,
-                to: [
+                to: [...new Set([
                   ...Array.isArray(object.attributedTo) ? object.attributedTo : [object.attributedTo],
                   ...Array.isArray(object.to) ? object.to : [object.to],
                   'https://www.w3.org/ns/activitystreams#Public',
                   `${this.userId}/followers`,
-                ],
+                ])],
                 cc: object.cc ?? [],
-                object: this.id,
+                object: object.id,
               };
 
               fetch(`${this.userId}/outbox`, {
