@@ -38,6 +38,7 @@ img {
 
 .profile img {
   border-radius: 100%;
+  max-width: 50%;
 }
 
 button {

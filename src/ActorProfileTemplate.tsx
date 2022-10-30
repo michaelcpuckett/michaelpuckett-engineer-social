@@ -33,6 +33,7 @@ export function ActorProfileTemplate({ headingLevel }: { headingLevel: number })
 
   ::slotted(img) { 
     border-radius: 100%;
+    max-width: 50%;
   }
   
         `}
