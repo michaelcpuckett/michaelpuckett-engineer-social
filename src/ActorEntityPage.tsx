@@ -5,6 +5,7 @@ import { OutboxItemTemplate } from './OutboxItemTemplate';
 import { getId, isTypeOf, isType } from 'activitypub-core-utilities';
 import { ActorProfileTemplate } from './ActorProfileTemplate';
 import { CollectionCountTemplate } from './CollectionCountTemplate';
+import { CollectionItemsTemplate } from './CollectionItemsTemplate';
 
 export function ActorEntityPage({ actor, user }: { actor: AP.Actor; user?: AP.Actor; } ) {
   return (
@@ -23,7 +24,11 @@ export function ActorEntityPage({ actor, user }: { actor: AP.Actor; user?: AP.Ac
             <Outbox actor={actor} />
           </section>
           <aside className="container-item container-item--complementary">
-            <p>Register to reply, like, or share.</p>
+            <h2>
+              My Wall
+            </h2>
+            <collection-items data-id={actor.replies.toString()}></collection-items>
+            <CollectionItemsTemplate />
           </aside>
         </div>
         <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(actor) }}></script>

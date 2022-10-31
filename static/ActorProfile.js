@@ -37,7 +37,7 @@ class ActorProfile extends HTMLElement {
 
     const jobTitleSlot = window.document.createElement('span');
     jobTitleSlot.setAttribute('slot', 'jobTitle');
-    jobTitleSlot.textContent = this.actor['http://xmlns.com/foaf/0.1/based_near'];
+    jobTitleSlot.textContent = this.actor['https://schema.org/jobTitle'];
 
     const followingSlot = window.document.createElement('collection-count');
     followingSlot.setAttribute('data-id', this.actor.following);
