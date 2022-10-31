@@ -27,6 +27,7 @@ class CollectionItem extends HTMLElement {
         }
 
         if (!passesTypeFilter) {
+          this.remove();
           return;
         }
       }
