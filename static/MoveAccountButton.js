@@ -1,7 +1,12 @@
 const button = window.document.querySelector('#MoveAccountButton');
 if (button) {
   button.addEventListener('click', async () => {
-    const actor = await fetch(button.dataset['actor']).then(async res => await res.json());
+    const actor = await fetch(button.dataset['actor'], {
+      headers: {
+        'Content-Type': 'application/activity+json',
+        Accept: 'application/activity+json',
+      }
+    }).then(async res => await res.json());
 
     return await fetch(actor.outbox, {
       method: 'POST',
