@@ -28,21 +28,21 @@ export function ActorProfileTemplate({ headingLevel }: { headingLevel: number })
           </dd>
 
         <dt>
-          Followers
+          <a href="/followers">
+            Followers
+          </a>
         </dt>
         <dd>
-          <a href="/followers">
-            <slot name="followers"></slot>
-          </a>
+          <slot name="followers"></slot>
         </dd>
 
         <dt>
-          Following
+          <a href="/following">
+            Following
+          </a>
         </dt>
         <dd>
-          <a href="/following">
-            <slot name="following"></slot>
-          </a>
+          <slot name="following"></slot>
         </dd>
         </dl>
       </div>

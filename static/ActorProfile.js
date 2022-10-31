@@ -40,11 +40,11 @@ class ActorProfile extends HTMLElement {
     jobTitleSlot.textContent = this.actor['http://xmlns.com/foaf/0.1/based_near'];
 
     const followingSlot = window.document.createElement('collection-count');
-    followingSlot.setAttribute('data-id', actor.following);
+    followingSlot.setAttribute('data-id', this.actor.following);
     followingSlot.setAttribute('slot', 'following');
 
     const followersSlot = window.document.createElement('collection-count');
-    followersSlot.setAttribute('data-id', actor.followers);
+    followersSlot.setAttribute('data-id', this.actor.followers);
     followersSlot.setAttribute('slot', 'followers');
 
     this.append(profilePicSlot);

@@ -72,21 +72,21 @@ function Profile({ actor }: { actor: AP.Actor }) {
       </> : null}
 
       <dt>
-        Followers
+        <a href="/followers">
+          Followers
+        </a>
       </dt>
       <dd>
-        <a href="/followers">
-          <collection-count data-id={actor.followers}></collection-count>
-        </a>
+        <collection-count data-id={actor.followers}></collection-count>
       </dd>
 
       <dt>
-        Following
+        <a href="/following">
+          Following
+        </a>
       </dt>
       <dd>
-        <a href="/following">
-          <collection-count data-id={actor.following}></collection-count>
-        </a>
+        <collection-count data-id={actor.following}></collection-count>
       </dd>
     </dl>
     <CollectionCountTemplate />
