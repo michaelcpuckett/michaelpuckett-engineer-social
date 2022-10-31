@@ -31,7 +31,6 @@ export function ActorProfileTemplate({ headingLevel }: { headingLevel: number })
           <dd>
             <slot name="followers"></slot>
           </dd>
-
           <dt>
             <a href="/following">
               Following
@@ -42,8 +41,8 @@ export function ActorProfileTemplate({ headingLevel }: { headingLevel: number })
           </dd>
         </dl>
       </div>
-      <style>
-        {`
+      <style dangerouslySetInnerHTML={{
+        __html: `
           .ActorProfile {
             text-align: center;
           }
@@ -61,7 +60,7 @@ export function ActorProfileTemplate({ headingLevel }: { headingLevel: number })
             max-width: 100%;
           }
 
-          ::slotted(img[slot="profilePic"]) { 
+          ::slotted([slot="profilePic"]) {
             border-radius: 100%;
             max-width: 50%;
           }
@@ -82,7 +81,7 @@ export function ActorProfileTemplate({ headingLevel }: { headingLevel: number })
             grid-auto-columns: auto auto;
             gap: 10px;
           }
-        `}
+        `}}>
       </style>
     </template>
     <script src="/ActorProfile.js" type="module"></script>
