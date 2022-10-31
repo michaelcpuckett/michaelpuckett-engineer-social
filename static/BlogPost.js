@@ -112,7 +112,7 @@ class ActorOutbox extends HTMLElement {
               ],
             }
             
-            fetch(`${this.userId}/outbox`, {
+            fetch(`${this.user.outbox}`, {
               method: 'POST',
               headers: {
                 'Accept': 'application/activity+json',
