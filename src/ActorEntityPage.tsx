@@ -20,10 +20,11 @@ export function ActorEntityPage({ actor, user }: { actor: AP.Actor; user?: AP.Ac
           <section aria-label="Outbox" className="container-item container-item--outbox">
             <Outbox actor={actor} />
           </section>
-          <aside className="container-item container-item--complementary"></aside>
+          <aside className="container-item container-item--complementary">
+            <p>Register to reply, like, or share.</p>
+          </aside>
         </div>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(actor) }}>
-        </script>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(actor) }}></script>
       </body>
     </html>
   );

@@ -104,7 +104,11 @@ import { ServerResponse, IncomingMessage } from 'http';
       },
 
       plugins: [
-        foafPlugin,
+        {
+          generateActorId: () => () => {
+            return `https://profile.michaelpuckett.engineer`;
+          },
+        },
       ]
     }),
   );
