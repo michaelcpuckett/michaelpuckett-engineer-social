@@ -28,6 +28,9 @@ formElement?.addEventListener('submit', (event) => {
     object: {
       id: body.objectId,
       type: ['Person', 'schema:Person', 'foaf:Person'],
+      ...body.alsoKnownAs ? {
+        alsoKnownAs: body.alsoKnownAs
+      } : null,
       ...body.summary ? {
         summary: body.summary,
         'schema:description': body.summary,

@@ -67,6 +67,10 @@ export function DashboardPage({ actor }: { actor: AP.Actor }) {
                 <span>GitHub</span>
                 <input type="text" name="github" />
               </label>
+              <label>
+                <span>Also Known As</span>
+                <input type="text" name="alsoKnownAs" />
+              </label>
               <button type="submit">
                 Update
               </button>
