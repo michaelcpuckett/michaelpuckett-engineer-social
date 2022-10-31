@@ -30,7 +30,7 @@ import { ServerResponse, IncomingMessage } from 'http';
     minPoolSize: 10,
   });
   await mongoClient.connect();
-  const mongoDb = mongoClient.db('puckett-contact');
+  const mongoDb = mongoClient.db(process.env.AP_MONGO_DB_NAME ?? 'puckett-contact');
 
   const app = express();
   app.use(express.static('static/'));
