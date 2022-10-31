@@ -30,7 +30,11 @@ export function CollectionEntityPage({ collection, user }: { collection: AP.Orde
               container-item
               container-item--profile
             ">
-              ...
+            {collection.attributedTo ? (
+              <actor-profile
+                data-attributed-to={JSON.stringify(collection.attributedTo)}
+              ></actor-profile>
+            ) : null}
           </section>
           <main
             aria-label={collection.name}
@@ -53,7 +57,7 @@ export function CollectionEntityPage({ collection, user }: { collection: AP.Orde
             ></collection-items>
           </aside>
         </div>
-        <ActorProfileTemplate headingLevel={1} />
+        <ActorProfileTemplate headingLevel={2} />
         <CollectionCountTemplate />
         <CollectionItemTemplate />
         <CollectionItemsTemplate />
