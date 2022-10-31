@@ -3,6 +3,7 @@ import { AP } from 'activitypub-core-types';
 import { ActorOutboxTemplate } from './ActorOutboxTemplate';
 import { OutboxItemTemplate } from './OutboxItemTemplate';
 import { getId, isTypeOf, isType } from 'activitypub-core-utilities';
+import { CollectionCountTemplate } from './CollectionCountTemplate';
 
 export function ActorEntityPage({ actor, user }: { actor: AP.Actor; user?: AP.Actor; } ) {
   return (
@@ -69,7 +70,26 @@ function Profile({ actor }: { actor: AP.Actor }) {
           {actor['https://schema.org/jobTitle']}
         </dd>
       </> : null}
+
+      <dt>
+        Followers
+      </dt>
+      <dd>
+        <a href="/followers">
+          <collection-count data-id={actor.followers}></collection-count>
+        </a>
+      </dd>
+
+      <dt>
+        Following
+      </dt>
+      <dd>
+        <a href="/following">
+          <collection-count data-id={actor.following}></collection-count>
+        </a>
+      </dd>
     </dl>
+    <CollectionCountTemplate />
   </div>;
 }
 

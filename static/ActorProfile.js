@@ -31,10 +31,30 @@ class ActorProfile extends HTMLElement {
     summarySlot.setAttribute('slot', 'summary');
     summarySlot.textContent = this.actor.summary;
 
+    const locationSlot = window.document.createElement('span');
+    locationSlot.setAttribute('slot', 'location');
+    locationSlot.textContent = this.actor['http://xmlns.com/foaf/0.1/based_near'];
+
+    const jobTitleSlot = window.document.createElement('span');
+    jobTitleSlot.setAttribute('slot', 'jobTitle');
+    jobTitleSlot.textContent = this.actor['http://xmlns.com/foaf/0.1/based_near'];
+
+    const followingSlot = window.document.createElement('collection-count');
+    followingSlot.setAttribute('data-id', actor.following);
+    followingSlot.setAttribute('slot', 'following');
+
+    const followersSlot = window.document.createElement('collection-count');
+    followersSlot.setAttribute('data-id', actor.followers);
+    followersSlot.setAttribute('slot', 'followers');
+
     this.append(profilePicSlot);
     this.append(nameSlot);
     this.append(preferredUsernameSlot);
     this.append(summarySlot);
+    this.append(locationSlot);
+    this.append(jobTitleSlot);
+    this.append(followingSlot);
+    this.append(followersSlot);
   }
 
   async fetchData(url) {

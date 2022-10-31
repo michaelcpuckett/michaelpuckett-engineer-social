@@ -10,6 +10,41 @@ export function ActorProfileTemplate({ headingLevel }: { headingLevel: number })
         </div>
         <slot name="preferredUsername"></slot>
         <slot name="summary"></slot>
+        <dl>
+          
+          <dt>
+            Location
+          </dt>
+          <dd>
+            <slot name="location"></slot>
+          </dd>
+
+        
+          <dt>
+            Job Title
+          </dt>
+          <dd>
+            <slot name="jobTitle"></slot>
+          </dd>
+
+        <dt>
+          Followers
+        </dt>
+        <dd>
+          <a href="/followers">
+            <slot name="followers"></slot>
+          </a>
+        </dd>
+
+        <dt>
+          Following
+        </dt>
+        <dd>
+          <a href="/following">
+            <slot name="following"></slot>
+          </a>
+        </dd>
+        </dl>
       </div>
       <style>
         {`
