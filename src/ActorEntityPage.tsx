@@ -31,8 +31,8 @@ export function ActorEntityPage({ actor, user }: { actor: AP.Actor; user?: AP.Ac
               container-item--profile
             ">
             <actor-profile
-              data-attributed-to={JSON.stringify(actor.id)}>
-            </actor-profile>
+              data-attributed-to={JSON.stringify(actor.id)}
+            ></actor-profile>
           </main>
           <section
             aria-label="Outbox"
@@ -41,8 +41,9 @@ export function ActorEntityPage({ actor, user }: { actor: AP.Actor; user?: AP.Ac
               container-item--outbox
             ">
             <collection-items
-              data-id={actor.outbox.toString()}>
-            </collection-items>
+              data-id={actor.outbox.toString()}
+              data-type-filter="Article,Note"
+            ></collection-items>
           </section>
           <aside
             aria-label="Wall"
@@ -51,8 +52,8 @@ export function ActorEntityPage({ actor, user }: { actor: AP.Actor; user?: AP.Ac
               container-item--complementary
             ">
             <collection-items
-              data-id={actor.replies.toString()}>
-            </collection-items>
+              data-id={actor.replies.toString()}
+            ></collection-items>
           </aside>
         </div>
         <ActorProfileTemplate headingLevel={1} />

@@ -13,6 +13,17 @@ class CollectionItem extends HTMLElement {
   
     async initialize() {
       this.item = await this.fetchData(this.itemId);
+
+      if (this.itemFilter) {
+        const itemFilter = this.itemFilter.split(',');
+        const type = Array.isArray(this.item.type) ? this.item.type : [this.item.type];
+        
+        for (const filter of itemFilter) {
+          if (type.includes(filter)) {
+            return;
+          }
+        }
+      }
   
       const activityTypeSlot = window.document.createElement('div');
       activityTypeSlot.setAttribute('slot', 'activityType');

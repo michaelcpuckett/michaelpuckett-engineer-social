@@ -1,7 +1,6 @@
 import React, { ReactElement } from 'react';
 import { AP } from 'activitypub-core-types';
 import { getId, isTypeOf, isType } from 'activitypub-core-utilities';
-import { OutboxPage } from './OutboxPage';
 import { ActorEntityPage } from './ActorEntityPage';
 import { ArticleEntityPage } from './ArticleEntityPage';
 import { CollectionEntityPage } from './CollectionEntityPage';
@@ -47,14 +46,6 @@ function Entity({ headingLevel, entity, user }: { entity: AP.Entity; user?: AP.A
 
   if (isType(entity, AP.CollectionTypes.COLLECTION)) {
     return <CollectionEntity headingLevel={headingLevel} collection={entity as AP.Collection} user={user} />;
-  }
-
-  if (isType(entity, AP.CollectionTypes.ORDERED_COLLECTION)) {
-    if (entity.name === 'Outbox') {
-      return <OutboxPage headingLevel={headingLevel} collection={entity as AP.OrderedCollection} user={user} />;
-    }
-
-    return <OrderedCollectionEntity headingLevel={headingLevel} collection={entity as AP.OrderedCollection} user={user} />;
   }
 
   if (isTypeOf(entity, AP.ExtendedObjectTypes)) {
