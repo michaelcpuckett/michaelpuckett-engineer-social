@@ -26,8 +26,9 @@ class CollectionItems extends HTMLElement {
         itemElements.push(itemElement);
       }
 
-      const nameSlot = window.document.createElement('span');
+      const nameSlot = window.document.createElement('a');
       nameSlot.setAttribute('slot', 'name');
+      nameSlot.setAttribute('href', this.collection.id);
       nameSlot.textContent = this.collection.name;
       this.append(nameSlot);
 
