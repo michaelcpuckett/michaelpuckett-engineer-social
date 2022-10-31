@@ -3,6 +3,7 @@ import { AP } from 'activitypub-core-types';
 import { ActorOutboxTemplate } from './ActorOutboxTemplate';
 import { OutboxItemTemplate } from './OutboxItemTemplate';
 import { getId, isTypeOf, isType } from 'activitypub-core-utilities';
+import { ActorProfileTemplate } from './ActorProfileTemplate';
 import { CollectionCountTemplate } from './CollectionCountTemplate';
 
 export function ActorEntityPage({ actor, user }: { actor: AP.Actor; user?: AP.Actor; } ) {
@@ -31,66 +32,12 @@ export function ActorEntityPage({ actor, user }: { actor: AP.Actor; user?: AP.Ac
   );
 }
 
-function ProfilePic({ actor }: { actor: AP.Actor }) {
-  return <>{actor.icon && 'url' in actor.icon && actor.icon.url ? (
-    <img src={actor.icon.url.toString()} />
-  ) : null}</>
-}
-
 function Profile({ actor }: { actor: AP.Actor }) {
-  return <div className="profile">
-    <ProfilePic actor={actor} />
-    <div role="heading" aria-level={1}>
-      {actor.name}
-    </div>
-    <p>
-      @{actor.preferredUsername}
-    </p>
-    {actor.summary ? (
-      <p>
-        {actor.summary}  
-      </p>
-    ) : null}
-    <dl>
-      {actor['http://xmlns.com/foaf/0.1/based_near'] ? <>
-        <dt>
-          Location
-        </dt>
-        <dd>
-          {actor['http://xmlns.com/foaf/0.1/based_near']}
-        </dd>
-      </> : null}
-
-      
-      {actor['https://schema.org/jobTitle'] ? <>
-        <dt>
-          Job Title
-        </dt>
-        <dd>
-          {actor['https://schema.org/jobTitle']}
-        </dd>
-      </> : null}
-
-      <dt>
-        <a href="/followers">
-          Followers
-        </a>
-      </dt>
-      <dd>
-        <collection-count data-id={actor.followers}></collection-count>
-      </dd>
-
-      <dt>
-        <a href="/following">
-          Following
-        </a>
-      </dt>
-      <dd>
-        <collection-count data-id={actor.following}></collection-count>
-      </dd>
-    </dl>
+  return <>
+    <actor-profile data-attributed-to={JSON.stringify(actor.id)}></actor-profile>
+    <ActorProfileTemplate headingLevel={1} />
     <CollectionCountTemplate />
-  </div>;
+  </>
 }
 
 function Outbox({ actor }: { actor: AP.Actor }) {

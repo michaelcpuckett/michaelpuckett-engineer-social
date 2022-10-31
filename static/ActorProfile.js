@@ -19,7 +19,7 @@ class ActorProfile extends HTMLElement {
     profilePicSlot.setAttribute('slot', 'profilePic');
     profilePicSlot.setAttribute('src', this.actor.icon?.url.toString());
 
-    const nameSlot = window.document.createElement('div');
+    const nameSlot = window.document.createElement('p');
     nameSlot.setAttribute('slot', 'name');
     nameSlot.textContent = this.actor.name;
 
