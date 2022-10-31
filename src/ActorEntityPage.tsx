@@ -17,40 +17,44 @@ export function ActorEntityPage({ actor, user }: { actor: AP.Actor; user?: AP.Ac
       </head>
       <body>
         <div className="container">
-          <main className="container-item container-item--profile">
-            <Profile actor={actor} />
+          <main
+            className="
+              container-item
+              container-item--profile
+            ">
+            <actor-profile
+              data-attributed-to={JSON.stringify(actor.id)}>
+            </actor-profile>
           </main>
-          <section aria-label="Outbox" className="container-item container-item--outbox">
-            <Outbox actor={actor} />
+          <section
+            aria-label="Outbox"
+            className="
+              container-item
+              container-item--outbox
+            ">
+            <collection-items
+              data-id={actor.outbox.toString()}>
+            </collection-items>
           </section>
-          <aside className="container-item container-item--complementary">
-            <h2>
-              My Wall
-            </h2>
-            <collection-items data-id={actor.replies.toString()}></collection-items>
-            <CollectionItemsTemplate />
+          <aside
+            aria-label="Wall"
+            className="
+              container-item
+              container-item--complementary
+            ">
+            <collection-items
+              data-id={actor.replies.toString()}>
+            </collection-items>
           </aside>
         </div>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(actor) }}></script>
+        <ActorProfileTemplate headingLevel={1} />
+        <CollectionCountTemplate />
+        <CollectionItemsTemplate />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{__html: JSON.stringify(actor) }}>
+        </script>
       </body>
     </html>
-  );
-}
-
-function Profile({ actor }: { actor: AP.Actor }) {
-  return <>
-    <actor-profile data-attributed-to={JSON.stringify(actor.id)}></actor-profile>
-    <ActorProfileTemplate headingLevel={1} />
-    <CollectionCountTemplate />
-  </>
-}
-
-function Outbox({ actor }: { actor: AP.Actor }) {
-  return (
-    <div className="outbox">
-      <actor-outbox data-actor-id={actor.id.toString()}></actor-outbox>
-      <ActorOutboxTemplate headingLevel={2} />
-      <OutboxItemTemplate />
-    </div>
   );
 }
