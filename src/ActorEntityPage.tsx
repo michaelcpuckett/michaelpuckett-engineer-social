@@ -9,7 +9,7 @@ export function ActorEntityPage({ actor, user }: { actor: AP.Actor; user?: AP.Ac
   return (
     <html lang="en">
       <head>
-        <title>{actor.name} | Profile</title>
+        <title dangerouslySetInnerHTML={{__html: `${actor.name} | Profile`}}></title>
         <link rel="stylesheet" href="/ActorEntityPage.css" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>

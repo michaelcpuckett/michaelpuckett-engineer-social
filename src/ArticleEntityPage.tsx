@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 import { AP } from 'activitypub-core-types';
 import { ActorProfileTemplate } from './ActorProfileTemplate';
+import { CollectionCountTemplate } from './CollectionCountTemplate';
 import { OutboxItemTemplate } from './OutboxItemTemplate';
 import { getId, isTypeOf, isType } from 'activitypub-core-utilities';
 
@@ -8,7 +9,7 @@ export function ArticleEntityPage({ article, user }: { article: AP.Article; user
   return (
     <html lang="en">
       <head>
-        <title>{article.summary}</title>
+        <title dangerouslySetInnerHTML={{__html: `${article.summary} | Blog Post`}}></title>
         <link rel="stylesheet" href="/ArticleEntityPage.css" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
@@ -31,6 +32,7 @@ function Profile({ article }: { article: AP.Article }) {
   return <>
     <actor-profile data-attributed-to={JSON.stringify(article.attributedTo)}></actor-profile>
     <ActorProfileTemplate headingLevel={2} />
+    <CollectionCountTemplate />
   </>
 }
 
