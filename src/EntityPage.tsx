@@ -4,10 +4,19 @@ import { getId, isTypeOf, isType } from 'activitypub-core-utilities';
 import { OutboxPage } from './OutboxPage';
 import { ActorEntityPage } from './ActorEntityPage';
 import { ArticleEntityPage } from './ArticleEntityPage';
+import { CollectionEntityPage } from './CollectionEntityPage';
 
 export function EntityPage({ entity, actor: user }: { entity: AP.Entity; actor?: AP.Actor; }) {
   if (isTypeOf(entity, AP.ActorTypes)) {
     return <ActorEntityPage actor={entity as AP.Actor} user={user} />;
+  }
+
+  if (isType(entity, AP.CollectionTypes.COLLECTION)) {
+    return <CollectionEntityPage collection={entity as AP.Collection} user={user} />;
+  }
+
+  if (isType(entity, AP.CollectionTypes.ORDERED_COLLECTION)) {
+    return <CollectionEntityPage collection={entity as AP.OrderedCollection} user={user} />;
   }
 
   if (isType(entity, AP.ExtendedObjectTypes.ARTICLE)) {

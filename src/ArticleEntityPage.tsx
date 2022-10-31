@@ -1,9 +1,7 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 import { AP } from 'activitypub-core-types';
 import { ActorProfileTemplate } from './ActorProfileTemplate';
 import { CollectionCountTemplate } from './CollectionCountTemplate';
-import { OutboxItemTemplate } from './OutboxItemTemplate';
-import { getId, isTypeOf, isType } from 'activitypub-core-utilities';
 
 export function ArticleEntityPage({ article, user }: { article: AP.Article; user?: AP.Actor; } ) {
   return (
