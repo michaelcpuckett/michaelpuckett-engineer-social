@@ -42,7 +42,7 @@ export function ActorEntityPage({ actor, user }: { actor: AP.Actor; user?: AP.Ac
             ">
             <collection-items
               data-id={actor.outbox.toString()}
-              data-type-filter="Article,Note"
+              data-type-filter="Create"
             ></collection-items>
           </section>
           <aside

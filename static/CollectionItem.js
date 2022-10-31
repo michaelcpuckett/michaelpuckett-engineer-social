@@ -18,11 +18,16 @@ class CollectionItem extends HTMLElement {
       if (this.typeFilter) {
         const typeFilter = this.typeFilter.split(',');
         const type = Array.isArray(this.item.type) ? this.item.type : [this.item.type];
-        
+        let passesTypeFilter = false;
+
         for (const filter of typeFilter) {
           if (type.includes(filter)) {
-            return;
+            passesTypeFilter = true;
           }
+        }
+
+        if (!passesTypeFilter) {
+          return;
         }
       }
   
