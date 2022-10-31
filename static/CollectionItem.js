@@ -5,6 +5,7 @@ class CollectionItem extends HTMLElement {
   
     connectedCallback() {
       this.itemId = this.getAttribute('data-id');
+      this.typeFilter = this.getAttribute('data-type-filter');
       this.attachShadow({ mode: 'open' });
       const templateElement = window.document.querySelector('#CollectionItem-template')
       this.shadowRoot.append(templateElement.content.cloneNode(true));
@@ -14,11 +15,11 @@ class CollectionItem extends HTMLElement {
     async initialize() {
       this.item = await this.fetchData(this.itemId);
 
-      if (this.itemFilter) {
-        const itemFilter = this.itemFilter.split(',');
+      if (this.typeFilter) {
+        const typeFilter = this.typeFilter.split(',');
         const type = Array.isArray(this.item.type) ? this.item.type : [this.item.type];
         
-        for (const filter of itemFilter) {
+        for (const filter of typeFilter) {
           if (type.includes(filter)) {
             return;
           }

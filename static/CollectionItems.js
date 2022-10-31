@@ -5,7 +5,7 @@ class CollectionItems extends HTMLElement {
   
     connectedCallback() {
       this.collectionId = this.getAttribute('data-id');
-      this.itemFilter = this.getAttribute('data-item-filter');
+      this.typeFilter = this.getAttribute('data-type-filter');
       this.attachShadow({ mode: 'open' });
       const templateElement = window.document.querySelector('#CollectionItems-template')
       this.shadowRoot.append(templateElement.content.cloneNode(true));
@@ -20,8 +20,8 @@ class CollectionItems extends HTMLElement {
       for (const itemId of (this.collection.items ?? this.collection.orderedItems)) {
         const itemElement = window.document.createElement('collection-item');
         itemElement.setAttribute('data-id', itemId);
-        if (this.itemFilter) {
-          itemElement.setAttribute('data-item-filter', this.itemFilter);
+        if (this.typeFilter) {
+          itemElement.setAttribute('data-type-filter', this.typeFilter);
         }
         itemElements.push(itemElement);
       }
