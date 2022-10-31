@@ -65,7 +65,7 @@ class ActorOutbox extends HTMLElement {
                 object: object.id,
               };
 
-              fetch(`${this.userId}/outbox`, {
+              fetch(`${this.userId}outbox`, {
                 method: 'POST',
                 headers: {
                   'Accept': 'application/activity+json',
@@ -112,7 +112,7 @@ class ActorOutbox extends HTMLElement {
               ],
             }
             
-            fetch(`${this.user.outbox}`, {
+            fetch(`${this.userId}outbox`, {
               method: 'POST',
               headers: {
                 'Accept': 'application/activity+json',
@@ -145,7 +145,7 @@ class ActorOutbox extends HTMLElement {
               object: this.id,
             };
 
-            fetch(`${this.user.outbox}`, {
+            fetch(`${this.userId}outbox`, {
               method: 'POST',
               headers: {
                 'Accept': 'application/activity+json',
