@@ -71,6 +71,23 @@ export function ActorProfileTemplate({ headingLevel }: { headingLevel: number })
     max-width: 50%;
   }
   
+  
+dt {
+  font-weight: bold;
+  grid-column: 1 / 2;
+}
+
+dd {
+  margin: 0;
+  grid-column: 2 / 3;
+}
+
+dl {
+  text-align: left;
+  display: grid;
+  grid-auto-columns: auto auto;
+  gap: 10px;
+}
         `}
       </style>
     </template>
