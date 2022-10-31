@@ -16,9 +16,9 @@ class CollectionItems extends HTMLElement {
         
       const itemElements = [];
 
-      for (const item of (this.collection.items ?? this.collection.orderedItems)) {
+      for (const itemId of (this.collection.items ?? this.collection.orderedItems)) {
         const itemElement = window.document.createElement('collection-item');
-        itemElement.setAttribute('data-id', item.id);
+        itemElement.setAttribute('data-id', itemId);
         itemElements.push(itemElement);
       }
 
