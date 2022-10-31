@@ -5,6 +5,7 @@ import { OutboxItemTemplate } from './OutboxItemTemplate';
 import { getId, isTypeOf, isType } from 'activitypub-core-utilities';
 import { ActorProfileTemplate } from './ActorProfileTemplate';
 import { CollectionCountTemplate } from './CollectionCountTemplate';
+import { CollectionItemTemplate } from './CollectionItemTemplate';
 import { CollectionItemsTemplate } from './CollectionItemsTemplate';
 
 export function ActorEntityPage({ actor, user }: { actor: AP.Actor; user?: AP.Actor; } ) {
@@ -49,6 +50,7 @@ export function ActorEntityPage({ actor, user }: { actor: AP.Actor; user?: AP.Ac
         </div>
         <ActorProfileTemplate headingLevel={1} />
         <CollectionCountTemplate />
+        <CollectionItemTemplate />
         <CollectionItemsTemplate />
         <script
           type="application/ld+json"
