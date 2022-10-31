@@ -15,6 +15,10 @@ export function DashboardPage({ actor }: { actor: AP.Actor }) {
       <body>
         <main>
           <h1>Welcome, {actor.name}.</h1>
+          <button id="MoveAccountButton" data-actor={getId(actor)}>
+            Move Account - Dangerous!
+          </button>
+          <script type="module" src="/MoveAccountButton.js"></script>
           <details>
             <summary>
               Edit Profile
