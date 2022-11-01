@@ -20,7 +20,7 @@ export function DashboardPage({ actor }: { actor: AP.Actor }) {
               Send arbitrary JSON
             </summary>
             <div>
-              <form id="ArbitraryJsonForm">
+              <form id="ArbitraryJsonForm" noValidate action={getId(actor.outbox).toString()}>
                 <textarea name="body" defaultValue={JSON.stringify({
                   '@context': 'https://www.w3.org/ns/activitystreams#'
                 })}></textarea>
