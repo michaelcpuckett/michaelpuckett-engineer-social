@@ -113,6 +113,21 @@ import { ServerResponse, IncomingMessage } from 'http';
     }),
   );
 
+  
+  app.get('/', (req: IncomingMessage, res: ServerResponse) => {
+    const indexPage = `
+      <!doctype html>
+      ${renderToString(
+        <IndexPage />
+      )}
+    `;
+
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/html')
+    res.write(indexPage);
+    res.end();
+  });
+
   app.listen(process.env.PORT ?? 3000, () => {
     console.log('Running...');
   });
