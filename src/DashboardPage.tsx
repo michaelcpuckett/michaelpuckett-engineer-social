@@ -17,6 +17,22 @@ export function DashboardPage({ actor }: { actor: AP.Actor }) {
           <h1>Welcome, {actor.name}.</h1>
           <details>
             <summary>
+              Send arbitrary JSON
+            </summary>
+            <div>
+              <form id="ArbitraryJsonForm">
+                <textarea name="body" defaultValue={JSON.stringify({
+                  '@context': 'https://www.w3.org/ns/activitystreams#'
+                })}></textarea>
+                <button type="submit">
+                  Submit
+                </button>
+              </form>
+              <script type="module" src="/ArbitraryJsonForm.js"></script>
+            </div>
+          </details>
+          <details>
+            <summary>
               Edit Profile
             </summary>
 
