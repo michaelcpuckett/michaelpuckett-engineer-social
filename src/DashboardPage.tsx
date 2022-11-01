@@ -15,10 +15,22 @@ export function DashboardPage({ actor }: { actor: AP.Actor }) {
       <body>
         <main>
           <h1>Welcome, {actor.name}.</h1>
-          <button id="MoveAccountButton" data-actor={getId(actor)}>
-            Move Account - Dangerous!
-          </button>
-          <script type="module" src="/MoveAccountButton.js"></script>
+          <details>
+            <summary>
+              Send arbitrary JSON
+            </summary>
+            <div>
+              <form id="ArbitraryJsonForm">
+                <textarea name="body" defaultValue={JSON.stringify({
+                  '@context': 'https://www.w3.org/ns/activitystreams#'
+                })}></textarea>
+                <button type="submit">
+                  Submit
+                </button>
+              </form>
+              <script type="module" src="/ArbitraryJsonForm.js"></script>
+            </div>
+          </details>
           <details>
             <summary>
               Edit Profile
