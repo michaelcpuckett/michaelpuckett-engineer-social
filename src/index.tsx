@@ -16,6 +16,7 @@ import { DeliveryAdapter } from 'activitypub-core-delivery';
 import { FoafPlugin } from 'activitypub-core-plugin-foaf';
 import { ServiceAccount } from 'firebase-admin';
 import { ServerResponse, IncomingMessage } from 'http';
+import { LOCAL_DOMAIN } from 'activitypub-core-utilities';
 
 (async () => {
   const envServiceAccount = process.env.AP_SERVICE_ACCOUNT;
@@ -102,30 +103,30 @@ import { ServerResponse, IncomingMessage } from 'http';
         delivery: defaultDeliveryAdapter,
         storage: ftpStorageAdapter,
       },
-
       plugins: [
         {
-          generateActorId: () => () => {
-            return `https://profile.michaelpuckett.engineer`;
+          generateActorId: () => (preferredUsername: string) => {
+            return `${LOCAL_DOMAIN}/@${preferredUsername}`;
           },
         },
       ]
     }),
   );
 
-  
   app.get('/', (req: IncomingMessage, res: ServerResponse) => {
-    const indexPage = `
-      <!doctype html>
-      ${renderToString(
-        <IndexPage />
-      )}
-    `;
+    if (!res.headersSent) {
+      const indexPage = `
+        <!doctype html>
+        ${renderToString(
+          <IndexPage />
+        )}
+      `;
 
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/html')
-    res.write(indexPage);
-    res.end();
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'text/html')
+      res.write(indexPage);
+      res.end();
+    }
   });
 
   app.listen(process.env.PORT ?? 3000, () => {
