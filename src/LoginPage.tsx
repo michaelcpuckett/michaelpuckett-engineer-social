@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function LoginPage({}) {
+export function LoginPage({ }) {
   return (
     <html lang="en">
       <head>
@@ -53,6 +53,13 @@ function SignUpForm({ }) {
   return (
     <>
       <form noValidate id="SignUpForm">
+        <label>
+          <span>Type</span>
+          <select name="type" defaultValue={'Person'}>
+            <option value="Person">Person</option>
+            <option value="Group">Group</option>
+          </select>
+        </label>
         <label>
           <span>Email</span>
           <input type="email" name="email" />
