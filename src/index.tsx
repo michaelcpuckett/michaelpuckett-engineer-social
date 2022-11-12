@@ -14,6 +14,7 @@ import { FirebaseAuthAdapter } from 'activitypub-core-auth-firebase';
 import { FtpStorageAdapter } from 'activitypub-core-storage-ftp';
 import { DeliveryAdapter } from 'activitypub-core-delivery';
 import { FoafPlugin } from 'activitypub-core-plugin-foaf';
+import { oidcRouteHandler } from 'activitypub-core-oauth';
 import { ServiceAccount } from 'firebase-admin';
 import { ServerResponse, IncomingMessage } from 'http';
 import { LOCAL_DOMAIN } from 'activitypub-core-utilities';
@@ -88,6 +89,8 @@ import { LOCAL_DOMAIN } from 'activitypub-core-utilities';
       )}
     `;
   };
+
+  app.use('/oidc', oidcRouteHandler);
 
   app.use(
     activityPub({
