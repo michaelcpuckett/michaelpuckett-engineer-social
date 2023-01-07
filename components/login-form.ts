@@ -3,11 +3,10 @@ import {customElement, property, query} from 'lit/decorators';
 import {classMap} from 'lit/directives/class-map';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { baseCss } from './base-css';
 
 @customElement('login-form')
 export class LoginForm extends LitElement {
-  static styles = [baseCss, css`
+  static styles = [css`
     :host {
       display: block;
       padding: 1em;

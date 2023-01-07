@@ -4,11 +4,10 @@ import {classMap} from 'lit/directives/class-map';
 import { AP } from 'activitypub-core-types';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { baseCss } from './base-css';
 
 @customElement('signup-form')
 export class SignupForm extends LitElement {
-  static styles = [baseCss, css`
+  static styles = [css`
     :host {
       display: block;
       padding: 1em;
@@ -83,7 +82,7 @@ export class SignupForm extends LitElement {
         'Accept': 'application/activity+json',
       },
       body: JSON.stringify({
-        type: AP.ActorTypes.GROUP,
+        type: AP.ActorTypes.PERSON,
         email,
         password,
         preferredUsername: username,
