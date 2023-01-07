@@ -1,5 +1,7 @@
-# puckett-contact
+# chirp.social
 
-This is a personal social networking interface that connects me and my content to the Fediverse.
+https://chirp.social
 
-Eventually I plan to post notes, blogs, pictures, etc!
+This is a client application that creates Group accounts on the fediverse.
+
+The server upstream is https://github.com/michaelcpuckett/activitypub-core

@@ -1,3 +1,5 @@
 node_modules
-.env
-credentials.ts
+.parcel-cache
+lib
+static/*.js
+static/*.map
