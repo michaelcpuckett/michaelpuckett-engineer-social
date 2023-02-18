@@ -81,8 +81,6 @@ const port = process.env.PORT ?? 3000;
   app.post('/edit-profile', async (req, res) => {
     const profile = req.body;
 
-    console.log(profile);
-
     await mongoDb.collection('profile').updateOne(
       {
         _id: 'https://shopgenie.com/users/mpuckett/profile',
@@ -168,7 +166,13 @@ const port = process.env.PORT ?? 3000;
 
     for (const mealId of mealIds) {
       const meal = await mongoDb.collection('meal').findOne({ _id: mealId });
-      const ingredients = await getIngredients(meal.name, profile.cookingFor);
+      const ingredients = await getIngredients({
+        recipe: meal.name,
+        favoriteFoods: profile.favoriteFoods,
+        leastFavoriteFoods: profile.leastFavoriteFoods,
+        diet: profile.diet,
+        cookingFor: profile.cookingFor, 
+      });
       const recipeId = `https://shopgenie.com/users/mpuckett/recipe/${getGuid()}`;
 
       await mongoDb.collection('recipe').replaceOne(

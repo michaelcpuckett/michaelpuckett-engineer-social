@@ -7,14 +7,18 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 module.exports = {
-  getIngredients: async function getIngredients(recipe, cookingFor) {
+  getIngredients: async function getIngredients({ favoriteFoods, leastFavoriteFoods, diet, recipe, cookingFor }) {
   const response = await openai.createCompletion({
     model:"text-davinci-003",
-    prompt:`Convert requests to generate an ingredients list in JSON format.
+    prompt:`Convert requests to generate an ingredients list in JSON format. The output must be valid JSON.
+
+The output must not contain these ingredients: ${leastFavoriteFoods}
+
+Restrictions such as allergies or a specific diet (keto, vegan, etc.): ${diet}
     
 ${cookingFor ? `Cooking for: ${cookingFor}` : ''}
 
-Example: Grilled chicken with roasted potatoes
+Example Input: Grilled chicken with roasted potatoes
 Output: [{"item":"Chicken breast","quantity":0.5,"unit":"lbs"},{"item":"Potato","quantity":4}]
 
 Input: ${recipe}
