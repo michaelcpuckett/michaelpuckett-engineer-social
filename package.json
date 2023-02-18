@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "node index.js"
+    "build": "node noop.js",
+    "serve": "node index.js"
   },
   "author": "",
   "license": "ISC",
