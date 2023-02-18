@@ -159,6 +159,13 @@ td {
 
       <label>
         <p>
+          Calorie/macro/dietary goals
+        </p>
+        <textarea id="dietary-goals" placeholder="2000 calories/day, lose weight">{{ profile.dietaryGoals }}</textarea>
+      </label>
+
+      <label>
+        <p>
           How many people are you cooking for?
         </p>
         <textarea id="cooking-for" placeholder="2 adults, 3 children">{{ profile.cookingFor }}</textarea>
@@ -176,12 +183,14 @@ td {
         const favoriteFoods = window.document.querySelector('#favorite-foods');
         const leastFavoriteFoods = window.document.querySelector('#least-favorite-foods');
         const diet = window.document.querySelector('#diet');
+        const dietaryGoals = window.document.querySelector('#dietary-goals');
         const cookingFor = window.document.querySelector('#cooking-for');
 
         const profile = {
           favoriteFoods: favoriteFoods.value,
           leastFavoriteFoods: leastFavoriteFoods.value,
           diet: diet.value,
+          dietaryGoals: dietaryGoals.value,
           cookingFor: cookingFor.value,
         };
 
@@ -383,6 +392,37 @@ td {
           </tr>
         {% endfor %}
       </table>
+    </div>
+  </details>
+  <details>
+    <summary>Edit List</summary>
+    <div>
+      <form id="edit-list">
+        <textarea id="edit-list-input" placeholder="Remove eggs from the list"></textarea>
+        <button type="submit">Submit</button>
+        <output id="edit-list-output"></output>
+      </form>
+      <script type="module">
+        window.document.querySelector('#edit-list').addEventListener('submit', (event) => {
+          event.preventDefault();
+
+          const input = window.document.querySelector('#edit-list-input');
+
+          const body = JSON.stringify({
+            input: input.value,
+          });
+
+          fetch('/edit-list', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body,
+          }).then(async (response) => {
+            window.document.querySelector('#edit-list-output').innerText = JSON.stringify(await response.json());
+          });
+        });
+      </script>
     </div>
   </details>
 {% endif %}

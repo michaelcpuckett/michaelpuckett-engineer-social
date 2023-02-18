@@ -6,6 +6,7 @@ const { MongoClient } = require('mongodb');
 const bodyParser = require('body-parser');
 const { randomBytes } = require('crypto');
 const nunjucks = require('nunjucks');
+const { editList } = require('./editList');
 const getGuid = () => randomBytes(16).toString('hex');
 const port = process.env.PORT ?? 3000;
 
@@ -94,6 +95,16 @@ const port = process.env.PORT ?? 3000;
     res.end();
   });
 
+  
+
+  app.post('/edit-list', async (req, res) => {
+    const input = req.body?.input;
+    const output = await editList(input);
+    console.log(output);
+    res.send({ output, });
+    res.end();
+  });
+
   app.post('/generate-meal-plan', async (req, res) => {
     const profile = await mongoDb.collection('profile').findOne({
       _id: 'https://shopgenie.com/users/mpuckett/profile',
@@ -171,6 +182,7 @@ const port = process.env.PORT ?? 3000;
         favoriteFoods: profile.favoriteFoods,
         leastFavoriteFoods: profile.leastFavoriteFoods,
         diet: profile.diet,
+        dietaryGoals: profile.dietaryGoals,
         cookingFor: profile.cookingFor, 
       });
       const recipeId = `https://shopgenie.com/users/mpuckett/recipe/${getGuid()}`;
