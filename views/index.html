@@ -1,0 +1,307 @@
+<!doctype html>
+<style>
+  body {
+    font-family: sans-serif;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  details {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  table,
+  thead,
+  tbody,
+  tr {
+    display: grid;
+    gap: 24px;
+  }
+
+  tr {
+    grid-template-columns: 150px 150px minmax(0, 1fr);
+    border-bottom: 1px solid black;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+  }
+
+  td {
+    vertical-align: top;
+  }
+
+  td:has(table) {
+    padding: 0;
+  }
+
+  td[colspan="2"] {
+    grid-column: 1 / span 2;
+  }
+
+  th {
+    text-align: left;
+  }
+
+  td table ~ table {
+    display: none;
+  }
+</style>
+<h1>
+  Welcome to ShopGenie!
+</h1>
+<details>
+  <summary>
+    1. Set Up Dietary Profile
+  </summary>
+  <div>
+    <h2>
+      Edit Profile
+    </h2>
+
+    <form id="edit-profile">
+      <label>
+        <p>
+          What are your favorite foods?
+        </p>
+        <textarea id="favorite-foods" aria-label="Favorite foods">{{ profile.favoriteFoods }}</textarea>
+      </label>
+
+      <label>
+        <p>
+          What are your least favorite foods?
+        </p>
+        <textarea id="least-favorite-foods" aria-label="Dietary Profile">{{ profile.leastFavoriteFoods }}</textarea>
+      </label>
+
+      <label>
+        <p>
+          Are there any restrictions such as allergies or a specific diet (keto, vegan, etc.)?
+        </p>
+        <textarea id="diet">{{ profile.diet }}</textarea>
+      </label>
+
+      <label>
+        <p>
+          How many people are you cooking for?
+        </p>
+        <textarea id="cooking-for">{{ profile.cookingFor }}</textarea>
+      </label>
+
+      <button type="submit">
+        Save
+      </button>
+    </form>
+    <script type="module">
+      window.document.querySelector('#edit-profile').addEventListener('submit', (event) => {
+        event.preventDefault();
+          
+        const favoriteFoods = window.document.querySelector('#favorite-foods');
+        const leastFavoriteFoods = window.document.querySelector('#least-favorite-foods');
+        const diet = window.document.querySelector('#diet');
+        const cookingFor = window.document.querySelector('#cooking-for');
+
+        const profile = {
+          favoriteFoods: favoriteFoods.value,
+          leastFavoriteFoods: leastFavoriteFoods.value,
+          diet: diet.value,
+          cookingFor: cookingFor.value,
+        };
+
+        fetch('/edit-profile', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(profile),
+        }).then((response) => {
+          window.location.reload();
+        });
+      });
+    </script>
+  </div>
+</details>
+
+<details>
+  <summary>
+    2. Plan Meals for the Week
+  </summary>
+  <div>
+    <h2>
+        Meal Plan for the Week
+    </h2>
+    <form id="generate-meal-plan" action="/generate-meal-plan" method="POST">
+      <button
+        type="submit">
+        Generate Meal Plan
+      </button>
+      <p class="loader" hidden>Loading, please wait up to 2 minutes...</p>
+    </form>
+
+    <script type="module">
+      window.document.querySelector('#generate-meal-plan').addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        window.document.querySelector('#generate-meal-plan .loader').removeAttribute('hidden');
+
+        fetch('/generate-meal-plan', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }).then((response) => {
+          window.location.reload();
+        });
+      });
+    </script>
+    
+<table id="meal-plan">
+  <thead>
+    <tr>
+      <th scope="col">
+        Day
+      </th>
+      <th scope="col">
+        Meal
+      </th>
+      <th scope="col">
+        Recipe
+      </th>
+    </tr>
+  </thead>
+  {% if mealPlan %}
+    {% for meal in mealPlan %}
+      <tr>
+        <td>
+          {{ ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'][meal.day] }}
+        </td>
+        <td>
+          {{ ['Breakfast', 'Lunch', 'Dinner', 'Snack'][meal.meal] }}
+          <br />
+          <button type="button">
+            Delete Meal
+          </button>
+        </td>
+        <th>
+          {{ meal.name }}
+          <br />
+          
+          <button type="button">
+            More Options...
+          </button>
+        </td>
+      </tr>
+    {% endfor %}
+  {% endif %}
+</table>
+  </div>
+</details>
+
+<details>
+  <summary>
+    3. Make Grocery List
+  </summary>
+  <div>
+
+    <h2>
+      Grocery List
+  </h2>
+  
+  <form id="generate-grocery-list">
+      <button type="submit">
+          Generate Grocery List
+      </button>
+      
+      <p class="loader" hidden>Loading, please wait up to 2 minutes...</p>
+  </form>
+  
+  <script type="module">
+      window.document.querySelector('#generate-grocery-list').addEventListener('submit', async (event) => {
+          event.preventDefault();
+  
+          window.document.querySelector('#generate-grocery-list .loader').removeAttribute('hidden');
+
+          return await fetch('/generate-grocery-list', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              }
+          }).then((response) => {
+              window.location.reload();
+          });
+      });
+  </script>
+  
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">
+          Item
+        </th>
+        <th scope="col">
+          Quantity
+        </th>
+      </tr>
+    </thead>
+    {% if allIngredients %}
+      {% for item in allIngredients %}
+        <tr>
+          <th scope="row">
+            {{ item.item }}
+          </th>
+          <td>
+            {{ item.quantity }}
+            {{ item.unit }}
+          </td>
+        </tr>
+      {% endfor %}
+    {% endif %}
+  </table>
+  </div>
+</details>
+
+{% if mealsWithIngredients.length %}
+  <details open>
+    <summary>
+      Ingredients by Meal
+    </summary>
+    <div>
+      <h2>Ingredients by Meal</h2>
+      <table>
+        {% for meal in mealPlan %}
+          <tr class="meal-day--{{ meal.day }}">
+            <td>
+              {{ ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'][meal.day] }}
+            </td>
+            <td>
+              {{ ['Breakfast', 'Lunch', 'Dinner', 'Snack'][meal.meal] }}
+            </td>
+            <td>
+              {% for mealWithIngredients in mealsWithIngredients %}
+                {% if mealWithIngredients.name == meal.name and not renderedOne %}
+                  <table>
+                    <tr>
+                      <td colspan="2">
+                        <strong>{{ mealWithIngredients.name }}</strong>
+                      </td>
+                    </tr>
+                    {% for ingredient in mealWithIngredients.ingredients %}
+                      <tr>
+                        <td>
+                          {{ ingredient.item }}
+                        </td>
+                        <td>
+                          {{ ingredient.quantity }}
+                          {{ ingredient.unit }}
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </table>
+                {% endif %}
+              {% endfor %}
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </details>
+{% endif %}
