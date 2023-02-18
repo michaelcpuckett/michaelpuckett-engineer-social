@@ -49,7 +49,7 @@
 <h1>
   Welcome to ShopGenie!
 </h1>
-<details>
+<details {% if not profile.favoriteFoods %}open{% endif %}>
   <summary>
     1. Set Up Dietary Profile
   </summary>
@@ -90,10 +90,13 @@
       <button type="submit">
         Save
       </button>
+      <p class="loader" hidden>Loading, please wait up to 5 minutes...</p>
     </form>
     <script type="module">
       window.document.querySelector('#edit-profile').addEventListener('submit', (event) => {
         event.preventDefault();
+
+        window.document.querySelector('#edit-profile .loader').removeAttribute('hidden');
           
         const favoriteFoods = window.document.querySelector('#favorite-foods');
         const leastFavoriteFoods = window.document.querySelector('#least-favorite-foods');
@@ -114,14 +117,14 @@
           },
           body: JSON.stringify(profile),
         }).then((response) => {
-          window.location.reload();
+          window.document.querySelector('#generate-meal-plan').dispatchEvent(new SubmitEvent('submit'));
         });
       });
     </script>
   </div>
 </details>
 
-<details>
+<details {% if profile.favoriteFoods and not mealPlan.length %}open{% endif %}>
   <summary>
     2. Plan Meals for the Week
   </summary>
@@ -168,7 +171,7 @@
       </th>
     </tr>
   </thead>
-  {% if mealPlan %}
+  {% if mealPlan.length %}
     {% for meal in mealPlan %}
       <tr>
         <td>
@@ -196,7 +199,7 @@
   </div>
 </details>
 
-<details>
+<details {% if profile.favoriteFoods and mealPlan.length %}open{% endif %}>
   <summary>
     3. Make Grocery List
   </summary>
