@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express')
 const { generateMealPlan } = require('./generateMealPlans');
+const { generateReplacementMeals } = require('./generateReplacementMeals');
 const { getIngredients } = require('./ingredients');
 const { MongoClient } = require('mongodb');
 const bodyParser = require('body-parser');
@@ -226,6 +227,87 @@ const port = process.env.PORT ?? 3000;
     );
 
     res.send({ success: true, });
+    res.end();
+  });
+
+  
+  app.post('/replace-meal', async (req, res) => {
+    const id = req.body?.id;
+    const name = req.body?.name;
+    const position = req.body?.position;
+
+    const profile = await mongoDb.collection('profile').findOne({
+      _id: 'https://shopgenie.com/users/mpuckett/profile',
+    });
+
+    const originalMeal = await mongoDb.collection('meal').findOne({
+      _id: id,
+    });
+
+    const mealId = `https://shopgenie.com/users/mpuckett/meal/${getGuid()}`;
+
+    const meal = {...originalMeal, name};
+
+    delete meal._id;
+      
+    await mongoDb.collection('meal').replaceOne(
+      {
+        _id: mealId,
+      },
+      meal,
+      {
+        upsert: true,
+      },
+    );
+
+    await mongoDb.collection('mealPlan').updateOne(
+      {
+        _id: profile.mealPlans[0],
+      },
+      {
+        $pull: {
+          meals: [originalMeal._id],
+        }
+      },
+      {
+        upsert: true,
+      }
+    );
+    
+    await mongoDb.collection('mealPlan').updateOne(
+      {
+        _id: profile.mealPlans[0],
+      },
+      {
+        $push: {
+          meals: {
+            $each: [mealId],
+            $position: parseInt(position, 10),
+          },
+        },
+      },
+      {
+        upsert: true,
+      },
+    );
+
+    res.send({ success: true });
+    res.end();
+  });
+
+  app.post('/generate-replacement-meals', async (req, res) => {
+    const meal = req.body?.meal;
+
+    const profile = await mongoDb.collection('profile').findOne({
+      _id: 'https://shopgenie.com/users/mpuckett/profile',
+    });
+
+    const replacementMeals = await generateReplacementMeals({
+      ...profile,
+      meal,
+    });
+
+    res.send(replacementMeals);
     res.end();
   });
 

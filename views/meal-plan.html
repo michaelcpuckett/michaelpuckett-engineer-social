@@ -52,16 +52,93 @@
           </td>
           <th>
             {{ meal.name }}
+
+            <br />
+            
+            <form class="other-options">
+              <input type="hidden" name="meal" value="{{ ['Breakfast', 'Lunch', 'Dinner', 'Snack'][meal.meal] }}" />
+              <button type="submit">
+                Other Options...
+              </button>
+            </form>
+            <form>
+              <input type="hidden" name="id" value="{{ meal._id }}" />
+              <input type="hidden" name="position" value="{{ loop.index0 }}" />
+              <select hidden>
+                <option default>Loading...</option>
+              </select>
+              <button type="submit" hidden>
+                Replace
+              </button>
+            </form>
           </td>
         </tr>
       {% endfor %}
     {% endif %}
     
     <script type="module">
-      Array.from(window.document.querySelectorAll('.delete-meal')).forEach(formElement => {
+      Array.from(window.document.querySelectorAll('.other-options')).forEach(formElement => {
         formElement.addEventListener('submit', (event) => {
           event.preventDefault();
 
+          const selectElement = formElement.nextElementSibling.querySelector('select');
+          const selectButton = formElement.nextElementSibling.querySelector('button');
+
+          selectElement.removeAttribute('hidden');
+
+          const meal = formElement.querySelector('[name="meal"]');
+
+          const body = JSON.stringify({
+            meal: meal.value,
+          });
+          
+          fetch('/generate-replacement-meals', {
+            method: 'POST',
+            body,
+            headers: {
+              'Content-Type': 'application/json',
+            }
+          }).then((res) => {
+            return res.json();
+          }).then((result) => {
+            selectElement.querySelector('option').remove();
+            selectButton.removeAttribute('hidden');
+
+            for (const replacementMeal of result) {
+              const optionElement = window.document.createElement('option');
+              optionElement.textContent = replacementMeal.name;
+              selectElement.append(optionElement);
+            }
+          });
+        });
+        formElement.nextElementSibling.addEventListener('submit', (event) => {
+          event.preventDefault();
+
+          const id = formElement.nextElementSibling.querySelector('[name="id"]');
+          const position = formElement.nextElementSibling.querySelector('[name="position"]');
+          const nameElement = formElement.nextElementSibling.querySelector('select');
+
+          const body = JSON.stringify({
+            name: nameElement.value,
+            id: id.value,
+            position: position.value,
+          });
+
+          fetch('/replace-meal', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body,
+          }).then(() => {
+            window.location.reload();
+          });
+        })
+      });
+
+      Array.from(window.document.querySelectorAll('.delete-meal')).forEach(formElement => {
+        formElement.addEventListener('submit', (event) => {
+          event.preventDefault();
           
           const mealId = formElement.querySelector('[name="id"]');
           console.log(mealId.value)
