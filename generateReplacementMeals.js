@@ -21,7 +21,7 @@ Restrictions such as allergies or a specific diet (keto, vegan, etc.): ${diet}
 Dietary goals: ${dietaryGoals}
 
 Output: `,
-            temperature:1.0,
+            temperature:0.8,
             max_tokens:1000,
             top_p:1.0,
             frequency_penalty:0.0,
