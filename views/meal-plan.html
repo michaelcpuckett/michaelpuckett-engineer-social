@@ -1,0 +1,89 @@
+<!doctype html>
+<title>ShopGenie</title>
+<link rel="stylesheet" href="/main.css" />
+<h1>
+  Welcome to ShopGenie!
+</h1>
+<hr />
+<div class="section">
+  <h2>
+    Meal Plan for the Week
+  </h2>
+
+  
+  <form class="generate-grocery-list">
+    <button type="submit">
+        Generate Recipes and Grocery List
+    </button>
+    
+    <p class="loader" hidden>Loading, please wait up to 2 minutes...</p>
+  </form>
+
+      
+  <table id="meal-plan">
+    <thead>
+      <tr>
+        <th scope="col">
+          Day
+        </th>
+        <th scope="col">
+          Meal
+        </th>
+        <th scope="col">
+          Recipe
+        </th>
+      </tr>
+    </thead>
+    {% if mealPlan.length %}
+      {% for meal in mealPlan %}
+        <tr>
+          <td class="meal-day--{{ meal.day }}">
+            {{ ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'][meal.day] }}
+          </td>
+          <td class="meal-meal--{{ meal.meal }}">
+            {{ ['Breakfast', 'Lunch', 'Dinner', 'Snack'][meal.meal] }}
+            <br />
+            <button type="button">
+              Delete Meal
+            </button>
+          </td>
+          <th>
+            {{ meal.name }}
+            <br />
+            
+            <button type="button">
+              More Options...
+            </button>
+          </td>
+        </tr>
+      {% endfor %}
+    {% endif %}
+  </table>
+
+  <form id="generate-grocery-list">
+    <button type="submit">
+        Generate Recipes and Grocery List
+    </button>
+    
+    <p class="loader" hidden>Loading, please wait up to 2 minutes...</p>
+  </form>
+</div>
+
+<script type="module">
+  Array.from(window.document.querySelectorAll('.generate-grocery-list')).forEach(formElement => {
+    formElement.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      formElement.querySelector('.loader').removeAttribute('hidden');
+
+      fetch('/generate-grocery-list', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          }
+      }).then((response) => {
+        window.location = new URL('/grocery-list', window.location);
+      });
+    });
+  });
+</script>

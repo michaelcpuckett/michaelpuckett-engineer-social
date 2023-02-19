@@ -7,10 +7,10 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 module.exports = {
-  getIngredients: async function getIngredients({ favoriteFoods, leastFavoriteFoods, diet, recipe, cookingFor }) {
-  const response = await openai.createCompletion({
-    model:"text-davinci-003",
-    prompt:`Convert requests to generate an ingredients list in JSON format. The output must be valid JSON.
+  getIngredients: async function getIngredients({ leastFavoriteFoods, diet, recipe, cookingFor }) {
+    const response = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: `Convert requests to generate an ingredients list in JSON format. The output must be valid JSON.
 
 The output must not contain these ingredients: ${leastFavoriteFoods}
 
@@ -29,6 +29,8 @@ Output: `,
       frequency_penalty:0.0,
       presence_penalty:0.0,
     });
+
+    console.log(response.data.choices[0].text);
 
     return JSON.parse(response.data.choices[0]?.text);
   }

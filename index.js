@@ -8,10 +8,12 @@ const { randomBytes } = require('crypto');
 const nunjucks = require('nunjucks');
 const { editList } = require('./editList');
 const getGuid = () => randomBytes(16).toString('hex');
+const path = require('path');
 const port = process.env.PORT ?? 3000;
 
 (async () => {
   const app = express();
+  app.use(express.static(path.resolve(__dirname, './static')));
   const mongoClient = new MongoClient(process.env.MONGO_CLIENT_URL ?? 'mongodb://127.0.0.1:27017');
   await mongoClient.connect();
   const mongoDb = mongoClient.db('recipes');
@@ -43,7 +45,38 @@ const port = process.env.PORT ?? 3000;
     res.end();
   });
 
-  app.get('/', async function(req, res) {
+  app.get('/', async (req, res) => {
+    res.render('index.html');
+  });
+
+  app.get('/edit-profile', async function(req, res) {
+    const profile = await mongoDb.collection('profile').findOne({
+      _id: 'https://shopgenie.com/users/mpuckett/profile',
+    });
+
+    res.render('edit-profile.html', {
+      profile,
+    });
+  });
+
+  app.get('/meal-plan', async function (req, res) {
+    const profile = await mongoDb.collection('profile').findOne({
+      _id: 'https://shopgenie.com/users/mpuckett/profile',
+    });
+    
+    const currentMeals = (await mongoDb.collection('mealPlan').findOne({
+      _id: profile.mealPlans?.[0],
+    }))?.meals ?? [];
+
+    const mealPlan = await Promise.all(currentMeals.map(async mealId => await mongoDb.collection('meal').findOne({ _id: mealId })));
+
+    res.render('meal-plan.html', {
+      profile,
+      mealPlan,
+    });
+  });
+
+  app.get('/grocery-list', async (req, res) => {
     const profile = await mongoDb.collection('profile').findOne({
       _id: 'https://shopgenie.com/users/mpuckett/profile',
     });
@@ -71,7 +104,7 @@ const port = process.env.PORT ?? 3000;
       }
     });
 
-    res.render('index.html', {
+    res.render('grocery-list.html', {
       profile,
       mealPlan,
       mealsWithIngredients,
@@ -94,8 +127,6 @@ const port = process.env.PORT ?? 3000;
     res.send({ success: true, });
     res.end();
   });
-
-  
 
   app.post('/edit-list', async (req, res) => {
     const input = req.body?.input;

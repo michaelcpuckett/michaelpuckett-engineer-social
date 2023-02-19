@@ -1,0 +1,136 @@
+* {
+box-sizing: border-box;
+}
+
+body {
+font-family: sans-serif;
+margin: 12px 0;
+line-height: 1.5;
+}
+
+h1,
+details,
+.section {
+max-width: 960px;
+margin: 0 auto;
+}
+
+textarea {
+width: 100%;
+min-height: 100px;
+font: inherit;
+padding: 12px;
+}
+
+table,
+thead,
+tbody,
+tr {
+display: grid;
+column-gap: 24px;
+}
+
+tr {
+grid-template-columns: 150px 150px minmax(0, 1fr);
+border-bottom: 1px solid black;
+padding-bottom: 12px;
+margin-bottom: 12px;
+}
+
+td {
+vertical-align: top;
+}
+
+td:has(table) {
+padding: 0;
+}
+
+td[colspan="2"] {
+grid-column: 1 / span 2;
+}
+
+th {
+text-align: left;
+}
+
+td table ~ table {
+display: none;
+}
+
+button,
+summary {
+border-radius: 24px;
+border: 1px solid;
+padding: 6px 12px;
+font: inherit;
+margin: 6px 0;
+background: teal;
+color: white;
+font-size: 1.2em;
+}
+
+th button,
+td button {
+font-weight: normal;
+font-size: 1em;
+background: gray;
+}
+
+td {
+display: grid;
+align-items: center;
+justify-content: center;
+text-align: center;
+padding: 12px 0;
+}
+
+.meal-meal--0 {
+background: pink;
+}
+
+.meal-meal--1 {
+background: yellow;
+}
+
+.meal-meal--2 {
+background: tan;
+}
+
+.meal-meal--3 {
+background: lightblue;
+}
+
+.meal-day--0 {
+background: royalblue;
+color: white;
+}
+
+.meal-day--1 {
+background: darkolivegreen;
+color: white;
+}
+
+.meal-day--2 {
+background: brown;
+color: white;
+}
+
+.meal-day--3 {
+background: cadetblue;
+color: white;
+}
+
+.meal-day--4 {
+background: darkgoldenrod;
+color: white;
+}
+
+.meal-day--5 {
+background: rebeccapurple;
+color: white;
+}
+
+.meal-day--6 {
+background: darkgreen;
+color: white;
+}

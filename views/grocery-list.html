@@ -1,0 +1,77 @@
+<!doctype html>
+<title>ShopGenie</title>
+<link rel="stylesheet" href="/main.css" />
+<h1>
+  Welcome to ShopGenie!
+</h1>
+<hr />
+<div class="section">
+  <h2>
+    Grocery List
+  </h2>
+  {% if allIngredients %}
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">
+            Item
+          </th>
+          <th scope="col">
+            Quantity
+          </th>
+        </tr>
+      </thead>
+      {% for item in allIngredients %}
+        <tr>
+          <th scope="row">
+            {{ item.item }}
+          </th>
+          <td>
+            {{ item.quantity }}
+            {{ item.unit }}
+          </td>
+        </tr>
+      {% endfor %}
+    {% endif %}
+  </table>
+</div>
+  
+<div class="section">
+  <h2>Ingredients by Meal</h2>
+  <table>
+    {% for meal in mealPlan %}
+      <tr>
+        <td class="meal-day--{{ meal.day }}">
+          {{ ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'][meal.day] }}
+        </td>
+        <td class="meal-meal--{{ meal.meal }}">
+          {{ ['Breakfast', 'Lunch', 'Dinner', 'Snack'][meal.meal] }}
+        </td>
+        <td>
+          {% for mealWithIngredients in mealsWithIngredients %}
+            {% if mealWithIngredients.name == meal.name and not renderedOne %}
+              <table>
+                <tr>
+                  <td colspan="2">
+                    <strong>{{ mealWithIngredients.name }}</strong>
+                  </td>
+                </tr>
+                {% for ingredient in mealWithIngredients.ingredients %}
+                  <tr>
+                    <td>
+                      {{ ingredient.item }}
+                    </td>
+                    <td>
+                      {{ ingredient.quantity }}
+                      {{ ingredient.unit }}
+                    </td>
+                  </tr>
+                {% endfor %}
+              </table>
+            {% endif %}
+          {% endfor %}
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+</div>

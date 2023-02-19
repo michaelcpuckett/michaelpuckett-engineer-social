@@ -1,0 +1,35 @@
+<!doctype html>
+<title>ShopGenie</title>
+<link rel="stylesheet" href="/main.css" />
+<h1>
+  Welcome to ShopGenie!
+</h1>
+<hr />
+<div class="section">
+  <form id="edit-list">
+    <textarea id="edit-list-input" placeholder="Remove eggs from the list"></textarea>
+    <button type="submit">Submit</button>
+    <output id="edit-list-output"></output>
+  </form>
+</div>
+<script type="module">
+  window.document.querySelector('#edit-list').addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const input = window.document.querySelector('#edit-list-input');
+
+    const body = JSON.stringify({
+      input: input.value,
+    });
+
+    fetch('/edit-list', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body,
+    }).then(async (response) => {
+      window.document.querySelector('#edit-list-output').innerText = JSON.stringify(await response.json());
+    });
+  });
+</script>
