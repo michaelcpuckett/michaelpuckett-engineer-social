@@ -1,9 +1,8 @@
 <!doctype html>
 <title>ShopGenie</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="/main.css" />
-<h1>
-  Welcome to ShopGenie!
-</h1>
+<h1>ShopGenie</h1>
 <hr />
 <div class="section">
   <h2>
@@ -15,9 +14,11 @@
       <p>
         <strong>What are your favorite foods and what do you eat most often?</strong>
       </p>
-      <textarea id="favorite-foods" aria-label="Favorite foods" placeholder="eggs, carrots, fruit, bbq chicken">{{ profile.favoriteFoods }}</textarea>
+      <textarea id="favorite-foods" aria-label="Favorite foods">{{ profile.favoriteFoods }}</textarea>
       <small>
-        Please include a variety of breakfast, lunch, dinner, and snack foods.
+        Please include a variety of breakfast, lunch, dinner, and snack foods, such as:
+        <br />
+        eggs, toast, bacon, fruit smoothies, hummus, chips, bbq chicken, tikka masala, greek food, yogurt, blueberries.
       </small>
     </label>
 

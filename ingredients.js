@@ -10,7 +10,7 @@ module.exports = {
   getIngredients: async function getIngredients({ leastFavoriteFoods, diet, recipe, cookingFor }) {
     const response = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt: `Convert requests to generate an ingredients list in JSON format. The output must be valid JSON.
+      prompt: `Convert requests to generate an ingredients list in JSON format. The output must be valid JSON (ensure "1/2" is represented as 0.5, for example).
 
 The output must not contain these ingredients: ${leastFavoriteFoods}
 

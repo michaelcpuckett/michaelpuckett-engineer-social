@@ -13,6 +13,7 @@ details,
 .section {
 max-width: 960px;
 margin: 0 auto;
+padding: 0 24px;
 }
 
 textarea {
@@ -20,6 +21,7 @@ width: 100%;
 min-height: 100px;
 font: inherit;
 padding: 12px;
+border-radius: 12px;
 }
 
 table,
@@ -31,7 +33,7 @@ column-gap: 24px;
 }
 
 tr {
-grid-template-columns: 150px 150px minmax(0, 1fr);
+grid-template-columns: min(25vw, 150px) min(25vw, 150px) minmax(0, 1fr);
 border-bottom: 1px solid black;
 padding-bottom: 12px;
 margin-bottom: 12px;
