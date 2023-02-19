@@ -21,10 +21,19 @@ const port = process.env.PORT ?? 3000;
   app.use(bodyParser.json());
 
   // looks for html in views folder relative to current working directory
-  nunjucks.configure('views', {
+  const nunjucksConfig = nunjucks.configure('views', {
     autoescape: true,
     cache: false,
     express: app
+  });
+
+  nunjucksConfig.addFilter('getId', (url) => {
+    try {
+      const parts = new URL(url).pathname.split('/');
+      return parts[parts.length - 1];
+    } catch (error) {
+      return '';
+    }
   });
 
   app.get('/sign-up', async (req, res) => {
@@ -184,6 +193,31 @@ const port = process.env.PORT ?? 3000;
             $each: [mealPlanId],
             $position: 0,
           },
+        },
+      },
+      {
+        upsert: true,
+      },
+    );
+
+    res.send({ success: true, });
+    res.end();
+  });
+
+  app.post('/delete-meal', async (req, res) => {
+    const id = req.body?.id;
+
+    const profile = await mongoDb.collection('profile').findOne({
+      _id: 'https://shopgenie.com/users/mpuckett/profile',
+    });
+
+    await mongoDb.collection('mealPlan').updateOne(
+      {
+        _id: profile.mealPlans?.[0],
+      },
+      {
+        $pull: {
+          meals: id,
         },
       },
       {

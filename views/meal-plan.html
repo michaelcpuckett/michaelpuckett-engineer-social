@@ -43,24 +43,48 @@
           <td class="meal-meal--{{ meal.meal }}">
             {{ ['Breakfast', 'Lunch', 'Dinner', 'Snack'][meal.meal] }}
             <br />
-            <button type="button">
-              Delete Meal
-            </button>
+            <form class="delete-meal">
+              <input type="hidden" name="id" value="{{ meal._id }}" />
+              <button type="submit">
+                Delete Meal
+              </button>
+            </form>
           </td>
           <th>
             {{ meal.name }}
-            <br />
-            
-            <button type="button">
-              More Options...
-            </button>
           </td>
         </tr>
       {% endfor %}
     {% endif %}
+    
+    <script type="module">
+      Array.from(window.document.querySelectorAll('.delete-meal')).forEach(formElement => {
+        formElement.addEventListener('submit', (event) => {
+          event.preventDefault();
+
+          
+          const mealId = formElement.querySelector('[name="id"]');
+          console.log(mealId.value)
+
+          const body = JSON.stringify({
+            id: mealId.value,
+          });
+
+          fetch('/delete-meal', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body,
+          }).then(() => {
+            window.location.reload();
+          })
+        });
+      });
+    </script>
   </table>
 
-  <form id="generate-grocery-list">
+  <form class="generate-grocery-list">
     <button type="submit">
         Generate Recipes and Grocery List
     </button>
