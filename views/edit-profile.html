@@ -37,10 +37,13 @@
         const outputElement = window.document.querySelector('#favorite-foods');
         outputElement.textContent = `${outputElement.textContent ? `${outputElement.textContent}, ` : ''}${value}`;
         const listItemElement = window.document.createElement('li');
-        listItemElement.textContent = value;
         const removeButtonElement = window.document.createElement('button');
+        removeButtonElement.setAttribute('type', 'button');
+        removeButtonElement.classList.add('small');
         removeButtonElement.textContent = 'Remove';
         listItemElement.append(removeButtonElement);
+        const valueTextNode = window.document.createTextNode(value);
+        listItemElement.append(valueTextNode);
         outputElement.nextElementSibling.append(listItemElement);
         favoritesListInputElement.value = '';
         for (const element of Array.from(datalistElement.children)) {
@@ -78,7 +81,7 @@
       <ul aria-label="Favorite foods">
         {% if profile.favoriteFoods %}
           {% for food in profile.favoriteFoods.split(', ') %}
-           <li>{{ food }} <button type="button">Remove</button></li>
+           <li><button type="button" class="small">Remove</button>{{ food }} </li>
           {% endfor %}
         {% endif %}
       </ul>

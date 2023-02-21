@@ -9,7 +9,7 @@ const openai = new OpenAIApi(configuration);
 module.exports = {
     getSuggestions: async function getSuggestions(input) {
         const response = await openai.createCompletion({
-        model:"text-curie-001",
+        model:"text-davinci-003",
         prompt:`You are an autocomplete engine. Convert partial inputs to up to 5 food suggestions in valid JSON format.
 
 Example Input: br
