@@ -9,7 +9,7 @@ const openai = new OpenAIApi(configuration);
 module.exports = {
   editList:  async function editList (input) {
 const response = await openai.createCompletion({
-  model:"text-davinci-003",
+  model:"text-curie-001",
   prompt:`Convert requests to an array of commands in JSON format. The available actions are Add, Remove, Update. There must be an action and an object. There may be an increase_quantity or decrease_quantity field. If there is no action return null.
 
 Example: Let's have tacos on Tuesday

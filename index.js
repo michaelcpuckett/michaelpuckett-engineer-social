@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express')
 const { generateMealPlan } = require('./generateMealPlans');
+const { getSuggestions } = require('./getSuggestions');
 const { generateReplacementMeals } = require('./generateReplacementMeals');
 const { getIngredients } = require('./ingredients');
 const { MongoClient } = require('mongodb');
@@ -57,6 +58,18 @@ const port = process.env.PORT ?? 3000;
 
   app.get('/', async (req, res) => {
     res.render('index.html');
+  });
+
+  app.post('/get-suggestions', async function(req, res) {
+    const query = req.body?.query;
+    if (!query) {
+      res.send([]);
+      res.end();
+    } else {
+      const suggestions = await getSuggestions(query);
+      res.send(suggestions);
+      res.end();
+    }
   });
 
   app.get('/edit-profile', async function(req, res) {

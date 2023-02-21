@@ -14,13 +14,9 @@ module.exports = {
         model:"text-davinci-003",
         prompt:`Convert requests to make a 7-day meal plan in JSON format, from 0-6 for Monday-Sunday, and 0-3 for Breakfast/Lunch/Dinner/Snack in the format of [{"day":0,"meal":0,"name":"Eggs benedict"}].
 
-Favorite foods: ${favoriteFoods}
-
-Least favorite foods: ${leastFavoriteFoods}
+The output must not contain these ingredients: ${leastFavoriteFoods}
 
 Restrictions such as allergies or a specific diet (keto, vegan, etc.): ${diet}
-
-Dietary goals: ${dietaryGoals}
 
 Output: `,
             temperature:0.2,

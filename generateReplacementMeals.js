@@ -10,18 +10,22 @@ module.exports = {
     generateReplacementMeals: async function generateReplacementMeals({ meal, favoriteFoods, leastFavoriteFoods, diet, dietaryGoals }) {
         const response = await openai.createCompletion({
         model:"text-davinci-003",
-        prompt:`Convert requests to suggest 7 meal options for ${meal} in the format of Array<{ "name": string; }>. The response must be in valid JSON format.
+        prompt:`Convert requests to suggest 7 options for names of meals in valid JSON format.
 
-Favorite foods: ${favoriteFoods}
+Consideration 1: Foods to omit: ${leastFavoriteFoods}
 
-Least favorite foods: ${leastFavoriteFoods}
+Consideration 2: Restrictions such as allergies or a specific diet (keto, vegan, etc.): ${diet}
 
-Restrictions such as allergies or a specific diet (keto, vegan, etc.): ${diet}
+Consideration 3: Dietary goals: ${dietaryGoals}
 
-Dietary goals: ${dietaryGoals}
+Meal to replace: ${meal}
+
+Remember the output must be in valid JSON format. Suggest 7 options for meals instead of ${meal}.
+
+Output format: { "suggestions": [ "broccoli and cheese" ] }
 
 Output: `,
-            temperature:0.8,
+            temperature:0.2,
             max_tokens:1000,
             top_p:1.0,
             frequency_penalty:0.0,

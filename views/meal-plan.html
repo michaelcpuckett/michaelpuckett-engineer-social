@@ -103,9 +103,11 @@
             selectElement.querySelector('option').remove();
             selectButton.removeAttribute('hidden');
 
-            for (const replacementMeal of result) {
+            console.log(result);
+
+            for (const replacementMeal of result.suggestions) {
               const optionElement = window.document.createElement('option');
-              optionElement.textContent = replacementMeal.name;
+              optionElement.textContent = replacementMeal;
               selectElement.append(optionElement);
             }
           });

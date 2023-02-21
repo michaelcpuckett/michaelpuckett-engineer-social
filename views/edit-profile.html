@@ -9,12 +9,91 @@
     Edit Profile
   </h2>
 
-  <form id="edit-profile">
+  <form>
     <label>
       <p>
-        <strong>What are your favorite foods and what do you eat most often?</strong>
+        <strong>
+          What are your favorite foods and what do you eat most often?
+        </strong>
       </p>
-      <textarea id="favorite-foods" aria-label="Favorite foods">{{ profile.favoriteFoods }}</textarea>
+    </label>
+    <div class="autocomplete-container">
+      <input list="favorites-autocomplete-list" placeholder="Enter a food or dish..." />
+      <datalist id="favorites-autocomplete-list"></datalist>
+      <button type="submit">
+        Add
+      </button>
+    </div>
+  </form>
+    
+    <script type="module">
+      const favoritesListInputElement = window.document.querySelector('[list="favorites-autocomplete-list"]');
+      const datalistElement = favoritesListInputElement.nextElementSibling;
+      const formElement = favoritesListInputElement.closest('form');
+
+      formElement.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const value = favoritesListInputElement.value || '';
+        const outputElement = window.document.querySelector('#favorite-foods');
+        outputElement.textContent = `${outputElement.textContent ? `${outputElement.textContent}, ` : ''}${value}`;
+        const listItemElement = window.document.createElement('li');
+        listItemElement.textContent = value;
+        const removeButtonElement = window.document.createElement('button');
+        removeButtonElement.textContent = 'Remove';
+        listItemElement.append(removeButtonElement);
+        outputElement.nextElementSibling.append(listItemElement);
+        favoritesListInputElement.value = '';
+        for (const element of Array.from(datalistElement.children)) {
+          element.remove();
+        }
+      });
+
+      favoritesListInputElement.addEventListener('input', (event) => {
+        fetch('/get-suggestions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            query: favoritesListInputElement.value || '',
+          }),
+        }).then((response) => {
+          return response.json();
+        }).then((results) => {
+          for (const element of Array.from(datalistElement.children)) {
+            element.remove();
+          }
+
+          for (const suggestion of results.suggestions) {
+            const optionElement = window.document.createElement('option');
+            optionElement.setAttribute('value', suggestion);
+            datalistElement.append(optionElement);
+          }
+        });
+      });
+    </script>
+  <form id="edit-profile">
+    <label>
+      <output hidden id="favorite-foods">{{ profile.favoriteFoods }}</output>
+      <ul aria-label="Favorite foods">
+        {% if profile.favoriteFoods %}
+          {% for food in profile.favoriteFoods.split(', ') %}
+           <li>{{ food }} <button type="button">Remove</button></li>
+          {% endfor %}
+        {% endif %}
+      </ul>
+      <script type="module">
+        const outputElement = window.document.querySelector('#favorite-foods');
+        outputElement.nextElementSibling.addEventListener('click', (event) => {
+          const buttonElement = event.target;
+          const food = Array.from(buttonElement.closest('li').childNodes).find(node => node.nodeType === Node.TEXT_NODE).textContent.trim();
+          const itemsArray = outputElement.textContent.split(', ');
+          console.log(itemsArray, food);
+          itemsArray.splice(itemsArray.indexOf(food), 1);
+          outputElement.textContent = itemsArray.join(', ');
+          buttonElement.closest('li').remove();
+        });
+      </script>
       <small>
         Please include a variety of breakfast, lunch, dinner, and snack foods, such as:
         <br />

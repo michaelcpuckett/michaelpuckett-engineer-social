@@ -16,6 +16,12 @@ margin: 0 auto;
 padding: 0 24px;
 }
 
+input {
+    width: 100%;
+    font: inherit;
+    padding: 12px;
+    border-radius: 12px;
+}
 textarea {
 width: 100%;
 min-height: 100px;
@@ -135,4 +141,10 @@ color: white;
 .meal-day--6 {
 background: darkgreen;
 color: white;
+}
+
+.autocomplete-container {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
 }
