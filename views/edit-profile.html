@@ -10,6 +10,10 @@
   </h2>
 
   <div class="slider-container">
+    
+    <p>
+      What are your favorite foods and what do you eat most often?
+    </p>
     <form>
       <div class="autocomplete-container">
         <input list="favorites-autocomplete-list" placeholder="Enter a food or dish..." />
@@ -22,10 +26,6 @@
     <form>
       <fieldset-wrapper id="favorite-foods-fieldset">
         <fieldset>
-          <legend>
-            What are your favorite foods and what do you eat most often?
-          </legend>
-
           {% for food in foodData %}
             <label>
               <input type="checkbox" name="favorite-food" value="{{ food.name }}" {% for favoriteFood in profile.favoriteFoods | splitOnComma %}{% if favoriteFood == food.name %}checked{% endif %}{% endfor %} />
