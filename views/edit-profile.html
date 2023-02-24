@@ -9,23 +9,66 @@
     Edit Profile
   </h2>
 
-  <form>
-    <label>
-      <p>
-        <strong>
-          What are your favorite foods and what do you eat most often?
-        </strong>
-      </p>
-    </label>
-    <div class="autocomplete-container">
-      <input list="favorites-autocomplete-list" placeholder="Enter a food or dish..." />
-      <datalist id="favorites-autocomplete-list"></datalist>
-      <button type="submit">
-        Add
-      </button>
-    </div>
-  </form>
-    
+  <div class="slider-container">
+    <form>
+      <div class="autocomplete-container">
+        <input list="favorites-autocomplete-list" placeholder="Enter a food or dish..." />
+        <datalist id="favorites-autocomplete-list"></datalist>
+        <button type="submit">
+          Add
+        </button>
+      </div>
+    </form>
+    <form>
+      <fieldset-wrapper id="favorite-foods-fieldset">
+        <fieldset>
+          <legend>
+            What are your favorite foods and what do you eat most often?
+          </legend>
+
+          {% for food in foodData %}
+            <label>
+              <input type="checkbox" name="favorite-food" value="{{ food.name }}" {% for favoriteFood in profile.favoriteFoods | splitOnComma %}{% if favoriteFood == food.name %}checked{% endif %}{% endfor %} />
+              <img src="{{ food.imageUrl }}" aria-hidden="true" />
+              <span>{{ food.name }}</span>
+            </label>
+          {% endfor %}
+        </fieldset>
+      </fieldset-wrapper>
+    </form>
+  </div>
+
+  <script type="module">
+    const favoriteFoodsFieldsetElement = window.document.querySelector('#favorite-foods-fieldset');
+    const checkboxElements = Array.from(favoriteFoodsFieldsetElement.querySelectorAll('[type="checkbox"]'));
+    for (const checkboxElement of checkboxElements) {
+      checkboxElement.addEventListener('change', () => {
+        if (checkboxElement.checked) {
+          const value = checkboxElement.value || '';
+          const outputElement = window.document.querySelector('#favorite-foods');
+          outputElement.textContent = `${outputElement.textContent ? `${outputElement.textContent}, ` : ''}${value}`;
+          const listItemElement = window.document.createElement('li');
+          listItemElement.dataset.food = value;
+          const removeButtonElement = window.document.createElement('button');
+          removeButtonElement.setAttribute('type', 'button');
+          removeButtonElement.classList.add('small');
+          removeButtonElement.textContent = 'Remove';
+          listItemElement.append(removeButtonElement);
+          const valueTextNode = window.document.createTextNode(value);
+          listItemElement.append(valueTextNode);
+          outputElement.nextElementSibling.append(listItemElement);
+        } else {
+          const food = checkboxElement.value || '';
+          const outputElement = window.document.querySelector('#favorite-foods');
+          const itemsArray = outputElement.textContent.split(', ');
+          itemsArray.splice(itemsArray.indexOf(food), 1);
+          outputElement.textContent = itemsArray.join(', ');
+          window.document.querySelector(`[data-food="${food}"]`).remove();
+        }
+      });
+    }
+  </script>
+
     <script type="module">
       const favoritesListInputElement = window.document.querySelector('[list="favorites-autocomplete-list"]');
       const datalistElement = favoritesListInputElement.nextElementSibling;
@@ -37,6 +80,7 @@
         const outputElement = window.document.querySelector('#favorite-foods');
         outputElement.textContent = `${outputElement.textContent ? `${outputElement.textContent}, ` : ''}${value}`;
         const listItemElement = window.document.createElement('li');
+        listItemElement.dataset.food = value;
         const removeButtonElement = window.document.createElement('button');
         removeButtonElement.setAttribute('type', 'button');
         removeButtonElement.classList.add('small');
@@ -81,7 +125,7 @@
       <ul aria-label="Favorite foods">
         {% if profile.favoriteFoods %}
           {% for food in profile.favoriteFoods.split(', ') %}
-           <li><button type="button" class="small">Remove</button>{{ food }} </li>
+           <li data-food="{{ food }}"><button type="button" class="small">Remove</button>{{ food }} </li>
           {% endfor %}
         {% endif %}
       </ul>
@@ -95,6 +139,8 @@
           itemsArray.splice(itemsArray.indexOf(food), 1);
           outputElement.textContent = itemsArray.join(', ');
           buttonElement.closest('li').remove();
+
+          window.document.querySelector(`[name="favorite-food"][value="${food}"]`).checked = false;
         });
       </script>
       <small>

@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express')
 const { generateMealPlan } = require('./generateMealPlans');
+const { generateImage } = require('./generateImage');
 const { getSuggestions } = require('./getSuggestions');
 const { generateReplacementMeals } = require('./generateReplacementMeals');
 const { getIngredients } = require('./ingredients');
@@ -36,6 +37,10 @@ const port = process.env.PORT ?? 3000;
     } catch (error) {
       return '';
     }
+  });
+
+  nunjucksConfig.addFilter('splitOnComma', (string) => {
+    return (string || '').split(', ');
   });
 
   app.get('/sign-up', async (req, res) => {
@@ -77,8 +82,33 @@ const port = process.env.PORT ?? 3000;
       _id: 'https://shopgenie.com/users/mpuckett/profile',
     });
 
+    const foodData = await Promise.all([
+      'banana',
+      'apple',
+      'orange',
+      'grapes',
+      'strawberries',
+      'raspberries',
+      'watermelon',
+      'peach',
+      'pineapple',
+      'kiwi',
+      'mango',
+      'blueberries',
+      'blackberries',
+      'cherries',
+      'pear',
+      'grapefruit'
+    ].map(async noun => {
+      return {
+        name: noun,
+        imageUrl: `/food-images/${noun}.png`,
+      };
+    }));
+
     res.render('edit-profile.html', {
       profile,
+      foodData,
     });
   });
 

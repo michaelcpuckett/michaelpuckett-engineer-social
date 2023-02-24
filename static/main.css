@@ -8,6 +8,10 @@ margin: 12px 0;
 line-height: 1.5;
 }
 
+img {
+  max-width: 100%;
+}
+
 h1,
 details,
 .section {
@@ -170,4 +174,54 @@ color: white;
   grid-template-columns: auto minmax(0, 1fr);
   gap: 12px;
   align-items: center;
+}
+
+fieldset-wrapper {
+  display: grid;
+  width: 100%;
+  overflow-x: auto;
+}
+
+fieldset {
+  display: grid;
+  grid-auto-flow: column;
+}
+
+fieldset label {
+  display: grid;
+  border: 1px solid;
+  width: calc(120px + 2em);
+  height: calc(120px + 2em + 1em * 1.2);
+  grid-template-columns: 100%;
+  line-height: 1.2;
+  grid-template-rows: minmax(0, 1fr) 1em;
+  padding: 1em;
+  text-align: center;
+}
+
+fieldset label input {
+  grid-column: 1 / 2;
+  grid-row: 1 / 3;
+  width: 48px;
+  height: 48px;
+  z-index: 1;
+  appearance: none;
+}
+
+fieldset label input:checked {
+  background: green;
+}
+
+fieldset label input:not(:checked) {
+  background: gray;
+}
+
+fieldset label img {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+
+fieldset label span {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
 }
