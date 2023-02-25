@@ -202,8 +202,8 @@ fieldset label {
 fieldset label input {
   grid-column: 1 / 2;
   grid-row: 1 / 3;
-  width: 24px;
-  height: 24px;
+  width: 36px;
+  height: 36px;
   z-index: 1;
   appearance: none;
 }
@@ -215,6 +215,11 @@ fieldset label input:checked {
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciICB2aWV3Qm94PSIwIDAgMzAgMzAiIHdpZHRoPSIzMHB4IiBoZWlnaHQ9IjMwcHgiPjxwYXRoIGQ9Ik0gMjYuOTgwNDY5IDUuOTkwMjM0NCBBIDEuMDAwMSAxLjAwMDEgMCAwIDAgMjYuMjkyOTY5IDYuMjkyOTY4OCBMIDExIDIxLjU4NTkzOCBMIDQuNzA3MDMxMiAxNS4yOTI5NjkgQSAxLjAwMDEgMS4wMDAxIDAgMSAwIDMuMjkyOTY4OCAxNi43MDcwMzEgTCAxMC4yOTI5NjkgMjMuNzA3MDMxIEEgMS4wMDAxIDEuMDAwMSAwIDAgMCAxMS43MDcwMzEgMjMuNzA3MDMxIEwgMjcuNzA3MDMxIDcuNzA3MDMxMiBBIDEuMDAwMSAxLjAwMDEgMCAwIDAgMjYuOTgwNDY5IDUuOTkwMjM0NCB6Ii8+PC9zdmc+")
 }
 
+fieldset label:has(input:checked) {
+  background: green;
+  color: white;
+}
+
 fieldset label input:not(:checked) {
   background: gray;
 }
@@ -222,6 +227,7 @@ fieldset label input:not(:checked) {
 fieldset label img {
   grid-column: 1 / 2;
   grid-row: 1 / 2;
+  border-radius: 50%;
 }
 
 fieldset label span {

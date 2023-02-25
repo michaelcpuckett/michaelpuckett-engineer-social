@@ -23,12 +23,16 @@
         </button>
       </div>
     </form>
-    <form>
+    <div class="tabs-wrapper">
+      <div class="tabs" role="tablist">
+        {% for foodByType in foodData %}
+          <button role="tab">
+            {{ foodByType.type }}
+          </button>
+        {% endfor %}
+      </div>
       {% for foodByType in foodData %}
         <fieldset-wrapper id="favorite-foods-fieldset">
-          <div>
-            {{ foodByType.type }}
-          </div>
           <fieldset>
             {% for food in foodByType.items %}
               <label>
@@ -40,7 +44,7 @@
           </fieldset>
         </fieldset-wrapper>
       {% endfor %}
-    </form>
+    </div>
   </div>
 
   <script type="module">
@@ -149,9 +153,7 @@
         });
       </script>
       <small>
-        Please include a variety of breakfast, lunch, dinner, and snack foods, such as:
-        <br />
-        eggs, toast, bacon, fruit smoothies, hummus, chips, bbq chicken, tikka masala, greek food, yogurt, blueberries.
+        Please include a variety of breakfast, lunch, dinner, and snack foods.
       </small>
     </label>
 

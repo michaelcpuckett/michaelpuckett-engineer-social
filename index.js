@@ -83,6 +83,24 @@ const port = process.env.PORT ?? 3000;
     });
 
     const foodData = [{
+      type: 'Cuisines',
+      items: [{
+        name: 'American food',
+        imageUrl: 'american.png',
+      }, {
+        name: 'Mexican food',
+        imageUrl: 'mexican.png',
+      }, {
+        name: 'Chinese food',
+        imageUrl: 'chinese.png'
+      }, {
+        name: 'Sushi',
+        imageUrl: 'sushi.png',
+      }, {
+        name: 'Indian food',
+        imageUrl: 'indian.png',
+      }]
+    }, {
       type: 'Protein',
       items: [{
         name: 'Chicken',
