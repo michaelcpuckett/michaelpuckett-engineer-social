@@ -1,0 +1,228 @@
+<!doctype html>
+<title>ShopGenie</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/main.css" />
+<h1>ShopGenie</h1>
+<hr />
+<div class="section">
+  <h2>
+    Least Favorite Foods
+  </h2>
+
+  <div class="slider-container">
+    <p>
+      What are your least favorite foods?
+    </p>
+    <form>
+      <div class="autocomplete-container">
+        <input list="favorites-autocomplete-list" placeholder="Enter a food or dish..." />
+        <datalist id="favorites-autocomplete-list"></datalist>
+        <button type="submit">
+          Add
+        </button>
+      </div>
+    </form>
+    <form class="tabs-wrapper" id="least-favorite-foods-tabs">
+      <div class="tabs" role="tablist">
+        {% for foodByType in foodData %}
+          <button type="button" role="tab" data-tab="{{ foodByType.type }}" aria-current="{% if loop.index0 == 0 %}true{% else %}false{% endif %}"">
+            {{ foodByType.type }}
+          </button>
+        {% endfor %}
+      </div>
+      {% for foodByType in foodData %}
+        <fieldset-wrapper role="tabpanel" {% if not loop.index0 == 0 %}hidden{% endif %} data-tab="{{ foodByType.type }}" id="least-favorite-foods-fieldset">
+          <fieldset>
+            {% for food in foodByType.items %}
+              <label>
+                <input type="checkbox" name="least-favorite-food" value="{{ food.name }}" {% for leastFavoriteFood in profile.leastFavoriteFoods | splitOnComma %}{% if leastFavoriteFood == food.name %}checked{% endif %}{% endfor %} />
+                <img src="/food-images/{{ food.imageUrl }}" aria-hidden="true" />
+                <span>{{ food.name }}</span>
+              </label>
+            {% endfor %}
+          </fieldset>
+        </fieldset-wrapper>
+      {% endfor %}
+    </form>
+    <script type="module">
+      const tabsRootElement = window.document.querySelector('#least-favorite-foods-tabs');
+      const tabElements = Array.from(window.document.querySelectorAll('[role="tab"]'));
+      const tabpanelElements = Array.from(window.document.querySelectorAll('[role="tabpanel"]'));
+
+      for (const tabElement of tabElements) {
+        tabElement.addEventListener('click', () => {
+          
+          const tab = tabElement.getAttribute('data-tab');
+          const tabpanelElement = tabpanelElements.find(element => element.getAttribute('data-tab') === tab);
+
+          for (const element of tabElements) {
+            if (element === tabElement) {
+              element.setAttribute('aria-current', 'true');
+            } else {
+              element.setAttribute('aria-current', 'false');
+            }
+          }
+
+          for (const element of tabpanelElements) {
+            if (element === tabpanelElement) {
+              element.removeAttribute('hidden');
+            } else {
+              element.setAttribute('hidden', '');
+            }
+          }
+        });
+      }
+    </script>
+  </div>
+
+  <script type="module">
+    const leastFavoriteFoodsFieldsetElement = window.document.querySelector('#least-favorite-foods-tabs');
+    const checkboxElements = Array.from(leastFavoriteFoodsFieldsetElement.querySelectorAll('[type="checkbox"]'));
+    for (const checkboxElement of checkboxElements) {
+      checkboxElement.addEventListener('change', () => {
+        if (checkboxElement.checked) {
+          const value = checkboxElement.value || '';
+          const outputElement = window.document.querySelector('#least-favorite-foods');
+          outputElement.textContent = `${outputElement.textContent ? `${outputElement.textContent}, ` : ''}${value}`;
+          const listItemElement = window.document.createElement('li');
+          listItemElement.dataset.food = value;
+          const valueTextNode = window.document.createTextNode(value);
+          listItemElement.append(valueTextNode);
+          const removeButtonElement = window.document.createElement('remove-button');
+          listItemElement.append(removeButtonElement);
+          outputElement.nextElementSibling.append(listItemElement);
+        } else {
+          const food = checkboxElement.value || '';
+          const outputElement = window.document.querySelector('#least-favorite-foods');
+          const itemsArray = outputElement.textContent.split(', ');
+          itemsArray.splice(itemsArray.indexOf(food), 1);
+          outputElement.textContent = itemsArray.join(', ');
+          window.document.querySelector(`[data-food="${food}"]`).remove();
+        }
+      });
+    }
+  </script>
+
+    <script type="module">
+      const favoritesListInputElement = window.document.querySelector('[list="favorites-autocomplete-list"]');
+      const datalistElement = favoritesListInputElement.nextElementSibling;
+      const formElement = favoritesListInputElement.closest('form');
+
+      formElement.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const value = favoritesListInputElement.value || '';
+        const outputElement = window.document.querySelector('#least-favorite-foods');
+        outputElement.textContent = `${outputElement.textContent ? `${outputElement.textContent}, ` : ''}${value}`;
+        const listItemElement = window.document.createElement('li');
+        listItemElement.dataset.food = value;
+        const valueTextNode = window.document.createTextNode(value);
+        listItemElement.append(valueTextNode);
+        const removeButtonElement = window.document.createElement('remove-button');
+        listItemElement.append(removeButtonElement);
+        outputElement.nextElementSibling.append(listItemElement);
+        favoritesListInputElement.value = '';
+        for (const element of Array.from(datalistElement.children)) {
+          element.remove();
+        }
+      });
+
+      favoritesListInputElement.addEventListener('input', (event) => {
+        fetch('/get-suggestions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            query: favoritesListInputElement.value || '',
+          }),
+        }).then((response) => {
+          return response.json();
+        }).then((results) => {
+          for (const element of Array.from(datalistElement.children)) {
+            element.remove();
+          }
+
+          for (const suggestion of results.suggestions) {
+            const optionElement = window.document.createElement('option');
+            optionElement.setAttribute('value', suggestion);
+            datalistElement.append(optionElement);
+          }
+        });
+      });
+    </script>
+  <form id="edit-profile">
+    <label>
+      <output hidden id="least-favorite-foods">{{ profile.leastFavoriteFoods }}</output>
+      <ul aria-label="Least Favorite Foods">
+        {% if profile.leastFavoriteFoods %}
+          {% for food in profile.leastFavoriteFoods.split(', ') %}
+           <li data-food="{{ food }}">{{ food }} <remove-button></remove-button></li>
+          {% endfor %}
+        {% endif %}
+      </ul>
+      <script type="module">
+        const outputElement = window.document.querySelector('#least-favorite-foods');
+        outputElement.nextElementSibling.addEventListener('click', (event) => {
+          const buttonElement = event.target;
+          const food = Array.from(buttonElement.closest('li').childNodes).find(node => node.nodeType === Node.TEXT_NODE).textContent.trim();
+          const itemsArray = outputElement.textContent.split(', ');
+          console.log(itemsArray, food);
+          itemsArray.splice(itemsArray.indexOf(food), 1);
+          outputElement.textContent = itemsArray.join(', ');
+          buttonElement.closest('li').remove();
+
+          window.document.querySelector(`[name="least-favorite-food"][value="${food}"]`).checked = false;
+        });
+      </script>
+      <script type="module">
+        window.customElements.define('remove-button', class RemoveButton extends HTMLElement {
+          constructor() {
+            super();
+            this.attachShadow({ mode: 'open', });
+            const stylesheet = new CSSStyleSheet();
+            stylesheet.replaceSync(`
+              button {
+                color: white;
+                background: red;
+                border-radius: 100%;
+              }
+            `);
+            this.shadowRoot.adoptedStyleSheets = [stylesheet];
+            const buttonElement = window.document.createElement('button');
+            buttonElement.setAttribute('type', 'button');
+            buttonElement.textContent = 'X';
+            this.shadowRoot.append(buttonElement);
+          }
+        });
+      </script>
+    </label>
+    <br />
+    <button type="submit">
+      Continue
+    </button>
+    <p class="loader" hidden>Loading, please wait up to 2 minutes...</p>
+  </form>
+  <script type="module">
+    window.document.querySelector('#edit-profile').addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      window.document.querySelector('#edit-profile .loader').removeAttribute('hidden');
+
+      const leastFavoriteFoods = window.document.querySelector('#least-favorite-foods');
+
+      const profile = {
+        leastFavoriteFoods: leastFavoriteFoods.value,
+      };
+
+      fetch('/edit-profile/least-favorites', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(profile),
+      }).then((response) => {
+        window.location = new URL('/edit-profile/final-questions', window.location);
+      });
+    });
+  </script>
+</div>

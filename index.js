@@ -77,191 +77,208 @@ const port = process.env.PORT ?? 3000;
     }
   });
 
+  
+
+  const foodData = [{
+    type: 'Protein',
+    items: [{
+      name: 'Chicken',
+      imageUrl: 'chicken.png',
+    }, {
+      name: 'Hamburger',
+      imageUrl: 'hamburger.png',
+    }, {
+      name: 'Beef',
+      imageUrl: 'beef.png',
+    }, {
+      name: 'Pork',
+      imageUrl: 'pork.png',
+    }, {
+      name: 'Tuna',
+      imageUrl: 'tuna.png',
+    }, {
+      name: 'Salmon',
+      imageUrl: 'salmon.png',
+    }, {
+      name: 'Eggs',
+      imageUrl: 'eggs.png',
+    }, {
+      name: 'Cheese',
+      imageUrl: 'cheese.png',
+    }, {
+      name: 'Yogurt',
+      imageUrl: 'yogurt.png',
+    }, {
+      name: 'Tofu',
+      imageUrl: 'tofu.png',
+    }, {
+      name: 'Hummus',
+      imageUrl: 'hummus.png',
+    }, {
+      name: 'Peanut Butter',
+      imageUrl: 'peanut-butter.png',
+    }, {
+      name: 'Pistachios',
+      imageUrl: 'pistachios.png'
+    }, {
+      name: 'Almonds',
+      imageUrl: 'almonds.png',
+    }]
+  }, {
+    type: 'Fruits',
+    items: [{
+      name: 'banana',
+      imageUrl: 'banana.png',
+    }, {
+      name: 'apple',
+      imageUrl: 'apple.png',
+    }, {
+      name: 'orange',
+      imageUrl: 'orange.png',
+    }, {
+      name: 'grapes',
+      imageUrl: 'grapes.png',
+    }, {
+      name: 'strawberries',
+      imageUrl: 'strawberries.png',
+    }, {
+      name: 'raspberries',
+      imageUrl: 'raspberries.png',
+    }, {
+      name: 'watermelon',
+      imageUrl: 'watermelon.png',
+    }, {
+      name: 'peach',
+      imageUrl: 'peach.png',
+    }, {
+      name: 'pineapple',
+      imageUrl: 'pineapple.png',
+    }, {
+      name: 'kiwi',
+      imageUrl: 'kiwi.png',
+    }, {
+      name: 'mango',
+      imageUrl: 'mango.png',
+    }, {
+      name: 'blueberries',
+      imageUrl: 'blueberries.png',
+    }, {
+      name: 'blackberries',
+      imageUrl: 'blackberries.png',
+    }, {
+      name: 'cherries',
+      imageUrl: 'cherries.png',
+    }, {
+      name: 'pear',
+      imageUrl: 'pear.png',
+    }, {
+      name: 'grapefruit',
+      imageUrl: 'grapefruit.png',
+    }]
+  }, {
+    type: 'Vegetables',
+    items: [{
+      name: 'Carrots',
+      imageUrl: 'carrots.png',
+    }, {
+      name: 'Broccoli',
+      imageUrl: 'broccoli.png',
+    }, {
+      name: 'Bell peppers',
+      imageUrl: 'bell-peppers.png',
+    }, {
+      name: 'Spinach',
+      imageUrl: 'spinach.png',
+    }, {
+      name: 'Kale',
+      imageUrl: 'kale.png',
+    }, {
+      name: 'Onions',
+      imageUrl: 'onions.png',
+    }, {
+      name: 'Tomatoes',
+      imageUrl: 'tomatoes.png',
+    }, {
+      name: 'Eggplant',
+      imageUrl: 'eggplant.png',
+    }, {
+      name: 'Potatoes',
+      imageUrl: 'potatoes.png',
+    }, {
+      name: 'Peas',
+      imageUrl: 'peas.png',
+    }, {
+      name: 'Green beans',
+      imageUrl: 'green-beans.png',
+    }, {
+      name: 'Corn',
+      imageUrl: 'corn.png',
+    }, {
+      name: 'Asparagus',
+      imageUrl: 'asparagus.png',
+    }, {
+      name: 'Artichokes',
+      imageUrl: 'artichokes.png',
+    }]
+  }, {
+    type: 'Grains',
+    items: [{
+      name: 'Sandwiches',
+      imageUrl: 'sandwich.png',
+    }, {
+      name: 'Rice',
+      imageUrl: 'rice.png',
+    }, {
+      name: 'Pasta',
+      imageUrl: 'pasta.png',
+    }, {
+      name: 'Oatmeal',
+      imageUrl: 'oatmeal.png',
+    }, {
+      name: 'Cereal',
+      imageUrl: 'cereal.png',
+    }]
+  }, {
+    type: 'Cuisines',
+    items: [{
+      name: 'American food',
+      imageUrl: 'american.png',
+    }, {
+      name: 'Mexican food',
+      imageUrl: 'mexican.png',
+    }, {
+      name: 'Chinese food',
+      imageUrl: 'chinese.png'
+    }, {
+      name: 'Sushi',
+      imageUrl: 'sushi.png',
+    }, {
+      name: 'Indian food',
+      imageUrl: 'indian.png',
+    }]
+  }];
+
   app.get('/edit-profile', async function(req, res) {
+    res.render('edit-profile.html');
+  });
+
+  app.get('/edit-profile/favorites', async function(req, res) {
     const profile = await mongoDb.collection('profile').findOne({
       _id: 'https://shopgenie.com/users/mpuckett/profile',
     });
 
-    const foodData = [{
-      type: 'Protein',
-      items: [{
-        name: 'Chicken',
-        imageUrl: 'chicken.png',
-      }, {
-        name: 'Hamburger',
-        imageUrl: 'hamburger.png',
-      }, {
-        name: 'Beef',
-        imageUrl: 'beef.png',
-      }, {
-        name: 'Pork',
-        imageUrl: 'pork.png',
-      }, {
-        name: 'Tuna',
-        imageUrl: 'tuna.png',
-      }, {
-        name: 'Salmon',
-        imageUrl: 'salmon.png',
-      }, {
-        name: 'Eggs',
-        imageUrl: 'eggs.png',
-      }, {
-        name: 'Cheese',
-        imageUrl: 'cheese.png',
-      }, {
-        name: 'Yogurt',
-        imageUrl: 'yogurt.png',
-      }, {
-        name: 'Tofu',
-        imageUrl: 'tofu.png',
-      }, {
-        name: 'Hummus',
-        imageUrl: 'hummus.png',
-      }, {
-        name: 'Peanut Butter',
-        imageUrl: 'peanut-butter.png',
-      }, {
-        name: 'Pistachios',
-        imageUrl: 'pistachios.png'
-      }, {
-        name: 'Almonds',
-        imageUrl: 'almonds.png',
-      }]
-    }, {
-      type: 'Fruits',
-      items: [{
-        name: 'banana',
-        imageUrl: 'banana.png',
-      }, {
-        name: 'apple',
-        imageUrl: 'apple.png',
-      }, {
-        name: 'orange',
-        imageUrl: 'orange.png',
-      }, {
-        name: 'grapes',
-        imageUrl: 'grapes.png',
-      }, {
-        name: 'strawberries',
-        imageUrl: 'strawberries.png',
-      }, {
-        name: 'raspberries',
-        imageUrl: 'raspberries.png',
-      }, {
-        name: 'watermelon',
-        imageUrl: 'watermelon.png',
-      }, {
-        name: 'peach',
-        imageUrl: 'peach.png',
-      }, {
-        name: 'pineapple',
-        imageUrl: 'pineapple.png',
-      }, {
-        name: 'kiwi',
-        imageUrl: 'kiwi.png',
-      }, {
-        name: 'mango',
-        imageUrl: 'mango.png',
-      }, {
-        name: 'blueberries',
-        imageUrl: 'blueberries.png',
-      }, {
-        name: 'blackberries',
-        imageUrl: 'blackberries.png',
-      }, {
-        name: 'cherries',
-        imageUrl: 'cherries.png',
-      }, {
-        name: 'pear',
-        imageUrl: 'pear.png',
-      }, {
-        name: 'grapefruit',
-        imageUrl: 'grapefruit.png',
-      }]
-    }, {
-      type: 'Vegetables',
-      items: [{
-        name: 'Carrots',
-        imageUrl: 'carrots.png',
-      }, {
-        name: 'Broccoli',
-        imageUrl: 'broccoli.png',
-      }, {
-        name: 'Bell peppers',
-        imageUrl: 'bell-peppers.png',
-      }, {
-        name: 'Spinach',
-        imageUrl: 'spinach.png',
-      }, {
-        name: 'Kale',
-        imageUrl: 'kale.png',
-      }, {
-        name: 'Onions',
-        imageUrl: 'onions.png',
-      }, {
-        name: 'Tomatoes',
-        imageUrl: 'tomatoes.png',
-      }, {
-        name: 'Eggplant',
-        imageUrl: 'eggplant.png',
-      }, {
-        name: 'Potatoes',
-        imageUrl: 'potatoes.png',
-      }, {
-        name: 'Peas',
-        imageUrl: 'peas.png',
-      }, {
-        name: 'Green beans',
-        imageUrl: 'green-beans.png',
-      }, {
-        name: 'Corn',
-        imageUrl: 'corn.png',
-      }, {
-        name: 'Asparagus',
-        imageUrl: 'asparagus.png',
-      }, {
-        name: 'Artichokes',
-        imageUrl: 'artichokes.png',
-      }]
-    }, {
-      type: 'Grains',
-      items: [{
-        name: 'Sandwiches',
-        imageUrl: 'sandwich.png',
-      }, {
-        name: 'Rice',
-        imageUrl: 'rice.png',
-      }, {
-        name: 'Pasta',
-        imageUrl: 'pasta.png',
-      }, {
-        name: 'Oatmeal',
-        imageUrl: 'oatmeal.png',
-      }, {
-        name: 'Cereal',
-        imageUrl: 'cereal.png',
-      }]
-    }, {
-      type: 'Cuisines',
-      items: [{
-        name: 'American food',
-        imageUrl: 'american.png',
-      }, {
-        name: 'Mexican food',
-        imageUrl: 'mexican.png',
-      }, {
-        name: 'Chinese food',
-        imageUrl: 'chinese.png'
-      }, {
-        name: 'Sushi',
-        imageUrl: 'sushi.png',
-      }, {
-        name: 'Indian food',
-        imageUrl: 'indian.png',
-      }]
-    }];
+    res.render('favorites.html', {
+      profile,
+      foodData,
+    });
+  });
 
-    res.render('edit-profile.html', {
+  app.get('/edit-profile/least-favorites', async function(req, res) {
+    const profile = await mongoDb.collection('profile').findOne({
+      _id: 'https://shopgenie.com/users/mpuckett/profile',
+    });
+
+    res.render('least-favorites.html', {
       profile,
       foodData,
     });
@@ -320,14 +337,30 @@ const port = process.env.PORT ?? 3000;
     });
   });
 
-  app.post('/edit-profile', async (req, res) => {
-    const profile = req.body;
+  app.post('/edit-profile/favorites', async (req, res) => {
+    const favoriteFoods = req.body?.favoriteFoods;
 
     await mongoDb.collection('profile').updateOne(
       {
         _id: 'https://shopgenie.com/users/mpuckett/profile',
       },
-      {"$set": profile},
+      {"$set": { favoriteFoods } },
+      {
+        upsert: true,
+      },
+    );
+    res.send({ success: true, });
+    res.end();
+  });
+
+  app.post('/edit-profile/least-favorites', async (req, res) => {
+    const leastFavoriteFoods = req.body?.leastFavoriteFoods;
+
+    await mongoDb.collection('profile').updateOne(
+      {
+        _id: 'https://shopgenie.com/users/mpuckett/profile',
+      },
+      {"$set": { leastFavoriteFoods } },
       {
         upsert: true,
       },
