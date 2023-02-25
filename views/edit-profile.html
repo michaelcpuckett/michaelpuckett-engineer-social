@@ -8,13 +8,6 @@
   <form id="edit-profile">
     <label>
       <p>
-        <strong>Are there any restrictions, such as allergies or a specific diet (keto, vegan, etc.)?</strong>
-      </p>
-      <textarea id="diet" placeholder="vegan, peanut allergy">{{ profile.diet }}</textarea>
-    </label>
-
-    <label>
-      <p>
         <strong>Do you have any calorie, macro, or dietary goals?</strong>
       </p>
       <textarea id="dietary-goals" placeholder="2000 calories/day, lose weight">{{ profile.dietaryGoals }}</textarea>
@@ -39,12 +32,10 @@
 
       window.document.querySelector('#edit-profile .loader').removeAttribute('hidden');
 
-      const diet = window.document.querySelector('#diet');
       const dietaryGoals = window.document.querySelector('#dietary-goals');
       const cookingFor = window.document.querySelector('#cooking-for');
 
       const profile = {
-        diet: diet.value,
         dietaryGoals: dietaryGoals.value,
         cookingFor: cookingFor.value,
       };

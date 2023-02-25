@@ -1,0 +1,176 @@
+<!doctype html>
+<title>ShopGenie</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/main.css" />
+<h1>ShopGenie</h1>
+<hr />
+<div class="section">
+  <h2>
+    Diet & Allergies
+  </h2>
+
+  <div class="slider-container">
+    <p>
+      Do any of these apply?
+    </p>
+    <form>
+      <div class="autocomplete-container">
+        <input id="restriction" placeholder="Enter a restriction..." />
+        <button type="submit">
+          Add Restriction
+        </button>
+      </div>
+    </form>
+    <form class="tabs-wrapper" id="diet-tabs">
+      {% for dietByType in dietData %}
+        <fieldset-wrapper id="diet-fieldset">
+          <fieldset>
+            {% for diet in dietByType.items %}
+              <label>
+                <input type="checkbox" name="diet" value="{{ diet.name }}" {% for d in profile.diet | splitOnComma %}{% if (d | lower) == (diet.name | lower) %}checked{% endif %}{% endfor %} />
+                <img src="/diet-images/{{ diet.imageUrl }}" aria-hidden="true" />
+                <span>{{ diet.name }}</span>
+              </label>
+            {% endfor %}
+          </fieldset>
+        </fieldset-wrapper>
+      {% endfor %}
+    </form>
+  </div>
+
+  <script type="module">
+    const dietFieldsetElement = window.document.querySelector('#diet-tabs');
+    const checkboxElements = Array.from(dietFieldsetElement.querySelectorAll('[type="checkbox"]'));
+    for (const checkboxElement of checkboxElements) {
+      checkboxElement.addEventListener('change', () => {
+        if (checkboxElement.checked) {
+          const value = checkboxElement.value || '';
+          const outputElement = window.document.querySelector('#diet');
+          outputElement.textContent = `${outputElement.textContent ? `${outputElement.textContent}, ` : ''}${value}`;
+          const listItemElement = window.document.createElement('li');
+          listItemElement.dataset.diet = value;
+          const valueTextNode = window.document.createTextNode(value);
+          listItemElement.append(valueTextNode);
+          const removeButtonElement = window.document.createElement('remove-button');
+          listItemElement.append(removeButtonElement);
+          outputElement.nextElementSibling.append(listItemElement);
+        } else {
+          const diet = checkboxElement.value || '';
+          const outputElement = window.document.querySelector('#diet');
+          const itemsArray = outputElement.textContent.split(', ');
+          itemsArray.splice(itemsArray.indexOf(diet), 1);
+          outputElement.textContent = itemsArray.join(', ');
+          window.document.querySelector(`[data-diet="${diet}"]`).remove();
+        }
+      });
+    }
+  </script>
+
+    <script type="module">
+      const favoritesListInputElement = window.document.querySelector('#restriction');
+      const datalistElement = favoritesListInputElement.nextElementSibling;
+      const formElement = favoritesListInputElement.closest('form');
+
+      formElement.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const value = favoritesListInputElement.value || '';
+        const outputElement = window.document.querySelector('#diet');
+        outputElement.textContent = `${outputElement.textContent ? `${outputElement.textContent}, ` : ''}${value}`;
+        const listItemElement = window.document.createElement('li');
+        listItemElement.dataset.diet = value;
+        const valueTextNode = window.document.createTextNode(value);
+        listItemElement.append(valueTextNode);
+        const removeButtonElement = window.document.createElement('remove-button');
+        listItemElement.append(removeButtonElement);
+        outputElement.nextElementSibling.append(listItemElement);
+        favoritesListInputElement.value = '';
+        for (const item of Array.from(window.document.querySelectorAll('fieldset input'))) {
+          if (item.parentElement.querySelector('span').textContent.toLowerCase() === value) {
+            item.checked = true;
+          }
+        }
+        for (const element of Array.from(datalistElement.children)) {
+          element.remove();
+        }
+      });
+    </script>
+  <form id="edit-profile">
+    <label>
+      <output hidden id="diet">{{ profile.diet }}</output>
+      <ul aria-label="Diet">
+        {% if profile.diet %}
+          {% for diet in profile.diet.split(', ') %}
+           <li data-diet="{{ diet }}">{{ diet }} <remove-button></remove-button></li>
+          {% endfor %}
+        {% endif %}
+      </ul>
+      <script type="module">
+        const outputElement = window.document.querySelector('#diet');
+        outputElement.nextElementSibling.addEventListener('click', (event) => {
+          const buttonElement = event.target;
+          const diet = Array.from(buttonElement.closest('li').childNodes).find(node => node.nodeType === Node.TEXT_NODE).textContent.trim();
+          const itemsArray = outputElement.textContent.split(', ');
+          itemsArray.splice(itemsArray.indexOf(diet), 1);
+          outputElement.textContent = itemsArray.join(', ');
+          buttonElement.closest('li').remove();
+          for (const item of Array.from(window.document.querySelectorAll('fieldset input'))) {
+            if (item.parentElement.querySelector('span').textContent.toLowerCase() === diet) {
+              item.checked = false;
+            }
+          }
+
+          window.document.querySelector(`[name="diet"][value="${diet}"]`).checked = false;
+        });
+      </script>
+      <script type="module">
+        window.customElements.define('remove-button', class RemoveButton extends HTMLElement {
+          constructor() {
+            super();
+            this.attachShadow({ mode: 'open', });
+            const stylesheet = new CSSStyleSheet();
+            stylesheet.replaceSync(`
+              button {
+                color: white;
+                background: red;
+                border-radius: 100%;
+              }
+            `);
+            this.shadowRoot.adoptedStyleSheets = [stylesheet];
+            const buttonElement = window.document.createElement('button');
+            buttonElement.setAttribute('type', 'button');
+            buttonElement.textContent = 'X';
+            this.shadowRoot.append(buttonElement);
+          }
+        });
+      </script>
+    </label>
+    <br />
+    <button type="submit">
+      Continue
+    </button>
+    <p class="loader" hidden>Loading, please wait up to 2 minutes...</p>
+  </form>
+  <script type="module">
+    window.document.querySelector('#edit-profile').addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      window.document.querySelector('#edit-profile .loader').removeAttribute('hidden');
+
+      const diet = window.document.querySelector('#diet');
+
+      const profile = {
+        diet: diet.value,
+      };
+
+      fetch('/edit-profile/diet', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(profile),
+      }).then((response) => {
+        window.location = new URL('/edit-profile', window.location);
+      });
+    });
+  </script>
+</div>

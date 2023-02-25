@@ -284,6 +284,37 @@ const port = process.env.PORT ?? 3000;
     });
   });
 
+  app.get('/edit-profile/diet', async function(req, res) {
+    const profile = await mongoDb.collection('profile').findOne({
+      _id: 'https://shopgenie.com/users/mpuckett/profile',
+    });
+
+    const dietData = [{
+      type: 'Diets & Allergies',
+      items: [{
+        name: 'Keto',
+        imageUrl: 'keto.png',
+      }, {
+        name: 'Gluten-Free',
+        imageUrl: 'gluten-free.png',
+      }, {
+        name: 'Vegan',
+        imageUrl: 'vegan.png',
+      }, {
+        name: 'Vegetarian',
+        imageUrl: 'vegetarian.png',
+      }, {
+        name: 'Lactose intolerant',
+        imageUrl: 'lactose-intolerant.png',
+      }],
+    }];
+
+    res.render('diet.html', {
+      profile,
+      dietData,
+    });
+  });
+
   app.get('/meal-plan', async function (req, res) {
     const profile = await mongoDb.collection('profile').findOne({
       _id: 'https://shopgenie.com/users/mpuckett/profile',
