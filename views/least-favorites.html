@@ -121,6 +121,13 @@
         listItemElement.append(removeButtonElement);
         outputElement.nextElementSibling.append(listItemElement);
         favoritesListInputElement.value = '';
+        
+        for (const item of Array.from(window.document.querySelectorAll('fieldset input'))) {
+          if (item.parentElement.querySelector('span').textContent.toLowerCase() === value) {
+            item.checked = true;
+          }
+        }
+
         for (const element of Array.from(datalistElement.children)) {
           element.remove();
         }
@@ -170,6 +177,12 @@
           itemsArray.splice(itemsArray.indexOf(food), 1);
           outputElement.textContent = itemsArray.join(', ');
           buttonElement.closest('li').remove();
+          
+          for (const item of Array.from(window.document.querySelectorAll('fieldset input'))) {
+            if (item.parentElement.querySelector('span').textContent.toLowerCase() === food) {
+              item.checked = false;
+            }
+          }
 
           window.document.querySelector(`[name="least-favorite-food"][value="${food}"]`).checked = false;
         });
