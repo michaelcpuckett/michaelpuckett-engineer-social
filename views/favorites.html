@@ -178,6 +178,11 @@
           itemsArray.splice(itemsArray.indexOf(food), 1);
           outputElement.textContent = itemsArray.join(', ');
           buttonElement.closest('li').remove();
+          for (const item of Array.from(window.document.querySelectorAll('fieldset input'))) {
+            if (item.parentElement.querySelector('span').textContent.toLowerCase() === food) {
+              item.checked = false;
+            }
+          }
 
           window.document.querySelector(`[name="favorite-food"][value="${food}"]`).checked = false;
         });
