@@ -4,21 +4,21 @@
 <link rel="stylesheet" href="/main.css" />
 <h1>ShopGenie</h1>
 <hr />
-<div class="section">
+<div class="section" id="least-favorite-foods-section">
   <h2>
-    Least Favorite Foods
+    Least favorite foods
   </h2>
 
   <div class="slider-container">
     <p>
-      What are your least favorite foods?
-    </p>
+      Which items would you want to be swapped out?
+    </small>
     <form>
       <div class="autocomplete-container">
         <input list="favorites-autocomplete-list" placeholder="Enter a food or dish..." />
         <datalist id="favorites-autocomplete-list"></datalist>
-        <button type="submit">
-          Add
+        <button type="submit" style="background: maroon">
+          Add Least Favorite
         </button>
       </div>
     </form>
@@ -221,7 +221,7 @@
         },
         body: JSON.stringify(profile),
       }).then((response) => {
-        window.location = new URL('/edit-profile/final-questions', window.location);
+        window.location = new URL('/edit-profile', window.location);
       });
     });
   </script>

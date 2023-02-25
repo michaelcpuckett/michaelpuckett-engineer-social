@@ -216,6 +216,7 @@ fieldset label {
   grid-template-rows: minmax(0, 1fr) 1em;
   padding: 1em;
   text-align: center;
+  position: relative;
 }
 
 fieldset label input {
@@ -223,7 +224,7 @@ fieldset label input {
   grid-row: 1 / 3;
   width: 36px;
   height: 36px;
-  z-index: 1;
+  z-index: 2;
   appearance: none;
 }
 
@@ -237,6 +238,28 @@ fieldset label input:checked {
 fieldset label:has(input:checked) {
   background: green;
   color: white;
+}
+
+#least-favorite-foods-section fieldset label:has(input:checked) {
+  background: maroon;
+}
+
+#least-favorite-foods-section fieldset label input:checked {
+  background-color: red;
+}
+
+#least-favorite-foods-section label span:after {
+  content: '';
+  top: 1em;
+  left: 1em;
+  width: calc(100% - 2em);
+  height: calc(100% - 2em);
+  z-index: 1;
+  position: absolute;
+  background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+PHN2ZyB3aWR0aD0iMTAwMCIgaGVpZ2h0PSIxMDAwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgoKIDxtZXRhZGF0YSBpZD0ibWV0YWRhdGE0MjQxIj5pbWFnZS9zdmcreG1sPC9tZXRhZGF0YT4KIDxnPgogIDx0aXRsZT5MYXllciAxPC90aXRsZT4KICA8ZyBpZD0ibGF5ZXIxIj4KICAgPHRpdGxlPkJsYWNrIENyb3NzZWQgT3V0IENpcmNsZTwvdGl0bGU+CiAgIDxwYXRoIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLXdpZHRoPSIyMi41MzE4MjYiIHN0cm9rZS1taXRlcmxpbWl0PSI0IiBkPSJtOTY2LjQ0OTcwNyw1MTIuODQzODcyYy02LjI4NTIxNywyNTguNDAxODU1IC0yMjAuMjE3MTAyLDQ2Mi43NjcwOSAtNDc3LjgzMDEzOSw0NTYuNDYyNjQ2Yy0yNTcuNjEzMTEzLC02LjMwNDUwNCAtNDYxLjM1NDU5NSwtMjIwLjg5MTI5NiAtNDU1LjA2OTM3LC00NzkuMjkzMTUyYzYuMjg1MjI1LC0yNTguNDAxODcxIDIyMC4yMTcwNiwtNDYyLjc2NzE0NyA0NzcuODMwMTczLC00NTYuNDYyNjgxYzI1Ny42MTMwMzcsNi4zMDQ0NjYgNDYxLjM1NDU1MywyMjAuODkxMzE1IDQ1NS4wNjkzMzYsNDc5LjI5MzE4NnoiIGlkPSJwYXRoNDI1MiIvPgogICA8cGF0aCBmaWxsPSIjZmZmZmZmIiBzdHJva2U9IiMwMDAwMDAiIHN0cm9rZS13aWR0aD0iNTAiIHN0cm9rZS1taXRlcmxpbWl0PSI0IiBpZD0icGF0aDQ3NjQiIGQ9Im0yMjAsMTE3LjE0Mjg2bDU2OC41NzE0MTEsNzU3LjE0Mjg0NSIvPgogIDwvZz4KIDwvZz4KPC9zdmc+");
+  background-repeat: no-repeat;
+  background-size: contain;
+  mix-blend-mode: multiply;
 }
 
 fieldset label input:not(:checked) {

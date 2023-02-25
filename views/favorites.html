@@ -6,12 +6,12 @@
 <hr />
 <div class="section">
   <h2>
-    Favorite Foods
+    Favorite foods
   </h2>
 
   <div class="slider-container">
     <p>
-      What are your favorite foods and what do you eat most often?
+      What do you eat most often?
     </p>
     <small>
       Please include a variety of breakfast, lunch, dinner, and snack foods.
@@ -21,7 +21,7 @@
         <input list="favorites-autocomplete-list" placeholder="Enter a food or dish..." />
         <datalist id="favorites-autocomplete-list"></datalist>
         <button type="submit">
-          Add
+          Add Favorite
         </button>
       </div>
     </form>
@@ -38,7 +38,7 @@
           <fieldset>
             {% for food in foodByType.items %}
               <label>
-                <input type="checkbox" name="favorite-food" value="{{ food.name }}" {% for favoriteFood in profile.favoriteFoods | splitOnComma %}{% if favoriteFood == food.name %}checked{% endif %}{% endfor %} />
+                <input type="checkbox" name="favorite-food" value="{{ food.name }}" {% for favoriteFood in profile.favoriteFoods | splitOnComma %}{% if (favoriteFood | lower) == (food.name | lower) %}checked{% endif %}{% endfor %} />
                 <img src="/food-images/{{ food.imageUrl }}" aria-hidden="true" />
                 <span>{{ food.name }}</span>
               </label>
@@ -124,6 +124,11 @@
         listItemElement.append(removeButtonElement);
         outputElement.nextElementSibling.append(listItemElement);
         favoritesListInputElement.value = '';
+        for (const item of Array.from(window.document.querySelectorAll('fieldset input'))) {
+          if (item.parentElement.querySelector('span').textContent.toLowerCase() === value) {
+            item.checked = true;
+          }
+        }
         for (const element of Array.from(datalistElement.children)) {
           element.remove();
         }
