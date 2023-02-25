@@ -24,17 +24,22 @@
       </div>
     </form>
     <form>
-      <fieldset-wrapper id="favorite-foods-fieldset">
-        <fieldset>
-          {% for food in foodData %}
-            <label>
-              <input type="checkbox" name="favorite-food" value="{{ food.name }}" {% for favoriteFood in profile.favoriteFoods | splitOnComma %}{% if favoriteFood == food.name %}checked{% endif %}{% endfor %} />
-              <img src="{{ food.imageUrl }}" aria-hidden="true" />
-              <span>{{ food.name }}</span>
-            </label>
-          {% endfor %}
-        </fieldset>
-      </fieldset-wrapper>
+      {% for foodByType in foodData %}
+        <fieldset-wrapper id="favorite-foods-fieldset">
+          <div>
+            {{ foodByType.type }}
+          </div>
+          <fieldset>
+            {% for food in foodByType.items %}
+              <label>
+                <input type="checkbox" name="favorite-food" value="{{ food.name }}" {% for favoriteFood in profile.favoriteFoods | splitOnComma %}{% if favoriteFood == food.name %}checked{% endif %}{% endfor %} />
+                <img src="/food-images/{{ food.imageUrl }}" aria-hidden="true" />
+                <span>{{ food.name }}</span>
+              </label>
+            {% endfor %}
+          </fieldset>
+        </fieldset-wrapper>
+      {% endfor %}
     </form>
   </div>
 
