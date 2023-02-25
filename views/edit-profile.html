@@ -14,6 +14,9 @@
     <p>
       What are your favorite foods and what do you eat most often?
     </p>
+    <small>
+      Please include a variety of breakfast, lunch, dinner, and snack foods.
+    </small>
     <form>
       <div class="autocomplete-container">
         <input list="favorites-autocomplete-list" placeholder="Enter a food or dish..." />
@@ -23,16 +26,16 @@
         </button>
       </div>
     </form>
-    <div class="tabs-wrapper">
+    <form class="tabs-wrapper" id="favorite-foods-tabs">
       <div class="tabs" role="tablist">
         {% for foodByType in foodData %}
-          <button role="tab">
+          <button type="button" role="tab" data-tab="{{ foodByType.type }}" aria-current="{% if loop.index0 == 0 %}true{% else %}false{% endif %}"">
             {{ foodByType.type }}
           </button>
         {% endfor %}
       </div>
       {% for foodByType in foodData %}
-        <fieldset-wrapper id="favorite-foods-fieldset">
+        <fieldset-wrapper role="tabpanel" {% if not loop.index0 == 0 %}hidden{% endif %} data-tab="{{ foodByType.type }}" id="favorite-foods-fieldset">
           <fieldset>
             {% for food in foodByType.items %}
               <label>
@@ -44,11 +47,40 @@
           </fieldset>
         </fieldset-wrapper>
       {% endfor %}
-    </div>
+    </form>
+    <script type="module">
+      const tabsRootElement = window.document.querySelector('#favorite-foods-tabs');
+      const tabElements = Array.from(window.document.querySelectorAll('[role="tab"]'));
+      const tabpanelElements = Array.from(window.document.querySelectorAll('[role="tabpanel"]'));
+
+      for (const tabElement of tabElements) {
+        tabElement.addEventListener('click', () => {
+          
+          const tab = tabElement.getAttribute('data-tab');
+          const tabpanelElement = tabpanelElements.find(element => element.getAttribute('data-tab') === tab);
+
+          for (const element of tabElements) {
+            if (element === tabElement) {
+              element.setAttribute('aria-current', 'true');
+            } else {
+              element.setAttribute('aria-current', 'false');
+            }
+          }
+
+          for (const element of tabpanelElements) {
+            if (element === tabpanelElement) {
+              element.removeAttribute('hidden');
+            } else {
+              element.setAttribute('hidden', '');
+            }
+          }
+        });
+      }
+    </script>
   </div>
 
   <script type="module">
-    const favoriteFoodsFieldsetElement = window.document.querySelector('#favorite-foods-fieldset');
+    const favoriteFoodsFieldsetElement = window.document.querySelector('#favorite-foods-tabs');
     const checkboxElements = Array.from(favoriteFoodsFieldsetElement.querySelectorAll('[type="checkbox"]'));
     for (const checkboxElement of checkboxElements) {
       checkboxElement.addEventListener('change', () => {
@@ -58,13 +90,10 @@
           outputElement.textContent = `${outputElement.textContent ? `${outputElement.textContent}, ` : ''}${value}`;
           const listItemElement = window.document.createElement('li');
           listItemElement.dataset.food = value;
-          const removeButtonElement = window.document.createElement('button');
-          removeButtonElement.setAttribute('type', 'button');
-          removeButtonElement.classList.add('small');
-          removeButtonElement.textContent = 'Remove';
-          listItemElement.append(removeButtonElement);
           const valueTextNode = window.document.createTextNode(value);
           listItemElement.append(valueTextNode);
+          const removeButtonElement = window.document.createElement('remove-button');
+          listItemElement.append(removeButtonElement);
           outputElement.nextElementSibling.append(listItemElement);
         } else {
           const food = checkboxElement.value || '';
@@ -90,13 +119,10 @@
         outputElement.textContent = `${outputElement.textContent ? `${outputElement.textContent}, ` : ''}${value}`;
         const listItemElement = window.document.createElement('li');
         listItemElement.dataset.food = value;
-        const removeButtonElement = window.document.createElement('button');
-        removeButtonElement.setAttribute('type', 'button');
-        removeButtonElement.classList.add('small');
-        removeButtonElement.textContent = 'Remove';
-        listItemElement.append(removeButtonElement);
         const valueTextNode = window.document.createTextNode(value);
         listItemElement.append(valueTextNode);
+        const removeButtonElement = window.document.createElement('remove-button');
+        listItemElement.append(removeButtonElement);
         outputElement.nextElementSibling.append(listItemElement);
         favoritesListInputElement.value = '';
         for (const element of Array.from(datalistElement.children)) {
@@ -134,7 +160,7 @@
       <ul aria-label="Favorite foods">
         {% if profile.favoriteFoods %}
           {% for food in profile.favoriteFoods.split(', ') %}
-           <li data-food="{{ food }}"><button type="button" class="small">Remove</button>{{ food }} </li>
+           <li data-food="{{ food }}">{{ food }} <remove-button></remove-button></li>
           {% endfor %}
         {% endif %}
       </ul>
@@ -152,9 +178,27 @@
           window.document.querySelector(`[name="favorite-food"][value="${food}"]`).checked = false;
         });
       </script>
-      <small>
-        Please include a variety of breakfast, lunch, dinner, and snack foods.
-      </small>
+      <script type="module">
+        window.customElements.define('remove-button', class RemoveButton extends HTMLElement {
+          constructor() {
+            super();
+            this.attachShadow({ mode: 'open', });
+            const stylesheet = new CSSStyleSheet();
+            stylesheet.replaceSync(`
+              button {
+                color: white;
+                background: red;
+                border-radius: 100%;
+              }
+            `);
+            this.shadowRoot.adoptedStyleSheets = [stylesheet];
+            const buttonElement = window.document.createElement('button');
+            buttonElement.setAttribute('type', 'button');
+            buttonElement.textContent = 'X';
+            this.shadowRoot.append(buttonElement);
+          }
+        });
+      </script>
     </label>
 
     <label>
