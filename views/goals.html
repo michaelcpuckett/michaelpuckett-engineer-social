@@ -2,10 +2,14 @@
 <title>ShopGenie</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="/main.css" />
-<h1>ShopGenie</h1>
-<nav>
-  <a class="back-button" href="/edit-profile/diet">Back</a>
-</nav>
+
+<div class="root">
+  <h1>ShopGenie</h1>
+  <hr />
+  <nav>
+    <a class="back-button" href="/edit-profile/diet">Back</a>
+  </nav>
+  <hr />
 <div class="section">
   <h2>
     Goals
@@ -203,10 +207,11 @@
         });
       </script>
     </label>
-    <br />
-    <button type="submit">
-      Continue
-    </button>
+    <div class="fixed-cta">
+      <button type="submit">
+        Continue
+      </button>
+    </div>
     <p class="loader" hidden>Loading, please wait up to 2 minutes...</p>
   </form>
   <script type="module">
@@ -232,4 +237,5 @@
       });
     });
   </script>
+</div>
 </div>

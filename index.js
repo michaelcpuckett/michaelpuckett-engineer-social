@@ -80,7 +80,7 @@ const port = process.env.PORT ?? 3000;
   
 
   const foodData = [{
-    type: 'Cuisines',
+    type: 'Cuisine',
     items: [{
       name: 'American food',
       imageUrl: 'american.png',
@@ -143,7 +143,25 @@ const port = process.env.PORT ?? 3000;
       imageUrl: 'almonds.png',
     }]
   }, {
-    type: 'Vegetables',
+    type: 'Grains',
+    items: [{
+      name: 'Sandwiches',
+      imageUrl: 'sandwich.png',
+    }, {
+      name: 'Rice',
+      imageUrl: 'rice.png',
+    }, {
+      name: 'Pasta',
+      imageUrl: 'pasta.png',
+    }, {
+      name: 'Oatmeal',
+      imageUrl: 'oatmeal.png',
+    }, {
+      name: 'Cereal',
+      imageUrl: 'cereal.png',
+    }]
+  }, {
+    type: 'Veggies',
     items: [{
       name: 'Carrots',
       imageUrl: 'carrots.png',
@@ -188,7 +206,7 @@ const port = process.env.PORT ?? 3000;
       imageUrl: 'artichokes.png',
     }]
   }, {
-    type: 'Fruits',
+    type: 'Fruit',
     items: [{
       name: 'banana',
       imageUrl: 'banana.png',
@@ -237,24 +255,6 @@ const port = process.env.PORT ?? 3000;
     }, {
       name: 'grapefruit',
       imageUrl: 'grapefruit.png',
-    }]
-  }, {
-    type: 'Grains',
-    items: [{
-      name: 'Sandwiches',
-      imageUrl: 'sandwich.png',
-    }, {
-      name: 'Rice',
-      imageUrl: 'rice.png',
-    }, {
-      name: 'Pasta',
-      imageUrl: 'pasta.png',
-    }, {
-      name: 'Oatmeal',
-      imageUrl: 'oatmeal.png',
-    }, {
-      name: 'Cereal',
-      imageUrl: 'cereal.png',
     }]
   }];
 
