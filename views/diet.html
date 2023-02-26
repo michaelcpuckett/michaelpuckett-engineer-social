@@ -3,7 +3,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="/main.css" />
 <h1>ShopGenie</h1>
-<hr />
+<nav>
+  <a class="back-button" href="/edit-profile/least-favorites">Back</a>
+</nav>
 <div class="section">
   <h2>
     Diet & Allergies
@@ -169,7 +171,7 @@
         },
         body: JSON.stringify(profile),
       }).then((response) => {
-        window.location = new URL('/edit-profile', window.location);
+        window.location = new URL('/edit-profile/goals', window.location);
       });
     });
   </script>

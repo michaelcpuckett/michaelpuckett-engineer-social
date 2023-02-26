@@ -4,35 +4,55 @@ box-sizing: border-box;
 
 body {
 font-family: sans-serif;
-margin: 12px 0;
+margin: 0;
 line-height: 1.5;
+background: rgba(0, 0, 0, .875);
+}
+
+.root {
+  max-width: 400px;
+  margin: 0 auto;
+  border: 1px solid;
+  margin: 24px auto;
+  height: 720px;
+  overflow-y: scroll;
+  position: relative;
+  background: white;
+}
+
+h1,
+.section {
+  padding: 12px;
+}
+
+h1,
+h2 {
+  margin: 0;
 }
 
 img {
   max-width: 100%;
 }
 
-h1,
-details,
-.section {
-max-width: 960px;
-margin: 0 auto;
-padding: 0 24px;
+nav {
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  padding: 24px 0;
 }
 
 input {
   width: 100%;
   font: inherit;
-  padding: 12px;
-  border-radius: 12px;
+  padding: 4px 8px;
+  border-radius: 8px;
   border: 1px solid;
 }
 textarea {
 width: 100%;
 min-height: 100px;
 font: inherit;
-padding: 12px;
-border-radius: 12px;
+padding: 8px;
+border-radius: 8px;
 }
 
 table,
@@ -70,16 +90,27 @@ td table ~ table {
 display: none;
 }
 
+.fixed-cta {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  border-top: 1px solid;
+}
+
 button,
 summary {
-border-radius: 24px;
-border: 1px solid;
-padding: 12px 24px;
-font: inherit;
-margin: 6px 0;
-background: teal;
-color: white;
-font-size: 1.2em;
+  border-radius: 16px;
+  border: 1px solid;
+  padding: 4px 16px;
+  font: inherit;
+  margin: 0;
+  background: teal;
+  color: white;
 }
 
 button.small {
@@ -166,7 +197,7 @@ color: white;
   padding: 0;
   display: flex;
   flex-wrap: wrap;
-  column-gap: 24px;
+  column-gap: 12px;
   row-gap: 6px;
 }
 
@@ -176,11 +207,19 @@ color: white;
   margin: 0;
   padding: 0;
   grid-template-columns: auto minmax(0, 1fr);
-  gap: 12px;
   align-items: center;
   border: 1px solid;
   border-radius: 24px;
   padding: 6px 12px;
+}
+
+.tabs-wrapper [role="tablist"] {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tabs-wrapper [role="tab"] {
+  border-radius: 0;
 }
 
 .tabs-wrapper [role="tab"][aria-current="true"] {
@@ -204,6 +243,7 @@ fieldset-wrapper:not([hidden]) {
 fieldset {
   display: grid;
   grid-auto-flow: column;
+  padding: 0;
 }
 
 fieldset label {

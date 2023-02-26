@@ -2,29 +2,19 @@
 <title>ShopGenie</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="/main.css" />
+<div class="root">
 <h1>ShopGenie</h1>
 <hr />
 <div class="section">
   <h2>
-    Favorite foods
+    Favorites
   </h2>
 
   <div class="slider-container">
     <p>
-      What do you eat most often?
+      <strong>What do you eat most often?</strong>
     </p>
-    <small>
-      Please include a variety of breakfast, lunch, dinner, and snack foods.
-    </small>
-    <form>
-      <div class="autocomplete-container">
-        <input list="favorites-autocomplete-list" placeholder="Enter a food or dish..." />
-        <datalist id="favorites-autocomplete-list"></datalist>
-        <button type="submit">
-          Add Favorite
-        </button>
-      </div>
-    </form>
+    <hr />
     <form class="tabs-wrapper" id="favorite-foods-tabs">
       <div class="tabs" role="tablist">
         {% for foodByType in foodData %}
@@ -76,88 +66,97 @@
         });
       }
     </script>
+    <form>
+      <div class="autocomplete-container">
+        <input list="favorites-autocomplete-list" placeholder="Enter a food or dish..." />
+        <datalist id="favorites-autocomplete-list"></datalist>
+        <button type="submit">
+          Add Favorite
+        </button>
+      </div>
+    </form>
+
+    <script type="module">
+      const favoriteFoodsFieldsetElement = window.document.querySelector('#favorite-foods-tabs');
+      const checkboxElements = Array.from(favoriteFoodsFieldsetElement.querySelectorAll('[type="checkbox"]'));
+      for (const checkboxElement of checkboxElements) {
+        checkboxElement.addEventListener('change', () => {
+          if (checkboxElement.checked) {
+            const value = checkboxElement.value || '';
+            const outputElement = window.document.querySelector('#favorite-foods');
+            outputElement.textContent = `${outputElement.textContent ? `${outputElement.textContent}, ` : ''}${value}`;
+            const listItemElement = window.document.createElement('li');
+            listItemElement.dataset.food = value;
+            const valueTextNode = window.document.createTextNode(value);
+            listItemElement.append(valueTextNode);
+            const removeButtonElement = window.document.createElement('remove-button');
+            listItemElement.append(removeButtonElement);
+            outputElement.nextElementSibling.append(listItemElement);
+          } else {
+            const food = checkboxElement.value || '';
+            const outputElement = window.document.querySelector('#favorite-foods');
+            const itemsArray = outputElement.textContent.split(', ');
+            itemsArray.splice(itemsArray.indexOf(food), 1);
+            outputElement.textContent = itemsArray.join(', ');
+            window.document.querySelector(`[data-food="${food}"]`).remove();
+          }
+        });
+      }
+    </script>
   </div>
 
   <script type="module">
-    const favoriteFoodsFieldsetElement = window.document.querySelector('#favorite-foods-tabs');
-    const checkboxElements = Array.from(favoriteFoodsFieldsetElement.querySelectorAll('[type="checkbox"]'));
-    for (const checkboxElement of checkboxElements) {
-      checkboxElement.addEventListener('change', () => {
-        if (checkboxElement.checked) {
-          const value = checkboxElement.value || '';
-          const outputElement = window.document.querySelector('#favorite-foods');
-          outputElement.textContent = `${outputElement.textContent ? `${outputElement.textContent}, ` : ''}${value}`;
-          const listItemElement = window.document.createElement('li');
-          listItemElement.dataset.food = value;
-          const valueTextNode = window.document.createTextNode(value);
-          listItemElement.append(valueTextNode);
-          const removeButtonElement = window.document.createElement('remove-button');
-          listItemElement.append(removeButtonElement);
-          outputElement.nextElementSibling.append(listItemElement);
-        } else {
-          const food = checkboxElement.value || '';
-          const outputElement = window.document.querySelector('#favorite-foods');
-          const itemsArray = outputElement.textContent.split(', ');
-          itemsArray.splice(itemsArray.indexOf(food), 1);
-          outputElement.textContent = itemsArray.join(', ');
-          window.document.querySelector(`[data-food="${food}"]`).remove();
-        }
-      });
-    }
-  </script>
+    const favoritesListInputElement = window.document.querySelector('[list="favorites-autocomplete-list"]');
+    const datalistElement = favoritesListInputElement.nextElementSibling;
+    const formElement = favoritesListInputElement.closest('form');
 
-    <script type="module">
-      const favoritesListInputElement = window.document.querySelector('[list="favorites-autocomplete-list"]');
-      const datalistElement = favoritesListInputElement.nextElementSibling;
-      const formElement = favoritesListInputElement.closest('form');
-
-      formElement.addEventListener('submit', (event) => {
-        event.preventDefault();
-        const value = favoritesListInputElement.value || '';
-        const outputElement = window.document.querySelector('#favorite-foods');
-        outputElement.textContent = `${outputElement.textContent ? `${outputElement.textContent}, ` : ''}${value}`;
-        const listItemElement = window.document.createElement('li');
-        listItemElement.dataset.food = value;
-        const valueTextNode = window.document.createTextNode(value);
-        listItemElement.append(valueTextNode);
-        const removeButtonElement = window.document.createElement('remove-button');
-        listItemElement.append(removeButtonElement);
-        outputElement.nextElementSibling.append(listItemElement);
-        favoritesListInputElement.value = '';
-        for (const item of Array.from(window.document.querySelectorAll('fieldset input'))) {
-          if (item.parentElement.querySelector('span').textContent.toLowerCase() === value) {
-            item.checked = true;
-          }
+    formElement.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const value = favoritesListInputElement.value || '';
+      const outputElement = window.document.querySelector('#favorite-foods');
+      outputElement.textContent = `${outputElement.textContent ? `${outputElement.textContent}, ` : ''}${value}`;
+      const listItemElement = window.document.createElement('li');
+      listItemElement.dataset.food = value;
+      const valueTextNode = window.document.createTextNode(value);
+      listItemElement.append(valueTextNode);
+      const removeButtonElement = window.document.createElement('remove-button');
+      listItemElement.append(removeButtonElement);
+      outputElement.nextElementSibling.append(listItemElement);
+      favoritesListInputElement.value = '';
+      for (const item of Array.from(window.document.querySelectorAll('fieldset input'))) {
+        if (item.parentElement.querySelector('span').textContent.toLowerCase() === value) {
+          item.checked = true;
         }
+      }
+      for (const element of Array.from(datalistElement.children)) {
+        element.remove();
+      }
+    });
+
+    favoritesListInputElement.addEventListener('input', (event) => {
+      fetch('/get-suggestions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          query: favoritesListInputElement.value || '',
+        }),
+      }).then((response) => {
+        return response.json();
+      }).then((results) => {
         for (const element of Array.from(datalistElement.children)) {
           element.remove();
         }
-      });
 
-      favoritesListInputElement.addEventListener('input', (event) => {
-        fetch('/get-suggestions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            query: favoritesListInputElement.value || '',
-          }),
-        }).then((response) => {
-          return response.json();
-        }).then((results) => {
-          for (const element of Array.from(datalistElement.children)) {
-            element.remove();
-          }
-
-          for (const suggestion of results.suggestions) {
-            const optionElement = window.document.createElement('option');
-            optionElement.setAttribute('value', suggestion);
-            datalistElement.append(optionElement);
-          }
-        });
+        for (const suggestion of results.suggestions) {
+          const optionElement = window.document.createElement('option');
+          optionElement.setAttribute('value', suggestion);
+          datalistElement.append(optionElement);
+        }
       });
-    </script>
+    });
+  </script>
   <form id="edit-profile">
     <label>
       <output hidden id="favorite-foods">{{ profile.favoriteFoods }}</output>
@@ -210,9 +209,11 @@
       </script>
     </label>
     <br />
-    <button type="submit">
-      Continue
-    </button>
+    <div class="fixed-cta">
+      <button type="submit">
+        Continue
+      </button>
+    </div>
     <p class="loader" hidden>Loading, please wait up to 2 minutes...</p>
   </form>
   <script type="module">
@@ -238,4 +239,5 @@
       });
     });
   </script>
+</div>
 </div>

@@ -80,6 +80,24 @@ const port = process.env.PORT ?? 3000;
   
 
   const foodData = [{
+    type: 'Cuisines',
+    items: [{
+      name: 'American food',
+      imageUrl: 'american.png',
+    }, {
+      name: 'Mexican food',
+      imageUrl: 'mexican.png',
+    }, {
+      name: 'Chinese food',
+      imageUrl: 'chinese.png'
+    }, {
+      name: 'Sushi',
+      imageUrl: 'sushi.png',
+    }, {
+      name: 'Indian food',
+      imageUrl: 'indian.png',
+    }]
+  }, {
     type: 'Protein',
     items: [{
       name: 'Chicken',
@@ -123,6 +141,51 @@ const port = process.env.PORT ?? 3000;
     }, {
       name: 'Almonds',
       imageUrl: 'almonds.png',
+    }]
+  }, {
+    type: 'Vegetables',
+    items: [{
+      name: 'Carrots',
+      imageUrl: 'carrots.png',
+    }, {
+      name: 'Broccoli',
+      imageUrl: 'broccoli.png',
+    }, {
+      name: 'Bell peppers',
+      imageUrl: 'bell-peppers.png',
+    }, {
+      name: 'Spinach',
+      imageUrl: 'spinach.png',
+    }, {
+      name: 'Kale',
+      imageUrl: 'kale.png',
+    }, {
+      name: 'Onions',
+      imageUrl: 'onions.png',
+    }, {
+      name: 'Tomatoes',
+      imageUrl: 'tomatoes.png',
+    }, {
+      name: 'Eggplant',
+      imageUrl: 'eggplant.png',
+    }, {
+      name: 'Potatoes',
+      imageUrl: 'potatoes.png',
+    }, {
+      name: 'Peas',
+      imageUrl: 'peas.png',
+    }, {
+      name: 'Green beans',
+      imageUrl: 'green-beans.png',
+    }, {
+      name: 'Corn',
+      imageUrl: 'corn.png',
+    }, {
+      name: 'Asparagus',
+      imageUrl: 'asparagus.png',
+    }, {
+      name: 'Artichokes',
+      imageUrl: 'artichokes.png',
     }]
   }, {
     type: 'Fruits',
@@ -176,51 +239,6 @@ const port = process.env.PORT ?? 3000;
       imageUrl: 'grapefruit.png',
     }]
   }, {
-    type: 'Vegetables',
-    items: [{
-      name: 'Carrots',
-      imageUrl: 'carrots.png',
-    }, {
-      name: 'Broccoli',
-      imageUrl: 'broccoli.png',
-    }, {
-      name: 'Bell peppers',
-      imageUrl: 'bell-peppers.png',
-    }, {
-      name: 'Spinach',
-      imageUrl: 'spinach.png',
-    }, {
-      name: 'Kale',
-      imageUrl: 'kale.png',
-    }, {
-      name: 'Onions',
-      imageUrl: 'onions.png',
-    }, {
-      name: 'Tomatoes',
-      imageUrl: 'tomatoes.png',
-    }, {
-      name: 'Eggplant',
-      imageUrl: 'eggplant.png',
-    }, {
-      name: 'Potatoes',
-      imageUrl: 'potatoes.png',
-    }, {
-      name: 'Peas',
-      imageUrl: 'peas.png',
-    }, {
-      name: 'Green beans',
-      imageUrl: 'green-beans.png',
-    }, {
-      name: 'Corn',
-      imageUrl: 'corn.png',
-    }, {
-      name: 'Asparagus',
-      imageUrl: 'asparagus.png',
-    }, {
-      name: 'Artichokes',
-      imageUrl: 'artichokes.png',
-    }]
-  }, {
     type: 'Grains',
     items: [{
       name: 'Sandwiches',
@@ -237,24 +255,6 @@ const port = process.env.PORT ?? 3000;
     }, {
       name: 'Cereal',
       imageUrl: 'cereal.png',
-    }]
-  }, {
-    type: 'Cuisines',
-    items: [{
-      name: 'American food',
-      imageUrl: 'american.png',
-    }, {
-      name: 'Mexican food',
-      imageUrl: 'mexican.png',
-    }, {
-      name: 'Chinese food',
-      imageUrl: 'chinese.png'
-    }, {
-      name: 'Sushi',
-      imageUrl: 'sushi.png',
-    }, {
-      name: 'Indian food',
-      imageUrl: 'indian.png',
     }]
   }];
 
@@ -312,6 +312,35 @@ const port = process.env.PORT ?? 3000;
     res.render('diet.html', {
       profile,
       dietData,
+    });
+  });
+
+  
+  app.get('/edit-profile/goals', async function(req, res) {
+    const profile = await mongoDb.collection('profile').findOne({
+      _id: 'https://shopgenie.com/users/mpuckett/profile',
+    });
+
+    const goalData = [{
+      type: 'Goals',
+      items: [{
+        name: 'Maintain weight',
+        imageUrl: 'maintain-weight.png',
+      }, {
+        name: 'Lose weight',
+        imageUrl: 'lose-weight.png',
+      }, {
+        name: 'Build muscle',
+        imageUrl: 'build-muscle.png',
+      }, {
+        name: 'Bulk up',
+        imageUrl: 'bulk-up.png',
+      }],
+    }];
+
+    res.render('goals.html', {
+      profile,
+      goalData,
     });
   });
 
@@ -392,6 +421,38 @@ const port = process.env.PORT ?? 3000;
         _id: 'https://shopgenie.com/users/mpuckett/profile',
       },
       {"$set": { leastFavoriteFoods } },
+      {
+        upsert: true,
+      },
+    );
+    res.send({ success: true, });
+    res.end();
+  });
+
+  app.post('/edit-profile/diet', async (req, res) => {
+    const diet = req.body?.diet;
+
+    await mongoDb.collection('profile').updateOne(
+      {
+        _id: 'https://shopgenie.com/users/mpuckett/profile',
+      },
+      {"$set": { diet } },
+      {
+        upsert: true,
+      },
+    );
+    res.send({ success: true, });
+    res.end();
+  });
+
+  app.post('/edit-profile/goals', async (req, res) => {
+    const dietaryGoals = req.body?.dietaryGoals;
+
+    await mongoDb.collection('profile').updateOne(
+      {
+        _id: 'https://shopgenie.com/users/mpuckett/profile',
+      },
+      {"$set": { dietaryGoals } },
       {
         upsert: true,
       },
