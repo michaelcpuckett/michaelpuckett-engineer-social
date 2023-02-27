@@ -343,6 +343,16 @@ const port = process.env.PORT ?? 3000;
       goalData,
     });
   });
+  
+  app.get('/edit-profile/portions', async function(req, res) {
+    const profile = await mongoDb.collection('profile').findOne({
+      _id: 'https://shopgenie.com/users/mpuckett/profile',
+    });
+
+    res.render('portions.html', {
+      profile,
+    });
+  });
 
   app.get('/meal-plan', async function (req, res) {
     const profile = await mongoDb.collection('profile').findOne({
@@ -453,6 +463,22 @@ const port = process.env.PORT ?? 3000;
         _id: 'https://shopgenie.com/users/mpuckett/profile',
       },
       {"$set": { dietaryGoals } },
+      {
+        upsert: true,
+      },
+    );
+    res.send({ success: true, });
+    res.end();
+  });
+
+  app.post('/edit-profile/portions', async (req, res) => {
+    const cookingFor = req.body?.cookingFor;
+
+    await mongoDb.collection('profile').updateOne(
+      {
+        _id: 'https://shopgenie.com/users/mpuckett/profile',
+      },
+      {"$set": { cookingFor } },
       {
         upsert: true,
       },

@@ -1,10 +1,10 @@
 <!doctype html>
-<title>ShopGenie</title>
+<title>MealGenie</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="/main.css" />
 
 <div class="root">
-  <h1>ShopGenie</h1>
+  <h1>MealGenie</h1>
   <hr />
   <nav>
     <a class="back-button" href="/edit-profile/least-favorites">Back</a>
@@ -16,17 +16,9 @@
   </h2>
 
   <div class="slider-container">
-    <p>
-      Do any of these apply?
-    </p>
-    <form>
-      <div class="autocomplete-container">
-        <input id="restriction" placeholder="Enter a restriction..." />
-        <button type="submit">
-          Add Restriction
-        </button>
-      </div>
-    </form>
+    <small>
+      Do you have any dietary restrictions?
+    </small>
     <form class="tabs-wrapper" id="diet-tabs">
       {% for dietByType in dietData %}
         <fieldset-wrapper id="diet-fieldset">
@@ -72,6 +64,14 @@
     }
   </script>
 
+<form>
+  <div class="autocomplete-container">
+    <input id="restriction" placeholder="Enter a restriction..." />
+    <button type="submit">
+      Add Restriction
+    </button>
+  </div>
+</form>
     <script type="module">
       const favoritesListInputElement = window.document.querySelector('#restriction');
       const datalistElement = favoritesListInputElement.nextElementSibling;

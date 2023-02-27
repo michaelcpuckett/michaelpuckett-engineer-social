@@ -7,97 +7,67 @@
   <h1>MealGenie</h1>
   <hr />
   <nav>
-    <a class="back-button" href="/edit-profile/diet">Back</a>
+    <a class="back-button" href="/edit-profile/goals">Back</a>
   </nav>
   <hr />
 <div class="section">
   <h2>
-    Goals
+    Portions
   </h2>
 
   <div class="slider-container">
     <small>
-      What are your dietary goals?
+      How many people are you cooking for?
     </small>
-    <form class="tabs-wrapper" id="goal-tabs">
-      {% for goalByType in goalData %}
-        <fieldset-wrapper id="goal-fieldset">
-          <fieldset>
-            {% for goal in goalByType.items %}
-              <label>
-                <input type="checkbox" name="goal" value="{{ goal.name }}" {% for d in profile.dietaryGoals | splitOnComma %}{% if (d | lower) == (goal.name | lower) %}checked{% endif %}{% endfor %} />
-                <img src="/goal-images/{{ goal.imageUrl }}" aria-hidden="true" />
-                <span>{{ goal.name }}</span>
-              </label>
-            {% endfor %}
-          </fieldset>
-        </fieldset-wrapper>
-      {% endfor %}
-    </form>
   </div>
-
-  <script type="module">
-    const goalFieldsetElement = window.document.querySelector('#goal-tabs');
-    const checkboxElements = Array.from(goalFieldsetElement.querySelectorAll('[type="checkbox"]'));
-    for (const checkboxElement of checkboxElements) {
-      checkboxElement.addEventListener('change', () => {
-        if (checkboxElement.checked) {
-          const value = checkboxElement.value || '';
-          const outputElement = window.document.querySelector('#goals');
-          outputElement.textContent = `${outputElement.textContent ? `${outputElement.textContent}, ` : ''}${value}`;
-          const listItemElement = window.document.createElement('li');
-          listItemElement.dataset.goal = value;
-          const valueTextNode = window.document.createTextNode(value);
-          listItemElement.append(valueTextNode);
-          const removeButtonElement = window.document.createElement('remove-button');
-          listItemElement.append(removeButtonElement);
-          outputElement.nextElementSibling.append(listItemElement);
-        } else {
-          const goal = checkboxElement.value || '';
-          const outputElement = window.document.querySelector('#goals');
-          const itemsArray = outputElement.textContent.split(', ');
-          itemsArray.splice(itemsArray.indexOf(goal), 1);
-          outputElement.textContent = itemsArray.join(', ');
-          window.document.querySelector(`[data-goal="${goal}"]`).remove();
-        }
-      });
-    }
-  </script>
 
 <form>
   <div class="autocomplete-container">
-    <input id="macros-goal" placeholder="60g protein" />
+    <select id="adult-portion">
+      <option>0</option>
+      <option selected>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+    </select>
     <button type="submit">
-      Add Macros Goal
+      Add Number of Adults
     </button>
   </div>
 </form>
 <form>
   <div class="autocomplete-container">
-    <input id="calorie-goal" placeholder="2100" />
+    <select id="child-portion">
+      <option>0</option>
+      <option selected>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+    </select>
     <button type="submit">
-      Add Calorie Goal
+      Add Number of Children
     </button>
   </div>
 </form>
     <script type="module">
-      const favoritesListInputElement = window.document.querySelector('#goal');
+      const favoritesListInputElement = window.document.querySelector('#portion');
       const datalistElement = favoritesListInputElement.nextElementSibling;
       const formElement = favoritesListInputElement.closest('form');
 
       formElement.addEventListener('submit', (event) => {
         event.preventDefault();
         const value = favoritesListInputElement.value || '';
-        const outputElement = window.document.querySelector('#goals');
+        const outputElement = window.document.querySelector('#portions');
         outputElement.textContent = `${outputElement.textContent ? `${outputElement.textContent}, ` : ''}${value}`;
         const listItemElement = window.document.createElement('li');
-        listItemElement.dataset.goal = value;
+        listItemElement.dataset.portion = value;
         const valueTextNode = window.document.createTextNode(value);
         listItemElement.append(valueTextNode);
         const removeButtonElement = window.document.createElement('remove-button');
         listItemElement.append(removeButtonElement);
         outputElement.nextElementSibling.append(listItemElement);
-        favoritesListInputElement.value = '';
         for (const item of Array.from(window.document.querySelectorAll('fieldset input'))) {
           if (item.parentElement.querySelector('span').textContent.toLowerCase() === value) {
             item.checked = true;
@@ -110,22 +80,21 @@
     </script>
     
     <script type="module">
-      const macrosGoalInputElement = window.document.querySelector('#macros-goal');
-      const macrosGoalFormElement = macrosGoalInputElement.closest('form');
+      const adultportionInputElement = window.document.querySelector('#adult-portion');
+      const adultportionFormElement = adultportionInputElement.closest('form');
 
-      macrosGoalFormElement.addEventListener('submit', (event) => {
+      adultportionFormElement.addEventListener('submit', (event) => {
         event.preventDefault();
-        const value = `${macrosGoalInputElement.value || ''} (Daily Macros)`;
-        const outputElement = window.document.querySelector('#goals');
+        const value = `${adultportionInputElement.value || ''} Adults`;
+        const outputElement = window.document.querySelector('#portions');
         outputElement.textContent = `${outputElement.textContent ? `${outputElement.textContent}, ` : ''}${value}`;
         const listItemElement = window.document.createElement('li');
-        listItemElement.dataset.goal = value;
+        listItemElement.dataset.portion = value;
         const valueTextNode = window.document.createTextNode(value);
         listItemElement.append(valueTextNode);
         const removeButtonElement = window.document.createElement('remove-button');
         listItemElement.append(removeButtonElement);
         outputElement.nextElementSibling.append(listItemElement);
-        macrosGoalInputElement.value = '';
         for (const item of Array.from(window.document.querySelectorAll('fieldset input'))) {
           if (item.parentElement.querySelector('span').textContent.toLowerCase() === value) {
             item.checked = true;
@@ -134,22 +103,21 @@
       });
     </script>
     <script type="module">
-      const calorieGoalInputElement = window.document.querySelector('#calorie-goal');
-      const calorieGoalFormElement = calorieGoalInputElement.closest('form');
+      const childportionInputElement = window.document.querySelector('#child-portion');
+      const childportionFormElement = childportionInputElement.closest('form');
 
-      calorieGoalFormElement.addEventListener('submit', (event) => {
+      childportionFormElement.addEventListener('submit', (event) => {
         event.preventDefault();
-        const value = `${calorieGoalInputElement.value || ''} (Daily calories)`;
-        const outputElement = window.document.querySelector('#goals');
+        const value = `${childportionInputElement.value || ''} Children`;
+        const outputElement = window.document.querySelector('#portions');
         outputElement.textContent = `${outputElement.textContent ? `${outputElement.textContent}, ` : ''}${value}`;
         const listItemElement = window.document.createElement('li');
-        listItemElement.dataset.goal = value;
+        listItemElement.dataset.portion = value;
         const valueTextNode = window.document.createTextNode(value);
         listItemElement.append(valueTextNode);
         const removeButtonElement = window.document.createElement('remove-button');
         listItemElement.append(removeButtonElement);
         outputElement.nextElementSibling.append(listItemElement);
-        calorieGoalInputElement.value = '';
         for (const item of Array.from(window.document.querySelectorAll('fieldset input'))) {
           if (item.parentElement.querySelector('span').textContent.toLowerCase() === value) {
             item.checked = true;
@@ -159,30 +127,30 @@
     </script>
   <form id="edit-profile">
     <label>
-      <output hidden id="goals">{{ profile.dietaryGoals }}</output>
-      <ul aria-label="Goal">
-        {% if profile.dietaryGoals %}
-          {% for goal in profile.dietaryGoals.split(', ') %}
-           <li data-goal="{{ goal }}">{{ goal }} <remove-button></remove-button></li>
+      <output hidden id="portions">{{ profile.cookingFor }}</output>
+      <ul aria-label="portion">
+        {% if profile.cookingFor %}
+          {% for portion in profile.cookingFor.split(', ') %}
+           <li data-portion="{{ portion }}">{{ portion }} <remove-button></remove-button></li>
           {% endfor %}
         {% endif %}
       </ul>
       <script type="module">
-        const outputElement = window.document.querySelector('#goals');
+        const outputElement = window.document.querySelector('#portions');
         outputElement.nextElementSibling.addEventListener('click', (event) => {
           const buttonElement = event.target;
-          const goal = Array.from(buttonElement.closest('li').childNodes).find(node => node.nodeType === Node.TEXT_NODE).textContent.trim();
+          const portion = Array.from(buttonElement.closest('li').childNodes).find(node => node.nodeType === Node.TEXT_NODE).textContent.trim();
           const itemsArray = outputElement.textContent.split(', ');
-          itemsArray.splice(itemsArray.indexOf(goal), 1);
+          itemsArray.splice(itemsArray.indexOf(portion), 1);
           outputElement.textContent = itemsArray.join(', ');
           buttonElement.closest('li').remove();
           for (const item of Array.from(window.document.querySelectorAll('fieldset input'))) {
-            if (item.parentElement.querySelector('span').textContent.toLowerCase() === goal) {
+            if (item.parentElement.querySelector('span').textContent.toLowerCase() === portion) {
               item.checked = false;
             }
           }
 
-          window.document.querySelector(`[name="goal"][value="${goal}"]`).checked = false;
+          window.document.querySelector(`[name="portion"][value="${portion}"]`).checked = false;
         });
       </script>
       <script type="module">
@@ -220,20 +188,20 @@
 
       window.document.querySelector('#edit-profile .loader').removeAttribute('hidden');
 
-      const goal = window.document.querySelector('#goals');
+      const portion = window.document.querySelector('#portions');
 
       const profile = {
-        dietaryGoals: goal.value,
+        cookingFor: portion.value,
       };
 
-      fetch('/edit-profile/goals', {
+      fetch('/edit-profile/portions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(profile),
       }).then((response) => {
-        window.location = new URL('/edit-profile/portions', window.location);
+        window.location = new URL('/edit-profile', window.location);
       });
     });
   </script>

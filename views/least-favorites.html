@@ -18,15 +18,6 @@
     <small>
       Which items would you want to be swapped out?
     </small>
-    <form>
-      <div class="autocomplete-container">
-        <input list="favorites-autocomplete-list" placeholder="Enter a food or dish..." />
-        <datalist id="favorites-autocomplete-list"></datalist>
-        <button type="submit" style="background: maroon">
-          Add Least Favorite
-        </button>
-      </div>
-    </form>
     <form class="tabs-wrapper" id="least-favorite-foods-tabs">
       <div class="tabs" role="tablist">
         {% for foodByType in foodData %}
@@ -108,6 +99,15 @@
     }
   </script>
 
+    <form>
+      <div class="autocomplete-container">
+        <input list="favorites-autocomplete-list" placeholder="Enter a food or dish..." />
+        <datalist id="favorites-autocomplete-list"></datalist>
+        <button type="submit" style="background: maroon">
+          Add Least Favorite
+        </button>
+      </div>
+    </form>
     <script type="module">
       const favoritesListInputElement = window.document.querySelector('[list="favorites-autocomplete-list"]');
       const datalistElement = favoritesListInputElement.nextElementSibling;

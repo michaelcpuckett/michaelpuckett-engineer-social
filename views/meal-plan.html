@@ -1,15 +1,20 @@
 <!doctype html>
-<title>ShopGenie</title>
+<title>MealGenie</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="/main.css" />
-<h1>ShopGenie</h1>
+<div class="root">
+<h1>MealGenie</h1>
+<hr />
+<nav>
+  <a class="back-button" href="/edit-profile/favorites">Make changes</a>
+</nav>
 <hr />
 <div class="section">
   <h2>
     Meal Plan for the Week
   </h2>
 
-  
+  <!--
   <form class="generate-grocery-list">
     <button type="submit">
         Generate Recipes and Grocery List
@@ -17,43 +22,25 @@
     
     <p class="loader" hidden>Loading, please wait up to 2 minutes...</p>
   </form>
-
+-->
       
   <table id="meal-plan">
-    <thead>
-      <tr>
-        <th scope="col">
-          Day
-        </th>
-        <th scope="col">
-          Meal
-        </th>
-        <th scope="col">
-          Recipe
-        </th>
-      </tr>
-    </thead>
     {% if mealPlan.length %}
       {% for meal in mealPlan %}
         <tr>
-          <td class="meal-day--{{ meal.day }}">
-            {{ ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'][meal.day] }}
+          <td class="meal-day meal-day--{{ meal.day }}">
+            <span>
+              {{ ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'][meal.day] }}
+            </span>
           </td>
-          <td class="meal-meal--{{ meal.meal }}">
-            {{ ['Breakfast', 'Lunch', 'Dinner', 'Snack'][meal.meal] }}
-            <br />
-            <form class="delete-meal">
-              <input type="hidden" name="id" value="{{ meal._id }}" />
-              <button type="submit">
-                Delete Meal
-              </button>
-            </form>
-          </td>
-          <th>
-            {{ meal.name }}
-
-            <br />
-            
+          <td class="meal-meal meal-meal--{{ meal.meal }}">
+            <span>
+              {{ ['Breakfast', 'Lunch', 'Dinner', 'Snack'][meal.meal] }}
+              <br />
+              <strong>
+                {{ meal.name }}
+              </strong>
+            </span><!--
             <form class="other-options">
               <input type="hidden" name="meal" value="{{ ['Breakfast', 'Lunch', 'Dinner', 'Snack'][meal.meal] }}" />
               <button type="submit">
@@ -69,7 +56,7 @@
               <button type="submit" hidden>
                 Replace
               </button>
-            </form>
+            </form>-->
           </td>
         </tr>
       {% endfor %}
@@ -161,7 +148,7 @@
       });
     </script>
   </table>
-
+<!--
   <form class="generate-grocery-list">
     <button type="submit">
         Generate Recipes and Grocery List
@@ -169,6 +156,7 @@
     
     <p class="loader" hidden>Loading, please wait up to 2 minutes...</p>
   </form>
+  -->
 </div>
 
 <script type="module">
@@ -189,3 +177,4 @@
     });
   });
 </script>
+</div>

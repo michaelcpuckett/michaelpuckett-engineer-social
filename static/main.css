@@ -17,11 +17,20 @@ background: rgba(0, 0, 0, .875);
   height: 720px;
   overflow-y: scroll;
   position: relative;
-  background: white;
+  background: #f1f1ff;
+  display: grid;
+  align-content: flex-start;
 }
 
 hr {
   margin: 6px 0;
+  border-bottom: 0;
+  border-top: 1px solid;
+}
+
+h1 {
+  font-weight: normal;
+  font-size: 36px;
 }
 
 h1,
@@ -62,11 +71,15 @@ display: grid;
 column-gap: 24px;
 }
 
+.meal-meal {
+  border: 2px solid black;
+}
+
 tr {
-grid-template-columns: min(25vw, 150px) min(25vw, 150px) minmax(0, 1fr);
 border-bottom: 1px solid black;
 padding-bottom: 12px;
 margin-bottom: 12px;
+min-height: 20ch;
 }
 
 td {
@@ -94,7 +107,7 @@ display: none;
   bottom: 0;
   left: 0;
   width: 100%;
-  background: white;
+  background: #f1f1ff;
   display: grid;
   place-items: center;
   padding: 24px;
@@ -132,22 +145,6 @@ align-items: center;
 justify-content: center;
 text-align: center;
 padding: 12px 0;
-}
-
-.meal-meal--0 {
-background: pink;
-}
-
-.meal-meal--1 {
-background: yellow;
-}
-
-.meal-meal--2 {
-background: tan;
-}
-
-.meal-meal--3 {
-background: lightblue;
 }
 
 .meal-day--0 {
@@ -261,11 +258,13 @@ fieldset {
   display: grid;
   grid-auto-flow: column;
   padding: 0;
+  gap: 12px;
+  padding: 6px 0;
+  border: 0;
 }
 
 fieldset label {
   display: grid;
-  border: 1px solid;
   width: calc(88px + 2em);
   height: calc(88px + 2em + 1em * 1.5);
   grid-template-columns: 100%;
@@ -276,6 +275,9 @@ fieldset label {
   position: relative;
   white-space: nowrap;
   font-size: .875em;
+  border-radius: 12px;
+  box-shadow: 0 0 3px 3px rgba(0, 0, 0, .2875);
+  background: white;
 }
 
 fieldset label input {
@@ -334,4 +336,12 @@ fieldset label img {
 fieldset label span {
   grid-column: 1 / 2;
   grid-row: 2 / 3;
+}
+
+.other-options button {
+  background: transparent;
+  color: black;
+  border: none;
+  text-decoration: underline;
+  font-size: .875em;
 }
