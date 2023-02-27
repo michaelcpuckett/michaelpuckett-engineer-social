@@ -27,6 +27,7 @@
       return res.json();
     }).then(result => {
       if (result.success) {
+        window.document.cookie = `__username=${result.username}`;
         window.location = new URL('/edit-profile/favorites', window.location);
       }
     });

@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express')
 const { generateMealPlan } = require('./generateMealPlans');
 const { generateImage } = require('./generateImage');
+const cookieParser = require("cookie-parser");
 const { getSuggestions } = require('./getSuggestions');
 const { generateReplacementMeals } = require('./generateReplacementMeals');
 const { getIngredients } = require('./ingredients');
@@ -17,6 +18,7 @@ const port = process.env.PORT ?? 3000;
 (async () => {
   const app = express();
   app.use(express.static(path.resolve(__dirname, './static')));
+  app.use(cookieParser());
   const mongoClient = new MongoClient(process.env.MONGO_CLIENT_URL ?? 'mongodb://127.0.0.1:27017');
   await mongoClient.connect();
   const mongoDb = mongoClient.db('recipes');
@@ -44,12 +46,12 @@ const port = process.env.PORT ?? 3000;
   });
 
   app.get('/sign-up', async (req, res) => {
+    const username = getGuid();
     await mongoDb.collection('profile').replaceOne(
       {
-        _id: 'https://shopgenie.com/users/mpuckett/profile',
+        _id: `https://shopgenie.com/users/${username}/profile`,
       },
       {
-        firstName: 'Josh',
         groceryLists: [],
         mealPlans: [],
       },
@@ -57,7 +59,7 @@ const port = process.env.PORT ?? 3000;
         upsert: true,
       },
     );
-    res.send({ success: true, });
+    res.send({ success: true, username });
     res.end();
   });
 
@@ -263,8 +265,9 @@ const port = process.env.PORT ?? 3000;
   });
 
   app.get('/edit-profile/favorites', async function(req, res) {
+    const username = req.cookies.__username;
     const profile = await mongoDb.collection('profile').findOne({
-      _id: 'https://shopgenie.com/users/mpuckett/profile',
+      _id: `https://shopgenie.com/users/${username}/profile`,
     });
 
     res.render('favorites.html', {
@@ -274,8 +277,9 @@ const port = process.env.PORT ?? 3000;
   });
 
   app.get('/edit-profile/least-favorites', async function(req, res) {
+    const username = req.cookies.__username;
     const profile = await mongoDb.collection('profile').findOne({
-      _id: 'https://shopgenie.com/users/mpuckett/profile',
+      _id: `https://shopgenie.com/users/${username}/profile`,
     });
 
     res.render('least-favorites.html', {
@@ -285,8 +289,9 @@ const port = process.env.PORT ?? 3000;
   });
 
   app.get('/edit-profile/diet', async function(req, res) {
+    const username = req.cookies.__username;
     const profile = await mongoDb.collection('profile').findOne({
-      _id: 'https://shopgenie.com/users/mpuckett/profile',
+      _id: `https://shopgenie.com/users/${username}/profile`,
     });
 
     const dietData = [{
@@ -317,8 +322,9 @@ const port = process.env.PORT ?? 3000;
 
   
   app.get('/edit-profile/goals', async function(req, res) {
+    const username = req.cookies.__username;
     const profile = await mongoDb.collection('profile').findOne({
-      _id: 'https://shopgenie.com/users/mpuckett/profile',
+      _id: `https://shopgenie.com/users/${username}/profile`,
     });
 
     const goalData = [{
@@ -345,8 +351,9 @@ const port = process.env.PORT ?? 3000;
   });
   
   app.get('/edit-profile/portions', async function(req, res) {
+    const username = req.cookies.__username;
     const profile = await mongoDb.collection('profile').findOne({
-      _id: 'https://shopgenie.com/users/mpuckett/profile',
+      _id: `https://shopgenie.com/users/${username}/profile`,
     });
 
     res.render('portions.html', {
@@ -355,8 +362,9 @@ const port = process.env.PORT ?? 3000;
   });
 
   app.get('/meal-plan', async function (req, res) {
+    const username = req.cookies.__username;
     const profile = await mongoDb.collection('profile').findOne({
-      _id: 'https://shopgenie.com/users/mpuckett/profile',
+      _id: `https://shopgenie.com/users/${username}/profile`,
     });
     
     const currentMeals = (await mongoDb.collection('mealPlan').findOne({
@@ -372,8 +380,9 @@ const port = process.env.PORT ?? 3000;
   });
 
   app.get('/grocery-list', async (req, res) => {
+    const username = req.cookies.__username;
     const profile = await mongoDb.collection('profile').findOne({
-      _id: 'https://shopgenie.com/users/mpuckett/profile',
+      _id: `https://shopgenie.com/users/${username}/profile`,
     });
     
     const currentMeals = (await mongoDb.collection('mealPlan').findOne({
@@ -408,11 +417,12 @@ const port = process.env.PORT ?? 3000;
   });
 
   app.post('/edit-profile/favorites', async (req, res) => {
+    const username = req.cookies.__username;
     const favoriteFoods = req.body?.favoriteFoods;
 
     await mongoDb.collection('profile').updateOne(
       {
-        _id: 'https://shopgenie.com/users/mpuckett/profile',
+        _id: `https://shopgenie.com/users/${username}/profile`,
       },
       {"$set": { favoriteFoods } },
       {
@@ -424,11 +434,12 @@ const port = process.env.PORT ?? 3000;
   });
 
   app.post('/edit-profile/least-favorites', async (req, res) => {
+    const username = req.cookies.__username;
     const leastFavoriteFoods = req.body?.leastFavoriteFoods;
 
     await mongoDb.collection('profile').updateOne(
       {
-        _id: 'https://shopgenie.com/users/mpuckett/profile',
+        _id: `https://shopgenie.com/users/${username}/profile`,
       },
       {"$set": { leastFavoriteFoods } },
       {
@@ -440,11 +451,12 @@ const port = process.env.PORT ?? 3000;
   });
 
   app.post('/edit-profile/diet', async (req, res) => {
+    const username = req.cookies.__username;
     const diet = req.body?.diet;
 
     await mongoDb.collection('profile').updateOne(
       {
-        _id: 'https://shopgenie.com/users/mpuckett/profile',
+        _id: `https://shopgenie.com/users/${username}/profile`,
       },
       {"$set": { diet } },
       {
@@ -456,11 +468,12 @@ const port = process.env.PORT ?? 3000;
   });
 
   app.post('/edit-profile/goals', async (req, res) => {
+    const username = req.cookies.__username;
     const dietaryGoals = req.body?.dietaryGoals;
 
     await mongoDb.collection('profile').updateOne(
       {
-        _id: 'https://shopgenie.com/users/mpuckett/profile',
+        _id: `https://shopgenie.com/users/${username}/profile`,
       },
       {"$set": { dietaryGoals } },
       {
@@ -472,11 +485,12 @@ const port = process.env.PORT ?? 3000;
   });
 
   app.post('/edit-profile/portions', async (req, res) => {
+    const username = req.cookies.__username;
     const cookingFor = req.body?.cookingFor;
 
     await mongoDb.collection('profile').updateOne(
       {
-        _id: 'https://shopgenie.com/users/mpuckett/profile',
+        _id: `https://shopgenie.com/users/${username}/profile`,
       },
       {"$set": { cookingFor } },
       {
@@ -496,15 +510,16 @@ const port = process.env.PORT ?? 3000;
   });
 
   app.post('/generate-meal-plan', async (req, res) => {
+    const username = req.cookies.__username;
     const profile = await mongoDb.collection('profile').findOne({
-      _id: 'https://shopgenie.com/users/mpuckett/profile',
+      _id: `https://shopgenie.com/users/${username}/profile`,
     });
 
     const meals = await generateMealPlan(profile);
-    const mealPlanId = `https://shopgenie.com/users/mpuckett/mealPlan/${getGuid()}`;
+    const mealPlanId = `https://shopgenie.com/users/${username}/mealPlan/${getGuid()}`;
 
     for (const meal of meals) {
-      const mealId = `https://shopgenie.com/users/mpuckett/meal/${getGuid()}`;
+      const mealId = `https://shopgenie.com/users/${username}/meal/${getGuid()}`;
       
       await mongoDb.collection('meal').replaceOne(
         {
@@ -535,7 +550,7 @@ const port = process.env.PORT ?? 3000;
     
     await mongoDb.collection('profile').updateOne(
       {
-        _id: 'https://shopgenie.com/users/mpuckett/profile',
+        _id: `https://shopgenie.com/users/${username}/profile`,
       },
       {
         $push: {
@@ -556,9 +571,10 @@ const port = process.env.PORT ?? 3000;
 
   app.post('/delete-meal', async (req, res) => {
     const id = req.body?.id;
+    const username = req.cookies.__username;
 
     const profile = await mongoDb.collection('profile').findOne({
-      _id: 'https://shopgenie.com/users/mpuckett/profile',
+      _id: `https://shopgenie.com/users/${username}/profile`,
     });
 
     await mongoDb.collection('mealPlan').updateOne(
@@ -584,16 +600,17 @@ const port = process.env.PORT ?? 3000;
     const id = req.body?.id;
     const name = req.body?.name;
     const position = req.body?.position;
+    const username = req.cookies.__username;
 
     const profile = await mongoDb.collection('profile').findOne({
-      _id: 'https://shopgenie.com/users/mpuckett/profile',
+      _id: `https://shopgenie.com/users/${username}/profile`,
     });
 
     const originalMeal = await mongoDb.collection('meal').findOne({
       _id: id,
     });
 
-    const mealId = `https://shopgenie.com/users/mpuckett/meal/${getGuid()}`;
+    const mealId = `https://shopgenie.com/users/${username}/meal/${getGuid()}`;
 
     const meal = {...originalMeal, name};
 
@@ -646,9 +663,10 @@ const port = process.env.PORT ?? 3000;
 
   app.post('/generate-replacement-meals', async (req, res) => {
     const meal = req.body?.meal;
+    const username = req.cookies.__username;
 
     const profile = await mongoDb.collection('profile').findOne({
-      _id: 'https://shopgenie.com/users/mpuckett/profile',
+      _id: `https://shopgenie.com/users/${username}/profile`,
     });
 
     const replacementMeals = await generateReplacementMeals({
@@ -661,15 +679,16 @@ const port = process.env.PORT ?? 3000;
   });
 
   app.post('/generate-grocery-list', async (req, res) => {
+    const username = req.cookies.__username;
     const profile = await mongoDb.collection('profile').findOne({
-      _id: 'https://shopgenie.com/users/mpuckett/profile',
+      _id: `https://shopgenie.com/users/${username}/profile`,
     });
 
     const mealIds = (await mongoDb.collection('mealPlan').findOne({
       _id: profile.mealPlans[0],
     }))?.meals;
 
-    const groceryListId = `https://shopgenie.com/users/mpuckett/groceryList/${getGuid()}`;
+    const groceryListId = `https://shopgenie.com/users/${username}/groceryList/${getGuid()}`;
 
     for (const mealId of mealIds) {
       const meal = await mongoDb.collection('meal').findOne({ _id: mealId });
@@ -681,7 +700,7 @@ const port = process.env.PORT ?? 3000;
         dietaryGoals: profile.dietaryGoals,
         cookingFor: profile.cookingFor, 
       });
-      const recipeId = `https://shopgenie.com/users/mpuckett/recipe/${getGuid()}`;
+      const recipeId = `https://shopgenie.com/users/${username}/recipe/${getGuid()}`;
 
       await mongoDb.collection('recipe').replaceOne(
         {
@@ -716,7 +735,7 @@ const port = process.env.PORT ?? 3000;
 
     await mongoDb.collection('profile').updateOne(
       {
-        _id: 'https://shopgenie.com/users/mpuckett/profile',
+        _id: `https://shopgenie.com/users/${username}/profile`,
       },
       {
         $push: {
