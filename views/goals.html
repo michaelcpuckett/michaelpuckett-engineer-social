@@ -1,10 +1,10 @@
 <!doctype html>
-<title>MealGenie</title>
+<title>ShopGenie</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="/main.css" />
 
 <div class="root">
-  <h1>MealGenie</h1>
+  <h1>ShopGenie</h1>
   <hr />
   <nav>
     <a class="back-button" href="/edit-profile/diet">Back</a>
@@ -63,20 +63,39 @@
       });
     }
   </script>
-
+  
 <form>
   <div class="autocomplete-container">
-    <input id="macros-goal" placeholder="60g protein" />
+    <input type="tel" id="calorie-goal" placeholder="Daily calorie goal" />
     <button type="submit">
-      Add Macros Goal
+      Add Calorie Goal
     </button>
   </div>
 </form>
+
 <form>
   <div class="autocomplete-container">
-    <input id="calorie-goal" placeholder="2100" />
+    <input type="number" id="protein-goal" placeholder="Daily goal in grams" />
     <button type="submit">
-      Add Calorie Goal
+      Add Protein Goal
+    </button>
+  </div>
+</form>
+
+<form>
+  <div class="autocomplete-container">
+    <input type="number" id="carbs-goal" placeholder="Daily goal in grams" />
+    <button type="submit">
+      Add Carbs Goal
+    </button>
+  </div>
+</form>
+
+<form>
+  <div class="autocomplete-container">
+    <input type="number" id="fat-goal" placeholder="Daily goal in grams" />
+    <button type="submit">
+      Add Fat Goal
     </button>
   </div>
 </form>
@@ -110,12 +129,12 @@
     </script>
     
     <script type="module">
-      const macrosGoalInputElement = window.document.querySelector('#macros-goal');
-      const macrosGoalFormElement = macrosGoalInputElement.closest('form');
+      const proteinGoalInputElement = window.document.querySelector('#protein-goal');
+      const proteinGoalFormElement = proteinGoalInputElement.closest('form');
 
-      macrosGoalFormElement.addEventListener('submit', (event) => {
+      proteinGoalFormElement.addEventListener('submit', (event) => {
         event.preventDefault();
-        const value = `${macrosGoalInputElement.value || ''} (Daily Macros)`;
+        const value = `${proteinGoalInputElement.value || ''}g (Daily protein)`;
         const outputElement = window.document.querySelector('#goals');
         outputElement.textContent = `${outputElement.textContent ? `${outputElement.textContent}, ` : ''}${value}`;
         const listItemElement = window.document.createElement('li');
@@ -125,7 +144,57 @@
         const removeButtonElement = window.document.createElement('remove-button');
         listItemElement.append(removeButtonElement);
         outputElement.nextElementSibling.append(listItemElement);
-        macrosGoalInputElement.value = '';
+        proteinGoalInputElement.value = '';
+        for (const item of Array.from(window.document.querySelectorAll('fieldset input'))) {
+          if (item.parentElement.querySelector('span').textContent.toLowerCase() === value) {
+            item.checked = true;
+          }
+        }
+      });
+    </script>
+    
+    <script type="module">
+      const carbsGoalInputElement = window.document.querySelector('#carbs-goal');
+      const carbsGoalFormElement = carbsGoalInputElement.closest('form');
+
+      carbsGoalFormElement.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const value = `${carbsGoalInputElement.value || ''}g (Daily carbs)`;
+        const outputElement = window.document.querySelector('#goals');
+        outputElement.textContent = `${outputElement.textContent ? `${outputElement.textContent}, ` : ''}${value}`;
+        const listItemElement = window.document.createElement('li');
+        listItemElement.dataset.goal = value;
+        const valueTextNode = window.document.createTextNode(value);
+        listItemElement.append(valueTextNode);
+        const removeButtonElement = window.document.createElement('remove-button');
+        listItemElement.append(removeButtonElement);
+        outputElement.nextElementSibling.append(listItemElement);
+        carbsGoalInputElement.value = '';
+        for (const item of Array.from(window.document.querySelectorAll('fieldset input'))) {
+          if (item.parentElement.querySelector('span').textContent.toLowerCase() === value) {
+            item.checked = true;
+          }
+        }
+      });
+    </script>
+    
+    <script type="module">
+      const fatGoalInputElement = window.document.querySelector('#fat-goal');
+      const fatGoalFormElement = fatGoalInputElement.closest('form');
+
+      fatGoalFormElement.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const value = `${fatGoalInputElement.value || ''}g (Daily fat)`;
+        const outputElement = window.document.querySelector('#goals');
+        outputElement.textContent = `${outputElement.textContent ? `${outputElement.textContent}, ` : ''}${value}`;
+        const listItemElement = window.document.createElement('li');
+        listItemElement.dataset.goal = value;
+        const valueTextNode = window.document.createTextNode(value);
+        listItemElement.append(valueTextNode);
+        const removeButtonElement = window.document.createElement('remove-button');
+        listItemElement.append(removeButtonElement);
+        outputElement.nextElementSibling.append(listItemElement);
+        fatGoalInputElement.value = '';
         for (const item of Array.from(window.document.querySelectorAll('fieldset input'))) {
           if (item.parentElement.querySelector('span').textContent.toLowerCase() === value) {
             item.checked = true;
