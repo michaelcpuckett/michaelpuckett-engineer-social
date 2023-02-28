@@ -160,6 +160,14 @@ display: none;
   align-items: center;
 }
 
+.logo {
+  border-radius: 100%;
+  align-self: center;
+  justify-self: center;
+  height: 225px;
+  margin-bottom: 12px;
+}
+
 button,
 summary {
   border-radius: 16px;
