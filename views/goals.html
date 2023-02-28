@@ -5,7 +5,7 @@
 <div class="root">
   <h1>MealGenie</h1>
   <nav>
-    <a class="back-button" href="/edit-profile/diet">Back</a>
+    <a class="back-button" href="/edit-profile/diet">⮜ Back</a>
   </nav>
   <hr />
 <div class="section">
@@ -105,6 +105,9 @@
       formElement.addEventListener('submit', (event) => {
         event.preventDefault();
         const value = favoritesListInputElement.value || '';
+        if (!value) {
+          return;
+        }
         const outputElement = window.document.querySelector('#goals');
         outputElement.textContent = `${outputElement.textContent ? `${outputElement.textContent}, ` : ''}${value}`;
         const listItemElement = window.document.createElement('li');
@@ -206,6 +209,9 @@
 
       calorieGoalFormElement.addEventListener('submit', (event) => {
         event.preventDefault();
+        if (!calorieGoalInputElement.value) {
+          return;
+        }
         const value = `${calorieGoalInputElement.value || ''} (Daily calories)`;
         const outputElement = window.document.querySelector('#goals');
         outputElement.textContent = `${outputElement.textContent ? `${outputElement.textContent}, ` : ''}${value}`;
@@ -227,7 +233,7 @@
   <form id="edit-profile">
     <div class="fixed-cta">
       <button type="submit">
-        Continue ⮞
+        Generate Meal Plan ⮞
       </button>
     </div>
     <label>

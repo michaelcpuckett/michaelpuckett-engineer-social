@@ -11,7 +11,6 @@
 
   <div class="slider-container">
     <small>What do you eat most often?</small>
-    <hr />
     <form class="tabs-wrapper" id="favorite-foods-tabs">
       <div class="tabs" role="tablist">
         {% for foodByType in foodData %}
@@ -110,6 +109,9 @@
     formElement.addEventListener('submit', (event) => {
       event.preventDefault();
       const value = favoritesListInputElement.value || '';
+      if (!value) {
+        return;
+      }
       const outputElement = window.document.querySelector('#favorite-foods');
       outputElement.textContent = `${outputElement.textContent ? `${outputElement.textContent}, ` : ''}${value}`;
       const listItemElement = window.document.createElement('li');

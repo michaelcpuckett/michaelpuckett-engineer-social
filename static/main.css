@@ -65,11 +65,14 @@ h1 {
   padding-bottom: .667em;
   background: rebeccapurple;
   color: white;
+  font-weight: normal;
+  letter-spacing: 1px;
 }
 h2 {
   font-weight: normal;
   font-size: 36px;
   padding: 12px 0 6px;
+  letter-spacing: -.03em;
 }
 small {
   font-size: 1em;
@@ -80,7 +83,7 @@ small {
 }
 .slider-container {
   display: grid;
-  gap: 24px;
+  gap: 12px;
 }
 textarea {
 width: 100%;
