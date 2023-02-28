@@ -317,8 +317,9 @@ color: white;
 }
 
 .tabs-wrapper [role="tab"][aria-current="false"] {
-  background: lightgray;
+  background: white;
   color: black;
+  border: 1px solid;
 }
 
 fieldset-wrapper {
