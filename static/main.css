@@ -145,10 +145,19 @@ display: none;
   border-radius: 36px;
   background: rgb(253,191,19);
   color: black;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .fixed-cta button:hover {
   background: gold;
+}
+
+.back-button {
+  display: flex;
+  gap: 6px;
+  align-items: center;
 }
 
 button,
