@@ -329,8 +329,8 @@ fieldset label input:checked {
 }
 
 
-#favorite-foods-section fieldset label input:checked {
-  background: lime;
+#favorite-foods-tabs fieldset label input:checked {
+  background-color: lime;
 }
 
 fieldset label:has(input:checked) {
@@ -338,7 +338,7 @@ fieldset label:has(input:checked) {
   color: white;
 }
 
-#favorite-foods-section fieldset label:has(input:checked) {
+#favorite-foods-tabs fieldset label:has(input:checked) {
   background: green;
   color: white;
 }
