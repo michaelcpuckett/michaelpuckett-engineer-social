@@ -298,6 +298,7 @@ color: white;
   width: 100%;
   display: grid;
   overflow: hidden;
+  gap: 12px;
 }
 
 .tabs-wrapper [role="tablist"] {
@@ -313,7 +314,6 @@ color: white;
   padding-top: 12px;
   padding-bottom: 12px;
   border: 0;
-  box-shadow: 0 0 2px 2px;
 }
 
 .tabs-wrapper [role="tab"][aria-current="false"] {
@@ -353,7 +353,7 @@ fieldset label {
   white-space: nowrap;
   font-size: .875em;
   border-radius: 12px;
-  box-shadow: 0 0 3px 3px rgba(0, 0, 0, .2875);
+  border: 1px solid;
   background: white;
 }
 

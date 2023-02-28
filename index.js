@@ -330,9 +330,6 @@ const port = process.env.PORT ?? 3000;
     const goalData = [{
       type: 'Goals',
       items: [{
-        name: 'Maintain weight',
-        imageUrl: 'maintain-weight.png',
-      }, {
         name: 'Lose weight',
         imageUrl: 'lose-weight.png',
       }, {
