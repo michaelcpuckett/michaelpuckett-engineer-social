@@ -1,9 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+
 * {
 box-sizing: border-box;
 }
 
 body {
 font-family: sans-serif;
+font-family: 'Rubik', sans-serif;
 margin: 0;
 line-height: 1.5;
 background: rgba(0, 0, 0, .875);
@@ -58,8 +61,8 @@ input:not([type="checkbox"]) {
 }
 h1 {
   font-size: 18px;
-  padding-top: .5em;
-  padding-bottom: .5em;
+  padding-top: .667em;
+  padding-bottom: .667em;
   background: rebeccapurple;
   color: white;
 }
@@ -69,7 +72,6 @@ h2 {
   padding: 12px 0 6px;
 }
 small {
-  font-weight: bold;
   font-size: 1em;
 }
 .section {
@@ -78,7 +80,7 @@ small {
 }
 .slider-container {
   display: grid;
-  gap: 6px;
+  gap: 24px;
 }
 textarea {
 width: 100%;
@@ -142,6 +144,10 @@ display: none;
   color: black;
 }
 
+.fixed-cta button:hover {
+  background: gold;
+}
+
 button,
 summary {
   border-radius: 16px;
@@ -151,6 +157,11 @@ summary {
   margin: 0;
   background: rebeccapurple;
   color: white;
+}
+
+button:hover,
+summary:hover {
+  background: rgb(132, 57, 207);
 }
 
 button.small {
@@ -210,6 +221,10 @@ background: darkgreen;
 color: white;
 }
 
+.intro {
+  text-align: center;
+}
+
 .autocomplete-container {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -248,6 +263,11 @@ color: white;
   border: 1px solid rgba(0, 0, 0, .125);
   border-radius: 24px;
   padding: 6px 12px;
+  box-shadow: 0 0 2px 2px rgba(0, 0, 0, .25);
+}
+
+#edit-profile ul li:hover {
+  box-shadow: 0 0 2px 2px rgba(0, 0, 0, .75);
 }
 
 .tabs-wrapper {
@@ -266,6 +286,8 @@ color: white;
   border-radius: 0;
   text-transform: uppercase;
   font-size: .9em;
+  padding-top: 6px;
+  padding-bottom: 6px;
   border: 0;
   box-shadow: 0 0 2px 2px;
 }
