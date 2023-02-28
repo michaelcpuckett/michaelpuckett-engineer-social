@@ -163,7 +163,7 @@ const port = process.env.PORT ?? 3000;
       imageUrl: 'cereal.png',
     }]
   }, {
-    type: 'Veggies',
+    type: 'Vegetables',
     items: [{
       name: 'Carrots',
       imageUrl: 'carrots.png',
