@@ -109,13 +109,13 @@
     </div>
     <label>
       <output hidden id="diet">{{ profile.diet }}</output>
-      <ul aria-label="Diet">
-        {% if profile.diet %}
+      <ul aria-label="Diet"><!--
+        -->{% if profile.diet %}
           {% for diet in profile.diet.split(', ') %}
            <li data-diet="{{ diet }}">{{ diet }} <remove-button></remove-button></li>
           {% endfor %}
-        {% endif %}
-      </ul>
+        {% endif %}<!--
+      --></ul>
       <script type="module">
         const outputElement = window.document.querySelector('#diet');
         outputElement.nextElementSibling.addEventListener('click', (event) => {

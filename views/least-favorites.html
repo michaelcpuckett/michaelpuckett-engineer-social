@@ -172,13 +172,13 @@
     </div>
     <label>
       <output hidden id="least-favorite-foods">{{ profile.leastFavoriteFoods }}</output>
-      <ul aria-label="Least Favorite Foods">
-        {% if profile.leastFavoriteFoods %}
+      <ul aria-label="Least Favorite Foods"><!--
+        -->{% if profile.leastFavoriteFoods %}
           {% for food in profile.leastFavoriteFoods.split(', ') %}
            <li data-food="{{ food }}">{{ food }} <remove-button></remove-button></li>
           {% endfor %}
-        {% endif %}
-      </ul>
+        {% endif %}<!--
+      --></ul>
       <script type="module">
         const outputElement = window.document.querySelector('#least-favorite-foods');
         outputElement.nextElementSibling.addEventListener('click', (event) => {

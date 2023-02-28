@@ -238,13 +238,13 @@
     </div>
     <label>
       <output hidden id="goals">{{ profile.dietaryGoals }}</output>
-      <ul aria-label="Goal">
-        {% if profile.dietaryGoals %}
+      <ul aria-label="Goal"><!--
+        -->{% if profile.dietaryGoals %}
           {% for goal in profile.dietaryGoals.split(', ') %}
            <li data-goal="{{ goal }}">{{ goal }} <remove-button></remove-button></li>
           {% endfor %}
-        {% endif %}
-      </ul>
+        {% endif %}<!--
+      --></ul>
       <script type="module">
         const outputElement = window.document.querySelector('#goals');
         outputElement.nextElementSibling.addEventListener('click', (event) => {
