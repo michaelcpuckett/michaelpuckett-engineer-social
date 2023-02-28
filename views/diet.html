@@ -139,17 +139,11 @@
           constructor() {
             super();
             this.attachShadow({ mode: 'open', });
-            const stylesheet = new CSSStyleSheet();
-            stylesheet.replaceSync(`
-              button {
-                color: white;
-                background: red;
-                border-radius: 100%;
-              }
-            `);
-            this.shadowRoot.adoptedStyleSheets = [stylesheet];
             const buttonElement = window.document.createElement('button');
             buttonElement.setAttribute('type', 'button');
+            buttonElement.style.color = 'white';
+            buttonElement.style.backgroundColor = 'red';
+            buttonElement.style.borderRadius = '100%';
             buttonElement.textContent = 'X';
             this.shadowRoot.append(buttonElement);
           }
