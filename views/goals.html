@@ -2,27 +2,6 @@
 <title>MealGenie</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="/main.css" />
-<script>
-  (function (m, a, z, e) {
-    var s, t;
-    try {
-      t = m.sessionStorage.getItem('maze-us');
-    } catch (err) {}
-  
-    if (!t) {
-      t = new Date().getTime();
-      try {
-        m.sessionStorage.setItem('maze-us', t);
-      } catch (err) {}
-    }
-  
-    s = a.createElement('script');
-    s.src = z + '?t=' + t + '&apiKey=' + e;
-    s.async = true;
-    a.getElementsByTagName('head')[0].appendChild(s);
-    m.mazeUniversalSnippetApiKey = e;
-  })(window, document, 'https://snippet.maze.co/maze-universal-loader.js', 'd3fb55b2-8e0b-4b6c-9961-c5eaba5cc621');
-  </script>
 <div class="root">
   <h1>MealGenie</h1>
   <hr />
@@ -92,7 +71,7 @@
     </button>
   </div>
 </form>
-
+<!--
 <form>
   <div class="autocomplete-container">
     <input type="number" id="protein-goal" placeholder="Daily goal in grams" />
@@ -118,7 +97,7 @@
       Add Fat Goal
     </button>
   </div>
-</form>
+</form>-->
     <script type="module">
       const favoritesListInputElement = window.document.querySelector('#goal');
       const datalistElement = favoritesListInputElement.nextElementSibling;
@@ -247,6 +226,11 @@
       });
     </script>
   <form id="edit-profile">
+    <div class="fixed-cta">
+      <button type="submit">
+        Continue ⮞
+      </button>
+    </div>
     <label>
       <output hidden id="goals">{{ profile.dietaryGoals }}</output>
       <ul aria-label="Goal">
@@ -296,11 +280,6 @@
         });
       </script>
     </label>
-    <div class="fixed-cta">
-      <button type="submit">
-        Continue
-      </button>
-    </div>
     <p class="loader" hidden>Loading, please wait up to 2 minutes...</p>
   </form>
   <script type="module">

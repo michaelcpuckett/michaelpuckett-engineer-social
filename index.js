@@ -87,6 +87,9 @@ const port = process.env.PORT ?? 3000;
       name: 'American food',
       imageUrl: 'american.png',
     }, {
+      name: 'Italian food',
+      imageUrl: 'italian.png',
+    }, {
       name: 'Mexican food',
       imageUrl: 'mexican.png',
     }, {
@@ -114,26 +117,20 @@ const port = process.env.PORT ?? 3000;
       name: 'Pork',
       imageUrl: 'pork.png',
     }, {
-      name: 'Tuna',
-      imageUrl: 'tuna.png',
-    }, {
-      name: 'Salmon',
+      name: 'Fish',
       imageUrl: 'salmon.png',
     }, {
       name: 'Eggs',
       imageUrl: 'eggs.png',
+    }, {
+      name: 'Tofu',
+      imageUrl: 'tofu.png',
     }, {
       name: 'Cheese',
       imageUrl: 'cheese.png',
     }, {
       name: 'Yogurt',
       imageUrl: 'yogurt.png',
-    }, {
-      name: 'Tofu',
-      imageUrl: 'tofu.png',
-    }, {
-      name: 'Hummus',
-      imageUrl: 'hummus.png',
     }, {
       name: 'Peanut Butter',
       imageUrl: 'peanut-butter.png',
@@ -143,6 +140,9 @@ const port = process.env.PORT ?? 3000;
     }, {
       name: 'Almonds',
       imageUrl: 'almonds.png',
+    }, {
+      name: 'Hummus',
+      imageUrl: 'hummus.png',
     }]
   }, {
     type: 'Grains',
