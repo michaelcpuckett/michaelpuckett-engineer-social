@@ -29,7 +29,7 @@ background: rgba(0, 0, 0, .875);
 hr {
   margin: 6px 0;
   border-bottom: 0;
-  border-top: 1px solid rgba(0, 0, 0, .25);
+  border-top: 1px solid rgba(0, 0, 0, .333);
 }
 
 
@@ -57,8 +57,8 @@ input:not([type="checkbox"]) {
   width: 100%;
   font: inherit;
   padding: 12px;
-  border-radius: 24px;
-  border: 1px solid rgba(0, 0, 0, .875);
+  border-radius: 12px;
+  border: 1px solid;
 }
 h1 {
   font-size: 18px;
@@ -142,7 +142,7 @@ display: none;
 .fixed-cta button {
   font-size: 1.5em;
   padding: 12px 24px;
-  border: 2px solid rgba(0, 0, 0, .5);
+  border: 2px solid gold;
   border-radius: 36px;
   background: rgb(253,191,19);
   color: black;
@@ -252,8 +252,8 @@ color: white;
   gap: 12px;
   padding: 12px 0;
   margin: 12px 0;
-  border-top: 1px solid rgba(0, 0, 0, .25);
-  border-bottom: 1px solid rgba(0, 0, 0, .25);
+  border-top: 1px solid rgba(0, 0, 0, .333);
+  border-bottom: 1px solid rgba(0, 0, 0, .333);
 }
 
 #edit-profile ul {
@@ -269,11 +269,12 @@ color: white;
   padding: 12px;
   min-height: 110px;
   align-content: flex-start;
-  border: 4px solid rgba(0, 0, 0, .25);
+  border: 2px solid rgba(0, 0, 0, .333);
 }
 
 #edit-profile ul:empty:before {
   content: 'Items you select will appear here.';
+  color: rgba(0, 0, 0, .875);
 }
 
 #edit-profile ul li {
@@ -296,7 +297,7 @@ color: white;
 }
 
 .tabs-wrapper {
-  width: 100%;
+  width: calc(100% + 12px);
   display: grid;
   overflow: hidden;
   gap: 12px;
@@ -354,7 +355,7 @@ fieldset label {
   white-space: nowrap;
   font-size: .875em;
   border-radius: 12px;
-  border: 1px solid;
+  border: 1px solid rgba(0, 0, 0, .33);
   background: white;
 }
 
