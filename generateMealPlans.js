@@ -16,9 +16,11 @@ module.exports = {
 
 Favorite foods: ${favoriteFoods}
 
-The output must not contain these ingredients: ${leastFavoriteFoods}
-
 Restrictions such as allergies or a specific diet (keto, vegan, etc.): ${diet}
+
+Dietary goals: ${dietaryGoals}
+
+The output must not contain these ingredients: ${leastFavoriteFoods}
 
 Output: `,
             temperature:0.2,
