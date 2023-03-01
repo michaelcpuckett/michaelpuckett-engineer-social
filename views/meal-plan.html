@@ -30,12 +30,12 @@
           <td class="meal-day meal-day--{{ meal.day }}">
             <span>
               {{ ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'][meal.day] }}
+              / 
+              {{ ['Breakfast', 'Lunch', 'Dinner', 'Snack'][meal.meal] }}
             </span>
           </td>
           <td class="meal-meal meal-meal--{{ meal.meal }}">
             <span>
-              {{ ['Breakfast', 'Lunch', 'Dinner', 'Snack'][meal.meal] }}
-              <br />
               <strong>
                 {{ meal.name }}
               </strong>
@@ -147,6 +147,17 @@
       });
     </script>
   </table>
+  
+  <div class="fixed-cta">
+    <button type="button" disabled>
+      Sign Up to Generate Recipes, Macros, Grocery List, and More!
+    </button>
+    <small>
+      <strong>
+        Coming Soon
+      </strong>
+    </small>
+  </div>
 <!--
   <form class="generate-grocery-list">
     <button type="submit">
