@@ -596,59 +596,12 @@ const port = process.env.PORT ?? 3000;
   app.post('/replace-meal', async (req, res) => {
     const id = req.body?.id;
     const name = req.body?.name;
-    const position = req.body?.position;
-    const username = req.cookies.__username;
 
-    const profile = await mongoDb.collection('profile').findOne({
-      _id: `https://mealgenie.com/users/${username}/profile`,
-    });
-
-    const originalMeal = await mongoDb.collection('meal').findOne({
-      _id: id,
-    });
-
-    const mealId = `https://mealgenie.com/users/${username}/meal/${getGuid()}`;
-
-    const meal = {...originalMeal, name};
-
-    delete meal._id;
-      
-    await mongoDb.collection('meal').replaceOne(
+    await mongoDb.collection('meal').updateOne(
       {
-        _id: mealId,
+        _id: id,
       },
-      meal,
-      {
-        upsert: true,
-      },
-    );
-
-    await mongoDb.collection('mealPlan').updateOne(
-      {
-        _id: profile.mealPlans[0],
-      },
-      {
-        $pull: {
-          meals: [originalMeal._id],
-        }
-      },
-      {
-        upsert: true,
-      }
-    );
-    
-    await mongoDb.collection('mealPlan').updateOne(
-      {
-        _id: profile.mealPlans[0],
-      },
-      {
-        $push: {
-          meals: {
-            $each: [mealId],
-            $position: parseInt(position, 10),
-          },
-        },
-      },
+      { $set: { name } },
       {
         upsert: true,
       },
