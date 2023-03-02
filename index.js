@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const { getSuggestions } = require('./getSuggestions');
 const { generateReplacementMeals } = require('./generateReplacementMeals');
 const { getIngredients } = require('./ingredients');
+const { getMacros } = require('./macros');
 const { MongoClient } = require('mongodb');
 const bodyParser = require('body-parser');
 const { randomBytes } = require('crypto');
@@ -650,6 +651,15 @@ const port = process.env.PORT ?? 3000;
         dietaryGoals: profile.dietaryGoals,
         cookingFor: profile.cookingFor, 
       });
+
+      for (const ingredient of ingredients) {
+        const index = ingredients.indexOf(ingredient);
+
+        ingredients[index] = {
+          ...ingredient,
+          ...await getMacros(ingredient),
+        };
+      }
       const recipeId = `https://mealgenie.com/users/${username}/recipe/${getGuid()}`;
 
       await mongoDb.collection('recipe').replaceOne(

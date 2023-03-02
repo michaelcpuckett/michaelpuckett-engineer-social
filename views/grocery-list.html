@@ -2,6 +2,7 @@
 <title>MealGenie</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="/main.css" />
+<div class="root">
 <h1>MealGenie</h1>
 <div class="section">
   <h2>
@@ -16,6 +17,18 @@
           </th>
           <th scope="col">
             Quantity
+          </th>
+          <th scope="col">
+            Calories
+          </th>
+          <th scope="col">
+            Protein
+          </th>
+          <th scope="col">
+            Carbs
+          </th>
+          <th scope="col">
+            Fat
           </th>
         </tr>
       </thead>
@@ -61,7 +74,11 @@
                     </td>
                     <td>
                       {{ ingredient.quantity }}
-                      {{ ingredient.unit }}
+                      {{ ingredient.unit }}<br />
+                      {{ ingredient.calories }} Cal<br />
+                      {{ ingredient.protein }} Protein<br />
+                      {{ ingredient.carbs }} Carbs<br />
+                      {{ ingredient.fat }} Fat
                     </td>
                   </tr>
                 {% endfor %}
@@ -72,4 +89,5 @@
       </tr>
     {% endfor %}
   </table>
+</div>
 </div>
